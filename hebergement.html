@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hébergement Social - La Corbeille Solidaire</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    function setLang(lang){
+      document.querySelectorAll('.fr').forEach(el=>el.style.display= lang==='fr'?'':'none');
+      document.querySelectorAll('.en').forEach(el=>el.style.display= lang==='en'?'':'none');
+    }
+    document.addEventListener('DOMContentLoaded',()=>setLang('fr'));
+  </script>
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="logo">
+      <span class="fr">Logo provisoire</span>
+      <span class="en">Temporary Logo</span>
+    </div>
+    <nav>
+      <a href="index.html" class="fr">Accueil</a>
+      <a href="index.html" class="en">Home</a>
+      <a href="hebergement.html" class="fr">Hébergement</a>
+      <a href="hebergement.html" class="en">Housing</a>
+      <a href="#" class="fr">Partenaires</a>
+      <a href="#" class="en">Partners</a>
+      <a href="#" class="fr">Faire un don</a>
+      <a href="#" class="en">Donate</a>
+      <a href="#" class="fr">Contact</a>
+      <a href="#" class="en">Contact</a>
+    </nav>
+    <div class="lang-switcher">
+      <a href="#" onclick="setLang('fr')">FR</a> |
+      <a href="#" onclick="setLang('en')">EN</a>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <h1 class="fr">Hébergement Social</h1>
+  <h1 class="en">Social Housing</h1>
+  <p class="fr">Notre département d’hébergement offre un refuge sûr et temporaire aux personnes sans-abri, avec accompagnement social.</p>
+  <p class="en">Our housing department provides a safe, temporary shelter for homeless people, with social support.</p>
+</div>
+
+<section>
+  <h2 class="fr">Nos Services</h2>
+  <h2 class="en">Our Services</h2>
+  <p class="fr">Chambres temporaires, repas chauds, accompagnement vers l’emploi et ressources communautaires.</p>
+  <p class="en">Temporary rooms, hot meals, support toward employment and community resources.</p>
+</section>
+
+<section>
+  <h2 class="fr">Retour à l’accueil</h2>
+  <h2 class="en">Back to Home</h2>
+  <a href="index.html" class="btn fr">Page d’accueil</a>
+  <a href="index.html" class="btn en">Home page</a>
+</section>
+
+<footer>
+  <span class="fr">© 2025 La Corbeille Solidaire</span>
+  <span class="en">© 2025 La Corbeille Solidaire</span>
+</footer>
+
+</body>
+</html>

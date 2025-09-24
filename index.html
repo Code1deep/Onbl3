@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Corbeille Solidaire</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    function setLang(lang){
+      document.querySelectorAll('.fr').forEach(el=>el.style.display= lang==='fr'?'':'none');
+      document.querySelectorAll('.en').forEach(el=>el.style.display= lang==='en'?'':'none');
+    }
+    document.addEventListener('DOMContentLoaded',()=>setLang('fr'));
+  </script>
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="logo">
+      <span class="fr">Logo provisoire</span>
+      <span class="en">Temporary Logo</span>
+    </div>
+    <nav>
+      <a href="index.html" class="fr">Accueil</a>
+      <a href="index.html" class="en">Home</a>
+      <a href="hebergement.html" class="fr">Hébergement</a>
+      <a href="hebergement.html" class="en">Housing</a>
+      <a href="#" class="fr">Partenaires</a>
+      <a href="#" class="en">Partners</a>
+      <a href="#" class="fr">Faire un don</a>
+      <a href="#" class="en">Donate</a>
+      <a href="#" class="fr">Contact</a>
+      <a href="#" class="en">Contact</a>
+    </nav>
+    <div class="lang-switcher">
+      <a href="#" onclick="setLang('fr')">FR</a> |
+      <a href="#" onclick="setLang('en')">EN</a>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <h1 class="fr">Bienvenue à La Corbeille Solidaire</h1>
+  <h1 class="en">Welcome to La Corbeille Solidaire</h1>
+  <p class="fr">Nous aidons les personnes vulnérables en combinant épicerie sociale, hébergement, formation et inclusion numérique.</p>
+  <p class="en">We support vulnerable people by combining social grocery, housing, training and digital inclusion.</p>
+  <a href="#" class="btn fr">Découvrir nos actions</a>
+  <a href="#" class="btn en">Discover our actions</a>
+</div>
+
+<section>
+  <h2 class="fr">Nos Départements</h2>
+  <h2 class="en">Our Departments</h2>
+  <div class="departments">
+    <div class="card">
+      <h3 class="fr">Hébergement social</h3>
+      <h3 class="en">Social Housing</h3>
+      <p class="fr">Auberge et hébergement temporaire pour personnes sans-abri.</p>
+      <p class="en">Shelter and temporary accommodation for homeless people.</p>
+    </div>
+    <div class="card">
+      <h3 class="fr">Épicerie sociale & Distribution</h3>
+      <h3 class="en">Social Grocery & Distribution</h3>
+      <p class="fr">Produits alimentaires et biens essentiels en ligne et sur place.</p>
+      <p class="en">Food and essential goods online and on-site.</p>
+    </div>
+    <div class="card">
+      <h3 class="fr">Formation et accompagnement</h3>
+      <h3 class="en">Training & Support</h3>
+      <p class="fr">Ateliers, certifications, soutien scolaire et accompagnement professionnel.</p>
+      <p class="en">Workshops, certifications, tutoring and career support.</p>
+    </div>
+    <div class="card">
+      <h3 class="fr">Inclusion numérique</h3>
+      <h3 class="en">Digital Inclusion</h3>
+      <p class="fr">Accès aux outils numériques et formation en littératie numérique.</p>
+      <p class="en">Access to digital tools and digital literacy training.</p>
+    </div>
+    <div class="card">
+      <h3 class="fr">Microcrédit responsable</h3>
+      <h3 class="en">Responsible Microcredit</h3>
+      <p class="fr">Accompagnement budgétaire et microcrédits pour familles et individus.</p>
+      <p class="en">Budget support and microcredits for families and individuals.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="fr">Notre Impact</h2>
+  <h2 class="en">Our Impact</h2>
+  <p class="fr">Nous œuvrons pour réduire la pauvreté, renforcer l’inclusion et offrir des opportunités concrètes.</p>
+  <p class="en">We work to reduce poverty, strengthen inclusion and offer concrete opportunities.</p>
+</section>
+
+<section>
+  <h2 class="fr">Contactez-nous</h2>
+  <h2 class="en">Contact Us</h2>
+  <form>
+    <input type="text" placeholder="Nom complet / Full name">
+    <input type="email" placeholder="Votre email / Your email">
+    <textarea placeholder="Votre message / Your message"></textarea>
+    <button type="submit" class="fr">Envoyer</button>
+    <button type="submit" class="en">Send</button>
+  </form>
+</section>
+
+<footer>
+  <span class="fr">© 2025 La Corbeille Solidaire</span>
+  <span class="en">© 2025 La Corbeille Solidaire</span>
+</footer>
+
+</body>
+</html>
