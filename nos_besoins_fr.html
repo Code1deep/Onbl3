@@ -5,11 +5,65 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Nos besoins – Carrefour des Initiatives Éducatives et Entrepreneuriales</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    .impact-card {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid #0056a3;
+    }
+    .cta-section {
+      background: linear-gradient(135deg, #0056a3 0%, #003d73 100%);
+      color: white;
+      padding: 40px;
+      border-radius: 10px;
+      text-align: center;
+      margin: 40px 0;
+    }
+    .cta-button {
+      display: inline-block;
+      background: #ff6b35;
+      color: white;
+      padding: 15px 30px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      margin: 10px;
+      transition: transform 0.3s ease;
+    }
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    .needs-list {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .progress-bar {
+      background: #e9ecef;
+      border-radius: 10px;
+      margin: 10px 0;
+      height: 20px;
+    }
+    .progress {
+      background: #28a745;
+      height: 100%;
+      border-radius: 10px;
+      width: 35%; /* Ajuster selon les besoins réels */
+    }
+  </style>
 </head>
 <body>
   <header>
     <div class="container" style="text-align:left; padding:10px 20px;">
-      <!-- Remplace logo.png par le fichier logo  -->
       <img src="assets/logo_fr.png" alt="Logo Carrefour" style="height:60px; vertical-align:middle;">
     </div>
     <nav style="text-align:center; padding:10px 0; background:#003d73;">
@@ -25,56 +79,117 @@
   </header>
 
   <main class="container">
-    <h1>Nos besoins</h1>
+    <h1>Votre soutien change des vies</h1>
 
-    <p>Pour poursuivre et amplifier notre mission, nous avons besoin de soutien matériel, financier et humain. Vos dons et partenariats permettent de financer l’hébergement d’urgence, l’épicerie sociale, les formations, l’inclusion numérique et l’accompagnement financier des plus vulnérables.</p>
+    <p style="font-size: 1.2em; line-height: 1.6;">Chaque jour, nous aidons des familles à sortir de la précarité grâce à votre générosité. Rejoignez notre communauté de donateurs et bénévoles pour amplifier notre impact collectif.</p>
 
-    <h2>Comment nous aider</h2>
-    <ul>
-      <li><strong>Faire un don</strong> — <a href="#" id="don-link">Faire un don maintenant</a> (lien vers plateforme de paiement)</li>
-      <li><strong>Devenir bénévole</strong> — <a href="#" id="benevole-link">S'inscrire comme bénévole</a> (formulaire)</li>
-      <li><strong>Offrir du matériel</strong> — ordinateurs, meubles, denrées : contactez-nous</li>
-      <li><strong>Devenir partenaire de recherche ou commanditaire</strong> — contactez-nous pour co-construire des programmes</li>
-    </ul>
+    <!-- Section Impact Immédiat -->
+    <section class="impact-grid">
+      <div class="impact-card">
+        <h3>🧠 Formation numérique</h3>
+        <p><strong>25 personnes formées ce mois-ci</strong> à des compétences digitales essentielles pour l'emploi.</p>
+      </div>
+      <div class="impact-card">
+        <h3>🛒 Épicerie sociale</h3>
+        <p><strong>150 familles nourries</strong> chaque semaine grâce à nos paniers à prix solidaires.</p>
+      </div>
+      <div class="impact-card">
+        <h3>🏠 Hébergement d'urgence</h3>
+        <p><strong>20 nuitées offertes</strong> mensuellement à des personnes en situation de crise.</p>
+      </div>
+      <div class="impact-card">
+        <h3>💼 Insertion professionnelle</h3>
+        <p><strong>15 parcours accompagnés</strong> vers l'emploi ou l'entrepreneuriat.</p>
+      </div>
+    </section>
 
-    <p><strong>Contact :</strong> <a href="mailto:contact@carrefour-initiatives.org">contact@carrefour-initiatives.org</a> — Tél. : (xxx) xxx-xxxx</p>
+    <!-- Section Appel à l'Action Principale -->
+    <section class="cta-section">
+      <h2 style="color: white; margin-bottom: 20px;">Choisissez comment nous aider</h2>
+      <div>
+        <a href="https://don.recufiscal.qc.ca" class="cta-button">Faire un don (Reçu fiscal)</a>
+        <a href="benevole_form.html" class="cta-button" style="background: #28a745;">Devenir bénévole</a>
+        <a href="partenariat_form.html" class="cta-button" style="background: #6f42c1;">Devenir partenaire</a>
+      </div>
+      <p style="margin-top: 20px; opacity: 0.9;">💡 Votre don de 50$ offre un panier alimentaire à une famille pour 2 semaines</p>
+    </section>
 
-    <h2>Théorie du changement</h2>
-    <p>Notre approche lie l’accès immédiat aux besoins essentiels à des actions de formation et d’accompagnement pour générer un impact durable (sécurité alimentaire → apprentissage → insertion).</p>
+    <h2>Nos besoins prioritaires</h2>
 
-    <!-- Place ici le PNG "Théorie du changement" (nomme-le assets/toc.png ou adapte) -->
-    <img src="assets/theorie_du_changement.png" alt="Théorie du changement" style="max-width:100%; height:auto; border:1px solid #ddd; margin-top:10px;">
+    <!-- Barres de progression pour les besoins -->
+    <div class="needs-list">
+      <h3>📊 Besoins matériels et financiers</h3>
+      
+      <div style="margin: 15px 0;">
+        <strong>Ordinateurs portables pour l'inclusion numérique (20/50)</strong>
+        <div class="progress-bar">
+          <div class="progress" style="width: 40%;"></div>
+        </div>
+      </div>
 
-    <h2>Besoins immédiats (liste)</h2>
-    <ul>
-      <li>Ordinateurs portables / tablettes pour inclusion numérique (20 unités)</li>
-      <li>Réfrigérateurs & équipements pour l’épicerie</li>
-      <li>Fonds de roulement pour 3 mois d’exploitation de l’auberge</li>
-      <li>Bénévoles pour ateliers et distribution</li>
-    </ul>
+      <div style="margin: 15px 0;">
+        <strong>Fonds pour l'épicerie sociale (5 000$/15 000$)</strong>
+        <div class="progress-bar">
+          <div class="progress" style="width: 33%;"></div>
+        </div>
+      </div>
 
-    <section style="background:#f4f6f8; padding:12px; border-radius:6px; margin-top:18px;">
-      <h3>Appel rapide</h3>
-      <p>Si vous pouvez aider immédiatement : écrivez-nous <a href="mailto:contact@carrefour-initiatives.org">contact@carrefour-initiatives.org</a> ou appelez (xxx) xxx-xxxx. Merci !</p>
+      <div style="margin: 15px 0;">
+        <strong>Équipement de cuisine professionnelle (Urgent)</strong>
+        <div class="progress-bar">
+          <div class="progress" style="width: 15%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section Partenariats d'Entreprises -->
+    <section style="background: #e8f5e8; padding: 25px; border-radius: 8px; margin: 30px 0;">
+      <h2>🏢 Partenariats entreprises</h2>
+      <p><strong>Votre entreprise peut faire la différence :</strong></p>
+      <ul>
+        <li><strong>Partenariat financier :</strong> Reçu fiscal et visibilité sur tous nos supports</li>
+        <li><strong>Mécénat de compétences :</strong> Prêt de collaborateurs pour des missions ponctuelles</li>
+        <li><strong>Dons en nature :</strong> Matériel informatique, équipements, denrées alimentaires</li>
+        <li><strong>Parrainage de programmes :</strong> Associez votre marque à l'un de nos programmes phares</li>
+      </ul>
+      <a href="mailto:partenariats@carrefour-initiatives.org" class="cta-button" style="background: #0056a3;">Proposer un partenariat</a>
+    </section>
+
+    <h2>Notre théorie du changement</h2>
+    <p>Notre approche holistique lie l'accès aux besoins essentiels à un parcours d'autonomisation complet :</p>
+    
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+      <strong>Besoins de base → Formation → Insertion → Autonomie durable</strong>
+      <p style="margin-top: 10px;">Chaque don soutient cette chaîne de valeur sociale qui transforme des vies.</p>
+    </div>
+
+    <img src="assets/theorie_du_changement.png" alt="Théorie du changement" style="max-width:100%; height:auto; border:1px solid #ddd; margin:20px 0;">
+
+    <!-- Section Contact Urgent -->
+    <section style="background: #fff3cd; padding: 20px; border-radius: 8px; margin-top: 30px; text-align: center;">
+      <h3>🚨 Besoin immédiat ?</h3>
+      <p>Vous avez du matériel à donner ou souhaitez discuter d'un partenariat urgent ?</p>
+      <p style="font-size: 1.3em; margin: 15px 0;">
+        <strong>📞 (514) 123-4567</strong><br>
+        <strong>✉️ <a href="mailto:urgence@carrefour-initiatives.org">urgence@carrefour-initiatives.org</a></strong>
+      </p>
+      <p>Notre équipe vous répond sous 24 heures.</p>
     </section>
   </main>
 
-  <footer style="text-align:center; padding:12px; background:#0056a3; color:#fff; margin-top:20px;">
-    <p>© 2025 Carrefour des Initiatives Éducatives et Entrepreneuriales</p>
+  <footer style="text-align:center; padding:20px; background:#0056a3; color:#fff; margin-top:40px;">
+    <p>© 2025 Carrefour des Initiatives Éducatives et Entrepreneuriales | OSBL enregistrée #123456789</p>
+    <p style="font-size: 0.9em; opacity: 0.8;">Vos dons sont déductibles d'impôt. Reçu officiel émis pour tout don de 20$ et plus.</p>
   </footer>
 
   <script>
-    // Remplace ces handlers par de vrais liens vers PayPal, Donorbox, Google Form, etc.
-    document.getElementById('don-link').addEventListener('click', function(e){
-      e.preventDefault();
-      alert('Remplacez ce lien par l’URL de votre plateforme de dons (PayPal / Donorbox / Stripe).');
-    });
-    document.getElementById('benevole-link').addEventListener('click', function(e){
-      e.preventDefault();
-      alert('Remplacez ce lien par l’URL de votre formulaire de bénévolat (Google Form, Typeform, ou page interne).');
+    // Script pour le suivi des clics (optionnel - pour analytics)
+    document.querySelectorAll('.cta-button').forEach(button => {
+      button.addEventListener('click', function(e) {
+        // Ici vous pouvez ajouter Google Analytics ou autre suivi
+        console.log('Clic sur:', this.textContent);
+      });
     });
   </script>
 </body>
 </html>
-
-
