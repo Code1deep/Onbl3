@@ -3,38 +3,624 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Grocery and Distribution</title>
+  <title>Social Grocery & Distribution - Carrefour of Initiatives</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root {
+      --primary-blue: #0056a3;
+      --dark-blue: #003d73;
+      --orange: #ff6b35;
+      --green: #28a745;
+      --light-gray: #f8f9fa;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Styles */
+    .main-header {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      color: white;
+      padding: 40px 0;
+      text-align: center;
+    }
+    
+    .logo-container {
+      margin-bottom: 20px;
+    }
+    
+    .logo {
+      height: 80px;
+    }
+    
+    .page-title {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    
+    .page-subtitle {
+      font-size: 1.3em;
+      opacity: 0.9;
+    }
+    
+    /* Navigation */
+    .main-nav {
+      background: var(--dark-blue);
+      padding: 0;
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      transition: background 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    /* Content Sections */
+    .hero-section {
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('assets/grocery-hero.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-size: 2.2em;
+      margin-bottom: 20px;
+    }
+    
+    .hero-text {
+      font-size: 1.2em;
+      max-width: 800px;
+      margin: 0 auto 30px;
+    }
+    
+    .section {
+      padding: 60px 0;
+    }
+    
+    .section-alt {
+      background: var(--light-gray);
+    }
+    
+    .section-title {
+      font-size: 2em;
+      margin-bottom: 30px;
+      color: var(--dark-blue);
+      text-align: center;
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 1.1em;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Grid Layouts */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .service-card {
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .service-icon {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+    
+    .service-title {
+      font-size: 1.4em;
+      margin-bottom: 15px;
+      color: var(--dark-blue);
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .feature-item {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid var(--orange);
+    }
+    
+    /* Pricing Table */
+    .pricing-table {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      margin: 40px auto;
+      max-width: 800px;
+    }
+    
+    .pricing-header {
+      background: var(--primary-blue);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .pricing-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      padding: 15px 20px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .pricing-row:nth-child(even) {
+      background: #f9f9f9;
+    }
+    
+    .pricing-row-header {
+      font-weight: bold;
+      background: var(--light-gray);
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      margin: 10px 5px;
+    }
+    
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary-blue);
+      border: 2px solid var(--primary-blue);
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .testimonial-card {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    
+    .testimonial-card::before {
+      content: '"';
+      font-size: 4em;
+      color: var(--light-gray);
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      line-height: 1;
+    }
+    
+    /* KPI Section */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+    
+    .kpi-card {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .kpi-number {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: var(--primary-blue);
+      display: block;
+    }
+    
+    /* Footer */
+    .main-footer {
+      background: #333;
+      color: white;
+      padding: 40px 0 20px;
+      text-align: center;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+      }
+      
+      .nav-link {
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      
+      .pricing-row {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      
+      .pricing-row-header {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <div class="container" style="text-align:left; padding:10px 20px;">
-      <img src="assets/logo_en.png" alt="Carrefour logo" style="height:60px; vertical-align:middle;">
+  <!-- Header -->
+  <header class="main-header">
+    <div class="logo-container">
+      <img src="assets/logo_en.png" alt="Carrefour Logo" class="logo">
     </div>
-    <h1>Social Grocery and Distribution</h1>
-    <p>Distribution of food and essential products</p>
+    <h1 class="page-title">Social Grocery & Distribution</h1>
+    <p class="page-subtitle">Essential products at solidarity prices + social delivery</p>
   </header>
 
-  <nav>
-    <a href="index_en.html">Home</a>
-    <a href="hebergement_en.html">Social Housing</a>
-    <a href="epicerie_en.html">Social Grocery</a>
-    <a href="formation_en.html">Education & Training</a>
-    <a href="microcredit_en.html">Responsible Microcredit</a>
-    <a href="epicerie_fr.html">Français</a>
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <a href="index_en.html" class="nav-link">Home</a>
+      <a href="hebergement_en.html" class="nav-link">Social Housing</a>
+      <a href="epicerie_en.html" class="nav-link">Social Grocery</a>
+      <a href="formation_en.html" class="nav-link">Training & Education</a>
+      <a href="microcredit_en.html" class="nav-link">Responsible Microcredit</a>
+      <a href="services_en.html" class="nav-link">Cross-Sectional Services</a>
+      <a href="recherche_en.html" class="nav-link">Research & Partnership</a>
+      <a href="our_needs_en.html" class="nav-link">Our Needs</a>
+      <a href="epicerie_fr.html" class="nav-link">Français</a>
+    </div>
   </nav>
 
-  <div class="container">
-    <h2>Our Service</h2>
-    <p>We offer food baskets and essential products to support families and individuals in need.</p>
-    <p><a href="index_en.html">Back to Home</a></p>
-  </div>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h2 class="hero-title">Nourishing the Community, Cultivating Dignity</h2>
+      <p class="hero-text">Our social grocery is a friendly space where you can access a variety of grocery products at solidarity prices, in a respectful and warm atmosphere.</p>
+      <a href="#registration" class="btn btn-primary">Become a Beneficiary</a>
+      <a href="our_needs_en.html" class="btn btn-secondary">Support the Grocery</a>
+    </div>
+  </section>
 
-  <footer>
-    &copy; 2025 Carrefour of Educational & Entrepreneurial Initiatives
+  <!-- Mission Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Our Mission</h2>
+      <p class="section-subtitle">Reduce food insecurity and create an entry point to educational and support services.</p>
+      
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🛒</div>
+          <h3 class="service-title">Solidarity Pricing</h3>
+          <p>Quality food products at 30-50% of market prices</p>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">🚚</div>
+          <h3 class="service-title">Social Delivery</h3>
+          <p>Home delivery service for people with reduced mobility</p>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">👨‍👩‍👧‍👦</div>
+          <h3 class="service-title">Collective Cooking Workshops</h3>
+          <p>Learn to cook healthy on a small budget in groups</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Details -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Services Offered</h2>
+      
+      <div class="features-grid">
+        <div class="feature-item">
+          <h4>🎯 Balanced Food Baskets</h4>
+          <p>Varied nutritional composition adapted to family needs</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>📦 Contactless Social Drive</h4>
+          <p>Online reservation and quick pickup at collection points</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🍎 Fresh Fruits and Vegetables</h4>
+          <p>Local sourcing and preferred short supply chains</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>👕 Clothing and Hygiene Products</h4>
+          <p>Essential items, new or in excellent condition</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>💻 Online Store</h4>
+          <p>Accessible digital platform for advance ordering</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🎓 Nutrition-Health Workshops</h4>
+          <p>Training on healthy eating and budget management</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Solidarity Pricing</h2>
+      <p class="section-subtitle">An income-based participation scale to ensure accessibility</p>
+      
+      <div class="pricing-table">
+        <div class="pricing-header">
+          <h3>Fair Pricing Grid</h3>
+        </div>
+        
+        <div class="pricing-row pricing-row-header">
+          <div>Basket Type</div>
+          <div>Solidarity Price</div>
+          <div>Actual Value</div>
+        </div>
+        
+        <div class="pricing-row">
+          <div>Individual Basket (1 person)</div>
+          <div>$15</div>
+          <div>$45</div>
+        </div>
+        
+        <div class="pricing-row">
+          <div>Couple Basket (2 people)</div>
+          <div>$25</div>
+          <div>$75</div>
+        </div>
+        
+        <div class="pricing-row">
+          <div>Family Basket (4 people)</div>
+          <div>$40</div>
+          <div>$120</div>
+        </div>
+        
+        <div class="pricing-row">
+          <div>Large Family Basket (6 people)</div>
+          <div>$55</div>
+          <div>$165</div>
+        </div>
+      </div>
+      
+      <p style="text-align: center; margin-top: 20px; font-style: italic;">
+        * Adjustments possible based on each beneficiary's financial situation
+      </p>
+    </div>
+  </section>
+
+  <!-- Target Audience -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Target Audience</h2>
+      
+      <div class="features-grid">
+        <div class="feature-item">
+          <h4>👨‍👩‍👧‍👦 Low-Income Families</h4>
+          <p>Priority for families with children and single parents</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🧓 Isolated Seniors</h4>
+          <p>Specific support and home delivery service</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🎓 Students in Precarious Situations</h4>
+          <p>Adapted prices and flexible schedules</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🔄 People in Transition</h4>
+          <p>Unemployed, precarious workers, newcomers</p>
+        </div>
+      </div>
+      
+      <div style="background: #e8f5e8; padding: 20px; border-radius: 8px; margin-top: 30px;">
+        <h4 style="color: var(--dark-blue); margin-bottom: 15px;">📋 Access Conditions</h4>
+        <ul style="list-style-type: none; padding-left: 0;">
+          <li>✅ Residence in the service area</li>
+          <li>✅ Simplified socio-economic assessment</li>
+          <li>✅ Commitment to participate in at least one workshop per trimester</li>
+          <li>✅ Symbolic annual membership fee of $5</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Practical Information -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Practical Information</h2>
+      
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🕒</div>
+          <h3 class="service-title">Opening Hours</h3>
+          <p><strong>Monday - Friday:</strong> 9 AM - 6 PM<br>
+             <strong>Saturday:</strong> 10 AM - 4 PM<br>
+             <strong>Sunday:</strong> Closed</p>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">📍</div>
+          <h3 class="service-title">Address</h3>
+          <p>1234 Solidarity Street<br>
+             Montreal, QC H3A 1A1<br>
+             Metro: Université-de-Montréal Station</p>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">📞</div>
+          <h3 class="service-title">Contact</h3>
+          <p><strong>Phone:</strong> (514) 123-4567<br>
+             <strong>Email:</strong> grocery@carrefour-initiatives.org<br>
+             <strong>Food Emergencies:</strong> Extension 1</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI Section -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Our Impact</h2>
+      
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-number">150+</span>
+          <span class="stat-label">Families supported weekly</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-number">75%</span>
+          <span class="stat-label">Average savings for beneficiaries</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-number">40</span>
+          <span class="stat-label">Monthly social deliveries</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-number">95%</span>
+          <span class="stat-label">Beneficiary satisfaction rate</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Testimonials</h2>
+      
+      <div class="testimonials">
+        <div class="testimonial-card">
+          <p>"The social grocery saved my life when I lost my job. Not only could I feed my family, but I also found a caring community."</p>
+          <p><strong>- Marie, mother of two</strong></p>
+        </div>
+        
+        <div class="testimonial-card">
+          <p>"As an international student, the solidarity prices allow me to focus on my studies without food stress."</p>
+          <p><strong>- Sofia, medical student</strong></p>
+        </div>
+        
+        <div class="testimonial-card">
+          <p>"The cooking workshops taught me how to eat better on a small budget. Now I can help my neighbors!"</p>
+          <p><strong>- Jean, retired volunteer</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Ready to Join Us?</h2>
+      <p class="section-subtitle">Whether you need help or want to support our mission, we're here to support you.</p>
+      
+      <div style="text-align: center; margin-top: 30px;">
+        <a href="#registration" class="btn btn-primary">Become a Beneficiary</a>
+        <a href="our_needs_en.html" class="btn btn-secondary">Make a Donation</a>
+        <a href="volunteer_form.html" class="btn btn-secondary">Become a Volunteer</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2025 Carrefour of Educational & Entrepreneurial Initiatives</p>
+      <div class="footer-links">
+        <a href="index_en.html">Home</a>
+        <a href="epicerie_fr.html">Version Française</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+    </div>
   </footer>
 </body>
 </html>
-
-
-
