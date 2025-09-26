@@ -3,37 +3,657 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Education, Training and Support</title>
+  <title>Training, Education & Support - Carrefour of Initiatives</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root {
+      --primary-blue: #0056a3;
+      --dark-blue: #003d73;
+      --orange: #ff6b35;
+      --green: #28a745;
+      --purple: #6f42c1;
+      --light-gray: #f8f9fa;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Styles */
+    .main-header {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      color: white;
+      padding: 40px 0;
+      text-align: center;
+    }
+    
+    .logo-container {
+      margin-bottom: 20px;
+    }
+    
+    .logo {
+      height: 80px;
+    }
+    
+    .page-title {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    
+    .page-subtitle {
+      font-size: 1.3em;
+      opacity: 0.9;
+    }
+    
+    /* Navigation */
+    .main-nav {
+      background: var(--dark-blue);
+      padding: 0;
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      transition: background 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    /* Content Sections */
+    .hero-section {
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('assets/training-hero.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-size: 2.2em;
+      margin-bottom: 20px;
+    }
+    
+    .hero-text {
+      font-size: 1.2em;
+      max-width: 800px;
+      margin: 0 auto 30px;
+    }
+    
+    .section {
+      padding: 60px 0;
+    }
+    
+    .section-alt {
+      background: var(--light-gray);
+    }
+    
+    .section-title {
+      font-size: 2em;
+      margin-bottom: 30px;
+      color: var(--dark-blue);
+      text-align: center;
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 1.1em;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Grid Layouts */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .service-card {
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .service-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .service-icon {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+    
+    .service-title {
+      font-size: 1.4em;
+      margin-bottom: 15px;
+      color: var(--dark-blue);
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .feature-item {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid var(--orange);
+    }
+    
+    /* Certification Grid */
+    .certification-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+    
+    .certification-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .cert-logo {
+      height: 60px;
+      margin-bottom: 15px;
+      opacity: 0.8;
+    }
+    
+    /* KPI Section */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+    
+    .kpi-card {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .kpi-number {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: var(--primary-blue);
+      display: block;
+    }
+    
+    /* Program Timeline */
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 40px auto;
+    }
+    
+    .timeline-item {
+      background: white;
+      padding: 25px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      border-left: 4px solid var(--green);
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      margin: 10px 5px;
+    }
+    
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary-blue);
+      border: 2px solid var(--primary-blue);
+    }
+    
+    .btn-large {
+      padding: 15px 30px;
+      font-size: 1.1em;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .testimonial-card {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    
+    .testimonial-card::before {
+      content: '"';
+      font-size: 4em;
+      color: var(--light-gray);
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      line-height: 1;
+    }
+    
+    /* Footer */
+    .main-footer {
+      background: #333;
+      color: white;
+      padding: 40px 0 20px;
+      text-align: center;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+      }
+      
+      .nav-link {
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <div class="container" style="text-align:left; padding:10px 20px;">
-      <img src="assets/logo_en.png" alt="Carrefour logo" style="height:60px; vertical-align:middle;">
+  <!-- Header -->
+  <header class="main-header">
+    <div class="logo-container">
+      <img src="assets/logo_en.png" alt="Carrefour Logo" class="logo">
     </div>
-    <h1>Education, Training and Support</h1>
-    <p>Educational support and professional training</p>
+    <h1 class="page-title">Training, Education & Support</h1>
+    <p class="page-subtitle">Practical workshops and certifications for employability and autonomy</p>
   </header>
 
-  <nav>
-    <a href="index_en.html">Home</a>
-    <a href="hebergement_en.html">Social Housing</a>
-    <a href="epicerie_en.html">Social Grocery</a>
-    <a href="formation_en.html">Education & Training</a>
-    <a href="microcredit_en.html">Responsible Microcredit</a>
-    <a href="formation_fr.html">Français</a>
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <a href="index_en.html" class="nav-link">Home</a>
+      <a href="hebergement_en.html" class="nav-link">Social Housing</a>
+      <a href="epicerie_en.html" class="nav-link">Social Grocery</a>
+      <a href="formation_en.html" class="nav-link">Training & Education</a>
+      <a href="microcredit_en.html" class="nav-link">Responsible Microcredit</a>
+      <a href="services_en.html" class="nav-link">Cross-Sectional Services</a>
+      <a href="recherche_en.html" class="nav-link">Research & Partnership</a>
+      <a href="our_needs_en.html" class="nav-link">Our Needs</a>
+      <a href="formation_fr.html" class="nav-link">Français</a>
+    </div>
   </nav>
 
-  <div class="container">
-    <h2>Our Service</h2>
-    <p>We provide professional training and educational support to promote social and professional integration.</p>
-    <p><a href="index_en.html">Back to Home</a></p>
-  </div>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h2 class="hero-title">Transform Your Future Through Education and Training</h2>
+      <p class="hero-text">Develop your digital, professional, and civic skills through our adapted programs and recognized certifications.</p>
+      <a href="#registration" class="btn btn-primary">Register for a Training</a>
+      <a href="#programs" class="btn btn-secondary">Discover Our Programs</a>
+    </div>
+  </section>
 
-  <footer>
-    &copy; 2025 Carrefour of Educational & Entrepreneurial Initiatives
+  <!-- Mission Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Our Mission</h2>
+      <p class="section-subtitle">Develop digital, professional, and civic skills to promote autonomy and sustainable integration.</p>
+      
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">💻</div>
+          <h3 class="service-title">Digital Training</h3>
+          <p>AI, office software, coding, cybersecurity and essential digital skills</p>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">🎓</div>
+          <h3 class="service-title">Professional Certifications</h3>
+          <p>Preparation for Cisco, Microsoft, Salesforce and Google certifications</p>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">📚</div>
+          <h3 class="service-title">Academic Support</h3>
+          <p>Homework help and support for all levels, from elementary to university</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Details -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Comprehensive Services</h2>
+      
+      <div class="features-grid">
+        <div class="feature-item">
+          <h4>🤖 Artificial Intelligence Workshops</h4>
+          <p>Introduction to AI tools, ChatGPT, Midjourney and practical applications</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>💼 Entrepreneurship Training</h4>
+          <p>Business creation, business plan, management and commercial development</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>👥 Professional Mentoring</h4>
+          <p>Individualized support by experienced professionals</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🌐 Digital Literacy</h4>
+          <p>Computer basics, web navigation, online safety and collaborative tools</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>📊 Office Skills</h4>
+          <p>Advanced Excel, PowerPoint, Word and productivity tools</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🔧 Coding & Web Development</h4>
+          <p>HTML/CSS, JavaScript, Python and website creation</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Certifications Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Recognized Certifications</h2>
+      <p class="section-subtitle">Prepare for the most in-demand certifications in the job market</p>
+      
+      <div class="certification-grid">
+        <div class="certification-card">
+          <div class="service-icon">🔷</div>
+          <h4>Microsoft Certified</h4>
+          <p>Azure, Office 365, Fundamentals</p>
+        </div>
+        
+        <div class="certification-card">
+          <div class="service-icon">🔶</div>
+          <h4>Cisco Certified</h4>
+          <p>CCNA, CyberOps, Networking</p>
+        </div>
+        
+        <div class="certification-card">
+          <div class="service-icon">💚</div>
+          <h4>Google Career</h4>
+          <p>IT Support, Data Analytics, UX Design</p>
+        </div>
+        
+        <div class="certification-card">
+          <div class="service-icon">🌀</div>
+          <h4>Salesforce</h4>
+          <p>Administrator, Developer, Marketing</p>
+        </div>
+        
+        <div class="certification-card">
+          <div class="service-icon">📈</div>
+          <h4>CompTIA</h4>
+          <p>A+, Security+, Network+</p>
+        </div>
+        
+        <div class="certification-card">
+          <div class="service-icon">☁️</div>
+          <h4>AWS Cloud</h4>
+          <p>Practitioner, Solutions Architect</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Entrepreneurship Program -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Entrepreneurship Program</h2>
+      <p class="section-subtitle">From idea to business creation, we support you at every step</p>
+      
+      <div class="timeline">
+        <div class="timeline-item">
+          <h4>🎯 Phase 1 - Ideation & Validation</h4>
+          <p>Creativity workshops, market research, business concept validation</p>
+        </div>
+        
+        <div class="timeline-item">
+          <h4>📋 Phase 2 - Business Plan</h4>
+          <p>Business plan writing, economic model, financial strategy</p>
+        </div>
+        
+        <div class="timeline-item">
+          <h4>⚡ Phase 3 - Launch</h4>
+          <p>Registration, funding research, commercial development</p>
+        </div>
+        
+        <div class="timeline-item">
+          <h4>🚀 Phase 4 - Growth</h4>
+          <p>Post-creation support, optimization, scaling</p>
+        </div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 30px;">
+        <a href="#entrepreneurship" class="btn btn-primary">Start My Entrepreneurial Project</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Academic Support -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Academic Support</h2>
+      
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">👧</div>
+          <h3 class="service-title">Elementary School</h3>
+          <p>Homework help, reinforcement in French, mathematics and English</p>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">👦</div>
+          <h3 class="service-title">High School</h3>
+          <p>Exam preparation, support in all subjects, orientation</p>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">👩‍🎓</div>
+          <h3 class="service-title">College & University</h3>
+          <p>Methodology, research, writing, interview preparation</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI Section -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Our Impact</h2>
+      
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-number">250+</span>
+          <span class="stat-label">Participants trained annually</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-number">85%</span>
+          <span class="stat-label">Certification success rate</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-number">72%</span>
+          <span class="stat-label">Employment rate 6 months post-training</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-number">15</span>
+          <span class="stat-label">Businesses created with our support</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Practical Information -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Practical Information</h2>
+      
+      <div class="features-grid">
+        <div class="feature-item">
+          <h4>🕒 Flexible Schedules</h4>
+          <p>Daytime, evening and weekend training according to needs</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>💻 Hybrid Modalities</h4>
+          <p>In-person and remote options according to preferences</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🎯 Personalized Pathways</h4>
+          <p>Initial assessment and customized support</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>💰 Affordable Costs</h4>
+          <p>Sliding scale based on income, scholarship opportunities</p>
+        </div>
+      </div>
+      
+      <div style="background: #e8f5e8; padding: 20px; border-radius: 8px; margin-top: 30px;">
+        <h4 style="color: var(--dark-blue); margin-bottom: 15px;">📋 Admission Conditions</h4>
+        <ul style="list-style-type: none; padding-left: 0;">
+          <li>✅ Residence in the service area</li>
+          <li>✅ Orientation interview with an advisor</li>
+          <li>✅ Commitment to complete the training</li>
+          <li>✅ Symbolic participation based on means</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Testimonials</h2>
+      
+      <div class="testimonials">
+        <div class="testimonial-card">
+          <p>"Thanks to the Microsoft certification obtained here, I landed an IT job after just 3 months of training. A real professional springboard!"</p>
+          <p><strong>- Ahmed, former beneficiary</strong></p>
+        </div>
+        
+        <div class="testimonial-card">
+          <p>"The entrepreneurship program gave me the tools to launch my small business. The personalized support made all the difference."</p>
+          <p><strong>- Sophie, entrepreneur</strong></p>
+        </div>
+        
+        <div class="testimonial-card">
+          <p>"The academic support for my children transformed their relationship with school. The volunteers are extraordinary and very dedicated."</p>
+          <p><strong>- Lopez Family</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Ready to Transform Your Future?</h2>
+      <p class="section-subtitle">Join our learning community and develop your skills for tomorrow's job market.</p>
+      
+      <div style="text-align: center; margin-top: 30px;">
+        <a href="#registration" class="btn btn-primary btn-large">Register for Training</a>
+        <a href="our_needs_en.html" class="btn btn-secondary btn-large">Become a Volunteer Trainer</a>
+        <a href="microcredit_en.html" class="btn btn-secondary btn-large">Entrepreneurial Funding</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2025 Carrefour of Educational & Entrepreneurial Initiatives</p>
+      <div class="footer-links">
+        <a href="index_en.html">Home</a>
+        <a href="formation_fr.html">Version Française</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+    </div>
   </footer>
 </body>
 </html>
-
-
