@@ -57,8 +57,37 @@
       background: #28a745;
       height: 100%;
       border-radius: 10px;
-      width: 35%; /* Ajuster selon les besoins réels */
     }
+    .department-section {
+      background: white;
+      border-radius: 10px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-left: 5px solid #0056a3;
+    }
+    .department-section h3 {
+      color: #0056a3;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .needs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .need-item {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #ff6b35;
+    }
+    .urgency-high { border-left-color: #dc3545; }
+    .urgency-medium { border-left-color: #ffc107; }
+    .urgency-low { border-left-color: #28a745; }
   </style>
 </head>
 <body>
@@ -114,33 +143,179 @@
       <p style="margin-top: 20px; opacity: 0.9;">💡 Votre don de 50$ offre un panier alimentaire à une famille pour 2 semaines</p>
     </section>
 
-    <h2>Nos besoins prioritaires</h2>
+    <h2>Nos besoins par département</h2>
 
-    <!-- Barres de progression pour les besoins -->
-    <div class="needs-list">
-      <h3>📊 Besoins matériels et financiers</h3>
-      
-      <div style="margin: 15px 0;">
-        <strong>Ordinateurs portables pour l'inclusion numérique (20/50)</strong>
-        <div class="progress-bar">
-          <div class="progress" style="width: 40%;"></div>
+    <!-- Hébergement Social -->
+    <section class="department-section">
+      <h3>🏠 Hébergement Social</h3>
+      <div class="needs-grid">
+        <div class="need-item urgency-high">
+          <strong>Lits superposés et literie (20 sets)</strong>
+          <p>Pour augmenter notre capacité d'accueil d'urgence</p>
+        </div>
+        <div class="need-item urgency-medium">
+          <strong>Armoires de rangement sécurisées</strong>
+          <p>Pour que les résidents puissent entreposer leurs effets personnels</p>
+        </div>
+        <div class="need-item urgency-medium">
+          <strong>Produits d'hygiène personnelle</strong>
+          <p>Savon, shampooing, dentifrice, produits féminins</p>
+        </div>
+        <div class="need-item urgency-low">
+          <strong>Équipement de buanderie</strong>
+          <p>Laveuses, sécheuses, détergents</p>
         </div>
       </div>
+    </section>
 
-      <div style="margin: 15px 0;">
-        <strong>Fonds pour l'épicerie sociale (5 000$/15 000$)</strong>
-        <div class="progress-bar">
-          <div class="progress" style="width: 33%;"></div>
+    <!-- Épicerie Sociale & Cuisine Créative -->
+    <section class="department-section">
+      <h3>🛒 Épicerie Sociale & Cuisine Créative</h3>
+      <div class="needs-grid">
+        <div class="need-item urgency-high">
+          <strong>Camion frigorifique (ou réfrigérateurs commerciaux)</strong>
+          <p>Pour la conservation des denrées périssables</p>
+        </div>
+        <div class="need-item urgency-high">
+          <strong>Équipement de cuisine professionnelle</strong>
+          <p>Fourneaux, fours, préparation alimentaire</p>
+        </div>
+        <div class="need-item urgency-medium">
+          <strong>Vêtements neufs ou en bon état</strong>
+          <p>Toutes tailles, pour enfants et adultes</p>
+        </div>
+        <div class="need-item urgency-medium">
+          <strong>Rayonnages et présentoirs</strong>
+          <p>Pour l'organisation de l'épicerie</p>
+        </div>
+        <div class="need-item urgency-low">
+          <strong>Matériel d'emballage écologique</strong>
+          <p>Sacs, contenants réutilisables</p>
         </div>
       </div>
+    </section>
 
-      <div style="margin: 15px 0;">
-        <strong>Équipement de cuisine professionnelle (Urgent)</strong>
-        <div class="progress-bar">
-          <div class="progress" style="width: 15%;"></div>
+    <!-- Formation & Éducation -->
+    <section class="department-section">
+      <h3>🎓 Formation & Accompagnement Éducatif</h3>
+      <div class="needs-grid">
+        <div class="need-item urgency-high">
+          <strong>Ordinateurs portables (30 unités)</strong>
+          <p>Pour les ateliers de formation numérique</p>
+        </div>
+        <div class="need-item urgency-medium">
+          <strong>Matériel pédagogique</strong>
+          <p>Livres, cahiers d'exercices, fournitures</p>
+        </div>
+        <div class="need-item urgency-medium">
+          <strong>Formateurs bénévoles</strong>
+          <p>IA, bureautique, coding, compétences professionnelles</p>
+        </div>
+        <div class="need-item urgency-low">
+          <strong>Licences logicielles éducatives</strong>
+          <p>Microsoft Office, Adobe Creative Suite</p>
         </div>
       </div>
-    </div>
+    </section>
+
+    <!-- Soutien Psychosocial -->
+    <section class="department-section">
+      <h3>💚 Soutien Psychosocial</h3>
+      <div class="needs-grid">
+        <div class="need-item urgency-high">
+          <strong>Espace de consultation confidentiel</strong>
+          <p>Mobilier confortable, séparation acoustique</p>
+        </div>
+        <div class="need-item urgency-medium">
+          <strong>Psychologues et travailleurs sociaux bénévoles</strong>
+          <p>Pour augmenter notre capacité d'accompagnement</p>
+        </div>
+        <div class="need-item urgency-low">
+          <strong>Matériel de bien-être</strong>
+          <p>Livres sur la santé mentale, équipement de relaxation</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Inclusion Numérique -->
+    <section class="department-section">
+      <h3>💻 Inclusion Numérique</h3>
+      <div class="needs-grid">
+        <div class="need-item urgency-high">
+          <strong>Tablettes et ordinateurs à prêter (50 unités)</strong>
+          <p>Pour le programme de prêt d'équipement</p>
+        </div>
+        <div class="need-item urgency-medium">
+          <strong>Connexion internet haute vitesse</strong>
+          <p>Abonnement commercial pour le centre</p>
+        </div>
+        <div class="need-item urgency-medium">
+          <strong>Formateurs en littératie numérique</strong>
+          <p>Bénévoles spécialisés en formation adaptée</p>
+        </div>
+        <div class="need-item urgency-low">
+          <strong>Logiciels d'accessibilité</strong>
+          <p>Pour personnes en situation de handicap</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Microcrédit & Entrepreneuriat -->
+    <section class="department-section">
+      <h3>💼 Microcrédit & Entrepreneuriat</h3>
+      <div class="needs-grid">
+        <div class="need-item urgency-high">
+          <strong>Fonds de microcrédit (50 000$)</strong>
+          <p>Capital de départ pour les prêts responsables</p>
+        </div>
+        <div class="need-item urgency-medium">
+          <strong>Mentors en entrepreneuriat</strong>
+          <p>Professionnels expérimentés pour accompagner les porteurs de projet</p>
+        </div>
+        <div class="need-item urgency-medium">
+          <strong>Matériel de bureau pour startups</strong>
+          <p>Ordinateurs, imprimantes, mobilier</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Juridiques & Fiscaux -->
+    <section class="department-section">
+      <h3>⚖️ Clinique Juridique & Aide Fiscale</h3>
+      <div class="needs-grid">
+        <div class="need-item urgency-high">
+          <strong>Avocats et notaires bénévoles</strong>
+          <p>Pour consultations juridiques gratuites</p>
+        </div>
+        <div class="need-item urgency-medium">
+          <strong>Comptables bénévoles</strong>
+          <p>Pour aide aux déclarations de revenus</p>
+        </div>
+        <div class="need-item urgency-low">
+          <strong>Logiciels spécialisés</strong>
+          <p>Comptabilité, préparation de déclarations</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Soutien Académique Tous Niveaux -->
+    <section class="department-section">
+      <h3>📚 Soutien Académique (Secondaire à Universitaire)</h3>
+      <div class="needs-grid">
+        <div class="need-item urgency-high">
+          <strong>Tuteurs bénévoles toutes matières</strong>
+          <p>Mathématiques, sciences, langues, préparation aux examens</p>
+        </div>
+        <div class="need-item urgency-medium">
+          <strong>Matériel didactique spécialisé</strong>
+          <p>Manuels scolaires, calculatrices scientifiques</p>
+        </div>
+        <div class="need-item urgency-low">
+          <strong>Espace d'étude silencieux</strong>
+          <p>Mobilier ergonomique, éclairage adapté</p>
+        </div>
+      </div>
+    </section>
 
     <!-- Section Partenariats d'Entreprises -->
     <section style="background: #e8f5e8; padding: 25px; border-radius: 8px; margin: 30px 0;">
@@ -154,16 +329,6 @@
       </ul>
       <a href="mailto:partenariats@carrefour-initiatives.org" class="cta-button" style="background: #0056a3;">Proposer un partenariat</a>
     </section>
-
-    <h2>Notre théorie du changement</h2>
-    <p>Notre approche holistique lie l'accès aux besoins essentiels à un parcours d'autonomisation complet :</p>
-    
-    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-      <strong>Besoins de base → Formation → Insertion → Autonomie durable</strong>
-      <p style="margin-top: 10px;">Chaque don soutient cette chaîne de valeur sociale qui transforme des vies.</p>
-    </div>
-
-    <img src="assets/theorie_du_changement.png" alt="Théorie du changement" style="max-width:100%; height:auto; border:1px solid #ddd; margin:20px 0;">
 
     <!-- Section Contact Urgent -->
     <section style="background: #fff3cd; padding: 20px; border-radius: 8px; margin-top: 30px; text-align: center;">
@@ -183,10 +348,8 @@
   </footer>
 
   <script>
-    // Script pour le suivi des clics (optionnel - pour analytics)
     document.querySelectorAll('.cta-button').forEach(button => {
       button.addEventListener('click', function(e) {
-        // Ici vous pouvez ajouter Google Analytics ou autre suivi
         console.log('Clic sur:', this.textContent);
       });
     });
