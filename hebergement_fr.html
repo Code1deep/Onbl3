@@ -3,36 +3,644 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hébergement Social</title>
+  <title>Hébergement Social - Carrefour des Initiatives</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root {
+      --primary-blue: #0056a3;
+      --dark-blue: #003d73;
+      --orange: #ff6b35;
+      --green: #28a745;
+      --light-gray: #f8f9fa;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Styles */
+    .main-header {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      color: white;
+      padding: 40px 0;
+      text-align: center;
+    }
+    
+    .logo-container {
+      margin-bottom: 20px;
+    }
+    
+    .logo {
+      height: 80px;
+    }
+    
+    .page-title {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    
+    .page-subtitle {
+      font-size: 1.3em;
+      opacity: 0.9;
+    }
+    
+    /* Navigation */
+    .main-nav {
+      background: var(--dark-blue);
+      padding: 0;
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      transition: background 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    /* Content Sections */
+    .hero-section {
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('assets/hebergement-hero.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-size: 2.2em;
+      margin-bottom: 20px;
+    }
+    
+    .hero-text {
+      font-size: 1.2em;
+      max-width: 800px;
+      margin: 0 auto 30px;
+    }
+    
+    .section {
+      padding: 60px 0;
+    }
+    
+    .section-alt {
+      background: var(--light-gray);
+    }
+    
+    .section-title {
+      font-size: 2em;
+      margin-bottom: 30px;
+      color: var(--dark-blue);
+      text-align: center;
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 1.1em;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Grid Layouts */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .service-card {
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .service-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .service-icon {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+    
+    .service-title {
+      font-size: 1.4em;
+      margin-bottom: 15px;
+      color: var(--dark-blue);
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .feature-item {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid var(--orange);
+    }
+    
+    /* Emergency Access */
+    .emergency-banner {
+      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      margin: 40px 0;
+    }
+    
+    /* KPI Section */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+    
+    .kpi-card {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .kpi-number {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: var(--primary-blue);
+      display: block;
+    }
+    
+    /* Process Timeline */
+    .process-timeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+    
+    .process-step {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .step-number {
+      background: var(--primary-blue);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-weight: bold;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      margin: 10px 5px;
+    }
+    
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary-blue);
+      border: 2px solid var(--primary-blue);
+    }
+    
+    .btn-emergency {
+      background: #dc3545;
+      color: white;
+      font-size: 1.1em;
+      padding: 15px 30px;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .testimonial-card {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    
+    .testimonial-card::before {
+      content: '"';
+      font-size: 4em;
+      color: var(--light-gray);
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      line-height: 1;
+    }
+    
+    /* Partnership Logos */
+    .partners-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+      align-items: center;
+    }
+    
+    .partner-logo {
+      max-height: 80px;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+    
+    .partner-logo:hover {
+      opacity: 1;
+    }
+    
+    /* Footer */
+    .main-footer {
+      background: #333;
+      color: white;
+      padding: 40px 0 20px;
+      text-align: center;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+      }
+      
+      .nav-link {
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      
+      .emergency-banner {
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <div class="container" style="text-align:left; padding:10px 20px;">
-      <!-- Remplace logo.png par le fichier logo  -->
-      <img src="assets/logo_fr.png" alt="Logo Carrefour" style="height:60px; vertical-align:middle;">
+  <!-- Header -->
+  <header class="main-header">
+    <div class="logo-container">
+      <img src="assets/logo_fr.png" alt="Logo Carrefour" class="logo">
     </div>
-    <h1>Hébergement Social</h1>
-    <p>Aide aux personnes en difficulté</p>
+    <h1 class="page-title">Hébergement Social</h1>
+    <p class="page-subtitle">Un lieu sûr et temporaire avec accompagnement social personnalisé</p>
   </header>
 
-  <nav>
-    <a href="index.html">Accueil</a>
-    <a href="hebergement_fr.html">Hébergement Social</a>
-    <a href="epicerie_fr.html">Épicerie Sociale</a>
-    <a href="formation_fr.html">Formation & Éducation</a>
-    <a href="microcredit_fr.html">Microcrédit Responsable</a>
-    <a href="hebergement_en.html">English</a>
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-link">Accueil</a>
+      <a href="hebergement_fr.html" class="nav-link">Hébergement Social</a>
+      <a href="epicerie_fr.html" class="nav-link">Épicerie Sociale</a>
+      <a href="formation_fr.html" class="nav-link">Formation & Éducation</a>
+      <a href="microcredit_fr.html" class="nav-link">Microcrédit Responsable</a>
+      <a href="services_fr.html" class="nav-link">Services Transverses</a>
+      <a href="recherche_fr.html" class="nav-link">Recherche & Partenariat</a>
+      <a href="nos_besoins_fr.html" class="nav-link">Nos Besoins</a>
+      <a href="hebergement_en.html" class="nav-link">English</a>
+    </div>
   </nav>
 
-  <div class="container">
-    <h2>Notre Service</h2>
-    <p>Nous offrons un hébergement temporaire et un accompagnement social aux personnes en situation de précarité.</p>
-    <p><a href="index.html">Retour à l'accueil</a></p>
-  </div>
+  <!-- Emergency Banner -->
+  <section class="emergency-banner">
+    <div class="container">
+      <h2 style="color: white; margin-bottom: 15px;">🚨 Urgence Hébergement</h2>
+      <p style="font-size: 1.2em; margin-bottom: 20px;">Si vous êtes en situation de crise d'hébergement, contactez-nous immédiatement</p>
+      <a href="tel:5141234567" class="btn btn-emergency">📞 (514) 123-4567 - Urgence 24/7</a>
+    </div>
+  </section>
 
-  <footer>
-    &copy; 2025 Carrefour des Initiatives Éducatives et Entrepreneuriales
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h2 class="hero-title">Rebâtir une vie dans la dignité et la sécurité</h2>
+      <p class="hero-text">Notre hébergement social offre bien plus qu'un toit : un accompagnement global vers la réinsertion et l'autonomie.</p>
+      <a href="#admission" class="btn btn-primary">Demander un hébergement</a>
+      <a href="#partenaires" class="btn btn-secondary">Devenir partenaire</a>
+    </div>
+  </section>
+
+  <!-- Mission Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Notre Mission</h2>
+      <p class="section-subtitle">Offrir un hébergement d'urgence et un accompagnement vers la réinsertion durable (logement, emploi, santé mentale).</p>
+      
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🏠</div>
+          <h3 class="service-title">Hébergement Sécurisé</h3>
+          <p>Chambres individuelles et collectives dans un environnement sécuritaire et respectueux</p>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">🍽️</div>
+          <h3 class="service-title">Repas Équilibrés</h3>
+          <p>Trois repas par jour préparés avec des produits frais et nutritifs</p>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">👥</div>
+          <h3 class="service-title">Accompagnement Social</h3>
+          <p>Suivi personnalisé par des travailleurs sociaux diplômés</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Details -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Services Complets</h2>
+      
+      <div class="features-grid">
+        <div class="feature-item">
+          <h4>🛌 Chambres Temporaires</h4>
+          <p>Hébergement d'urgence et transitionnel avec literie et rangement sécurisé</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>💼 Ateliers de Réinsertion</h4>
+          <p>Préparation à l'emploi, gestion budgétaire, recherche de logement</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🏥 Soutien à la Santé Mentale</h4>
+          <p>Accès à des professionnels et orientation vers des services spécialisés</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>👨‍👩‍👧‍👦 Médiation Familiale</h4>
+          <p>Rétablissement des liens familiaux lorsque possible et souhaité</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>📋 Plan Personnalisé</h4>
+          <p>Élaboration d'un plan de sortie individualisé avec objectifs mesurables</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🚪 Orientation Vers le Logement</h4>
+          <p>Accompagnement vers des solutions de logement durable et abordable</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Admission Process -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Processus d'Admission</h2>
+      
+      <div class="process-timeline">
+        <div class="process-step">
+          <div class="step-number">1</div>
+          <h4>Évaluation Initiale</h4>
+          <p>Rencontre avec un intervenant pour évaluer la situation et les besoins</p>
+        </div>
+        
+        <div class="process-step">
+          <div class="step-number">2</div>
+          <h4>Admission</h4>
+          <p>Signature de l'entente d'hébergement et installation dans la chambre</p>
+        </div>
+        
+        <div class="process-step">
+          <div class="step-number">3</div>
+          <h4>Plan d'Intervention</h4>
+          <p>Élaboration du plan personnalisé avec objectifs et échéancier</p>
+        </div>
+        
+        <div class="process-step">
+          <div class="step-number">4</div>
+          <h4>Accompagnement</h4>
+          <p>Suivi régulier et ajustement du plan selon l'évolution</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Target Audience -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Publics Visés</h2>
+      
+      <div class="features-grid">
+        <div class="feature-item">
+          <h4>🚶 Personnes Sans-Abri</h4>
+          <p>Hébergement d'urgence avec perspective de réinsertion durable</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>⚠️ Risque de Perte de Logement</h4>
+          <p>Prévention de l'itinérance par un hébergement temporaire sécurisé</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>👨‍👩‍👧‍👦 Familles en Crise</h4>
+          <p>Unités familiales pour maintenir la cellule familiale intacte</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🧓 Personnes Aînées Isolées</h4>
+          <p>Environnement sécuritaire avec soutien adapté aux besoins spécifiques</p>
+        </div>
+      </div>
+      
+      <div style="background: #e8f5e8; padding: 20px; border-radius: 8px; margin-top: 30px;">
+        <h4 style="color: var(--dark-blue); margin-bottom: 15px;">📋 Critères d'Admission</h4>
+        <ul style="list-style-type: none; padding-left: 0;">
+          <li>✅ Situation de crise d'hébergement avérée</li>
+          <li>✅ Motivation à participer au programme de réinsertion</li>
+          <li>✅ Respect des règles de vie commune</li>
+          <li>✅ Entretien préalable avec un intervenant social</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Notre Impact</h2>
+      
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-number">500+</span>
+          <span class="stat-label">Nuits d'hébergement offertes/mois</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-number">68%</span>
+          <span class="stat-label">Taux de réinsertion à 12 mois</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-number">92%</span>
+          <span class="stat-label">Satisfaction des bénéficiaires</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-number">45</span>
+          <span class="stat-label">Jours de séjour moyen</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partnerships -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Partenariats</h2>
+      <p class="section-subtitle">Nous travaillons en collaboration avec des organismes spécialisés pour un accompagnement complet</p>
+      
+      <div class="partners-grid">
+        <div style="text-align: center;">
+          <div class="service-icon">🏥</div>
+          <p><strong>CIUSSS</strong><br>Santé mentale</p>
+        </div>
+        <div style="text-align: center;">
+          <div class="service-icon">🏠</div>
+          <p><strong>Office d'habitation</strong><br>Logement social</p>
+        </div>
+        <div style="text-align: center;">
+          <div class="service-icon">💼</div>
+          <p><strong>Emploi-Québec</strong><br>Insertion professionnelle</p>
+        </div>
+        <div style="text-align: center;">
+          <div class="service-icon">⚖️</div>
+          <p><strong>Clinique juridique</strong><br>Droits et recours</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Témoignages</h2>
+      
+      <div class="testimonials">
+        <div class="testimonial-card">
+          <p>"Après avoir perdu mon emploi et mon logement, l'hébergement social m'a offert la stabilité nécessaire pour rebâtir ma vie. L'accompagnement a changé tout."</p>
+          <p><strong>- Marc, ancien résident</strong></p>
+        </div>
+        
+        <div class="testimonial-card">
+          <p>"Grâce au soutien des intervenants, j'ai pu retrouver un logement et un emploi stable. Aujourd'hui, je suis bénévole pour redonner au suivant."</p>
+          <p><strong>- Sarah, bénéficiaire</strong></p>
+        </div>
+        
+        <div class="testimonial-card">
+          <p>"L'approche humaine et professionnelle de l'équipe a fait toute la différence dans mon parcours de réinsertion."</p>
+          <p><strong>- Famille Tremblay</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Besoin d'un hébergement?</h2>
+      <p class="section-subtitle">Notre équipe est disponible pour vous accompagner dans cette étape difficile.</p>
+      
+      <div style="text-align: center; margin-top: 30px;">
+        <a href="tel:5141234567" class="btn btn-primary btn-large">📞 Appeler pour une urgence</a>
+        <a href="mailto:hebergement@carrefour-initiatives.org" class="btn btn-secondary btn-large">✉️ Demande d'information</a>
+        <a href="nos_besoins_fr.html" class="btn btn-secondary btn-large">Soutenir l'hébergement</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2025 Carrefour des Initiatives Éducatives et Entrepreneuriales</p>
+      <div class="footer-links">
+        <a href="index.html">Accueil</a>
+        <a href="hebergement_en.html">English Version</a>
+        <a href="contact.html">Contact</a>
+        <a href="confidentialite.html">Confidentialité</a>
+      </div>
+    </div>
   </footer>
 </body>
 </html>
