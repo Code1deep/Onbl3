@@ -4,59 +4,722 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Services Transverses – Carrefour des Initiatives Éducatives et Entrepreneuriales</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root {
+      --primary-blue: #0056a3;
+      --dark-blue: #003d73;
+      --orange: #ff6b35;
+      --green: #28a745;
+      --purple: #6f42c1;
+      --light-gray: #f8f9fa;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Styles avec logo à gauche et titre centré */
+    .main-header {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      color: white;
+      padding: 20px 0;
+    }
+    
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .logo-title-container {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+    
+    .logo {
+      height: 70px;
+      margin-right: 20px;
+    }
+    
+    .header-titles {
+      text-align: left;
+      flex: 1;
+    }
+    
+    .org-name {
+      font-size: 1.8em;
+      font-weight: bold;
+      margin: 0;
+    }
+    
+    .page-title {
+      font-size: 1.2em;
+      opacity: 0.9;
+      margin: 5px 0 0 0;
+    }
+    
+    .language-switcher {
+      color: white;
+      text-decoration: none;
+      padding: 8px 15px;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+    
+    .language-switcher:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    /* Navigation */
+    .main-nav {
+      background: var(--dark-blue);
+      padding: 0;
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      transition: background 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    /* Content Sections */
+    .hero-section {
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('assets/services-hero.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+    
+    .hero-text {
+      font-size: 1.2em;
+      max-width: 800px;
+      margin: 0 auto 30px;
+    }
+    
+    .section {
+      padding: 60px 0;
+    }
+    
+    .section-alt {
+      background: var(--light-gray);
+    }
+    
+    .section-title {
+      font-size: 2em;
+      margin-bottom: 30px;
+      color: var(--dark-blue);
+      text-align: center;
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 1.1em;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Grid Layouts */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .service-card {
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .service-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .service-icon {
+      font-size: 3em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .service-title {
+      font-size: 1.4em;
+      margin-bottom: 15px;
+      color: var(--dark-blue);
+    }
+    
+    /* Features Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .feature-item {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid var(--orange);
+    }
+    
+    /* Pricing Section */
+    .pricing-table {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      margin: 40px auto;
+      max-width: 800px;
+    }
+    
+    .pricing-header {
+      background: var(--primary-blue);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .pricing-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      padding: 15px 20px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .pricing-row:nth-child(even) {
+      background: #f9f9f9;
+    }
+    
+    /* Schedule Grid */
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+    
+    .schedule-card {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .day-title {
+      font-weight: bold;
+      color: var(--primary-blue);
+      margin-bottom: 10px;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      margin: 10px 5px;
+    }
+    
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary-blue);
+      border: 2px solid var(--primary-blue);
+    }
+    
+    .btn-legal {
+      background: var(--purple);
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .testimonial-card {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    
+    .testimonial-card::before {
+      content: '"';
+      font-size: 4em;
+      color: var(--light-gray);
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      line-height: 1;
+    }
+    
+    /* Footer */
+    .main-footer {
+      background: #333;
+      color: white;
+      padding: 40px 0 20px;
+      text-align: center;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .logo-title-container {
+        justify-content: center;
+        margin-bottom: 15px;
+      }
+      
+      .header-titles {
+        text-align: center;
+      }
+      
+      .nav-container {
+        flex-direction: column;
+      }
+      
+      .nav-link {
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      
+      .pricing-row {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <div class="container" style="text-align:left; padding:10px 20px;">
-      <!-- Remplace logo.png par le fichier logo  -->
-      <img src="assets/logo_fr.png" alt="Logo Carrefour" style="height:60px; vertical-align:middle;">
+  <!-- Header avec logo à gauche et titre centré -->
+  <header class="main-header">
+    <div class="header-content">
+      <div class="logo-title-container">
+        <img src="assets/logo_fr.png" alt="Logo Carrefour" class="logo">
+        <div class="header-titles">
+          <div class="org-name">Carrefour des Initiatives Éducatives et Entrepreneuriales</div>
+          <div class="page-title">Services Transverses - Soutien Global et Accompagnement</div>
+        </div>
+      </div>
+      <a href="services_en.html" class="language-switcher">English</a>
     </div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="services_fr.html">Services</a></li>
-        <li><a href="recherche_fr.html">Recherche & Partenariats</a></li>
-        <li><a href="index_en.html">EN</a></li>
-      </ul>
-    </nav>
   </header>
 
-  <main class="container">
-    <h1>Services Transverses</h1>
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-link">Accueil</a>
+      <a href="hebergement_fr.html" class="nav-link">Hébergement Social</a>
+      <a href="epicerie_fr.html" class="nav-link">Épicerie Sociale</a>
+      <a href="formation_fr.html" class="nav-link">Formation & Éducation</a>
+      <a href="microcredit_fr.html" class="nav-link">Microcrédit Responsable</a>
+      <a href="services_fr.html" class="nav-link">Services Transverses</a>
+      <a href="recherche_fr.html" class="nav-link">Recherche & Partenariat</a>
+      <a href="nos_besoins_fr.html" class="nav-link">Nos Besoins</a>
+    </div>
+  </nav>
 
-    <section>
-      <h2>Clinique juridique & aide aux impôts</h2>
-      <p>Nous offrons un accompagnement juridique et une aide à la déclaration d’impôts à des frais symboliques.</p>
-    </section>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h1 class="hero-title">Un Guichet Unique pour Vos Besoins Essentiels</h1>
+      <p class="hero-text">Des services intégrés qui répondent à l'ensemble de vos besoins : juridique, psychosocial, communautaire et administratif.</p>
+      <a href="#prendre-rendezvous" class="btn btn-primary">Prendre Rendez-vous</a>
+      <a href="#horaires" class="btn btn-secondary">Voir nos Horaires</a>
+    </div>
+  </section>
 
-    <section>
-      <h2>Interprétariat & traduction</h2>
-      <p>Assermentation de documents, interprétariat téléphonique ou en personne, traduction d’actes et formulaires officiels.</p>
-    </section>
+  <!-- Services Juridiques et Fiscaux -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Services Juridiques et Fiscaux</h2>
+      <p class="section-subtitle">Un accompagnement professionnel accessible à tous</p>
+      
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">⚖️</div>
+          <h3 class="service-title">Clinique Juridique</h3>
+          <p>Consultations avec avocats bénévoles pour conseils juridiques de base</p>
+          <ul>
+            <li>Droit du logement et conflits locatifs</li>
+            <li>Droit familial et protection de la jeunesse</li>
+            <li>Droit de l'immigration et statut de réfugié</li>
+            <li>Droits des consommateurs</li>
+          </ul>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">📊</div>
+          <h3 class="service-title">Aide aux Impôts</h3>
+          <p>Déclaration de revenus pour particuliers et travailleurs autonomes</p>
+          <ul>
+            <li>Préparation des déclarations T1</li>
+            <li>Optimisation des crédits d'impôt</li>
+            <li>Démarrage d'entreprise et taxes</li>
+            <li>Rectification de déclarations antérieures</li>
+          </ul>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">📑</div>
+          <h3 class="service-title">Services Administratifs</h3>
+          <p>Assermentation et soutien aux démarches administratives</p>
+          <ul>
+            <li>Assermentation de documents officiels</li>
+            <li>Aide au remplissage de formulaires</li>
+            <li>Traduction de documents essentiels</li>
+            <li>Certification de copies conformes</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <section>
-      <h2>Références & médiations</h2>
-      <p>Médiation avec Hydro Québec, Bell, écoles, et orientation vers d’autres ressources.</p>
-    </section>
+  <!-- Tarifs Section -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Tarifs Accessibles</h2>
+      
+      <div class="pricing-table">
+        <div class="pricing-header">
+          <h3>Échelle Mobile selon les Revenus</h3>
+        </div>
+        
+        <div class="pricing-row">
+          <div>Consultation juridique de base (30 min)</div>
+          <div>10-25$</div>
+        </div>
+        
+        <div class="pricing-row">
+          <div>Déclaration de revenus individuelle</div>
+          <div>15-35$</div>
+        </div>
+        
+        <div class="pricing-row">
+          <div>Déclaration travailleur autonome</div>
+          <div>25-50$</div>
+        </div>
+        
+        <div class="pricing-row">
+          <div>Assermentation de documents</div>
+          <div>5-15$ par document</div>
+        </div>
+        
+        <div class="pricing-row">
+          <div>Traduction simple (page)</div>
+          <div>10-20$</div>
+        </div>
+      </div>
+      
+      <p style="text-align: center; margin-top: 20px; font-style: italic;">
+        * Gratuit pour les bénéficiaires de nos autres services sur évaluation
+      </p>
+    </div>
+  </section>
 
-    <section>
-      <h2>Cafés thématiques & Repair Café</h2>
-      <p>Moments conviviaux pour échanger et apprendre. Cuisine collective, club de lecture, groupes d’entraide.</p>
-    </section>
+  <!-- Services Psychosociaux -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Soutien Psychosocial et Communautaire</h2>
+      
+      <div class="features-grid">
+        <div class="feature-item">
+          <h4>💚 Écoute Confidentielle</h4>
+          <p>Rencontres individuelles avec nos intervenants psychosociaux</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🏠 Orientation Logement</h4>
+          <p>Aide à la recherche de logement et accompagnement aux visites</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🗣️ Cours de Langues</h4>
+          <p>Français et anglais pour nouveaux arrivants et résidents permanents</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>👥 Groupes de Parole</h4>
+          <p>Intimidation, relations familiales, santé mentale, deuil</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🛒 Aide au Magasinage</h4>
+          <p>Accompagnement pour courses et livraison sociale</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>📋 Remplissage Formulaires</h4>
+          <p>Aide pour toutes les démarches administratives complexes</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <section>
-      <h2>Soutien psychosocial & cours de langues</h2>
-      <p>Écoute confidentielle, orientation logement, cours de français et d’anglais pour nouveaux arrivants.</p>
-    </section>
-  </main>
+  <!-- Activités Communautaires -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Vie Communautaire et Activités</h2>
+      
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">☕</div>
+          <h3 class="service-title">Cafés Thématiques</h3>
+          <p>Rencontres conviviales autour de sujets variés</p>
+          <ul>
+            <li>Échanges français-anglais</li>
+            <li>Club de lecture multilingue</li>
+            <li>Débats sur enjeux sociaux</li>
+            <li>Rencontres intergénérationnelles</li>
+          </ul>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">🔧</div>
+          <h3 class="service-title">Repair Café</h3>
+          <p>Réparation d'objets et lutte contre le gaspillage</p>
+          <ul>
+            <li>Électronique et petits appareils</li>
+            <li>Vêtements et textiles</li>
+            <li>Meubles et objets décoratifs</li>
+            <li>Vélo et mobilité douce</li>
+          </ul>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">👨‍👩‍👧‍👦</div>
+          <h3 class="service-title">Cuisine Collective</h3>
+          <p>Préparation de repas en groupe économiques et nutritifs</p>
+          <ul>
+            <li>Recettes santé à petit budget</li>
+            <li>Découverte culinaire interculturelle</li>
+            <li>Techniques de conservation</li>
+            <li>Partage des repas préparés</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <footer>
-    <p>© 2025 Carrefour des Initiatives Éducatives et Entrepreneuriales – Tous droits réservés</p>
+  <!-- Médiation et Référence -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Médiation et Référence</h2>
+      
+      <div class="features-grid">
+        <div class="feature-item">
+          <h4>⚡ Médiation Hydro-Québec</h4>
+          <p>Négociation de paiements, contestation de factures, programmes d'aide</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>📞 Médiation Télécoms (Bell, etc.)</h4>
+          <p>Résolution de conflits avec les fournisseurs de services</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🏫 Médiation Scolaire</h4>
+          <p>Communication avec les écoles, soutien aux parents</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🏥 Référence Santé</h4>
+          <p>Orientation vers CIUSSS, CLSC, services spécialisés</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🍎 Référence Alimentaire</h4>
+          <p>Lien avec banques alimentaires, cuisines collectives</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>👶 Référence Familiale</h4>
+          <p>Garderies, haltes-garderies, ressources familiales</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Horaire des Services -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Horaire des Services</h2>
+      
+      <div class="schedule-grid">
+        <div class="schedule-card">
+          <div class="day-title">Lundi</div>
+          <p>9h-12h : Consultations juridiques<br>
+          13h-17h : Aide administrative<br>
+          18h-20h : Café linguistique</p>
+        </div>
+        
+        <div class="schedule-card">
+          <div class="day-title">Mardi</div>
+          <p>9h-12h : Soutien psychosocial<br>
+          13h-17h : Cours de français<br>
+          18h-20h : Groupe de parole</p>
+        </div>
+        
+        <div class="schedule-card">
+          <div class="day-title">Mercredi</div>
+          <p>9h-12h : Aide aux impôts<br>
+          13h-17h : Médiation télécoms<br>
+          18h-20h : Repair Café</p>
+        </div>
+        
+        <div class="schedule-card">
+          <div class="day-title">Jeudi</div>
+          <p>9h-12h : Orientation logement<br>
+          13h-17h : Cours d'anglais<br>
+          18h-20h : Cuisine collective</p>
+        </div>
+        
+        <div class="schedule-card">
+          <div class="day-title">Vendredi</div>
+          <p>9h-12h : Consultations juridiques<br>
+          13h-17h : Aide au magasinage<br>
+          18h-20h : Activités culturelles</p>
+        </div>
+        
+        <div class="schedule-card">
+          <div class="day-title">Samedi</div>
+          <p>10h-16h : Services sur rendez-vous<br>
+          Ateliers thématiques mensuels</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Témoignages</h2>
+      
+      <div class="testimonials">
+        <div class="testimonial-card">
+          <p>"La clinique juridique m'a aidé à régler mon conflit avec mon propriétaire. Pour 15$, j'ai eu un conseil professionnel qui m'a sauvé de l'expulsion."</p>
+          <p><strong>- Mohamed, bénéficiaire</strong></p>
+        </div>
+        
+        <div class="testimonial-card">
+          <p>"Les cafés thématiques m'ont permis de briser mon isolement. J'ai rencontré des gens formidables et amélioré mon français en même temps!"</p>
+          <p><strong>- Elena, nouvelle arrivante</strong></p>
+        </div>
+        
+        <div class="testimonial-card">
+          <p>"Grâce à la médiation, j'ai pu négocier un plan de paiement avec Hydro-Québec. L'intervenant a fait toute la différence."</p>
+          <p><strong>- Famille Tremblay</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Besoin d'un Service?</h2>
+      <p class="section-subtitle">Notre équipe pluridisciplinaire est là pour vous accompagner dans toutes vos démarches.</p>
+      
+      <div style="text-align: center; margin-top: 30px;">
+        <a href="tel:5141234567" class="btn btn-primary">📞 Prendre Rendez-vous</a>
+        <a href="mailto:services@carrefour-initiatives.org" class="btn btn-secondary">✉️ Nous Écrire</a>
+        <a href="nos_besoins_fr.html" class="btn btn-legal">Soutenir nos Services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2025 Carrefour des Initiatives Éducatives et Entrepreneuriales</p>
+      <div class="footer-links">
+        <a href="index.html">Accueil</a>
+        <a href="services_en.html">English Version</a>
+        <a href="contact.html">Contact</a>
+        <a href="confidentialite.html">Confidentialité</a>
+      </div>
+    </div>
   </footer>
 </body>
 </html>
-
-
-
-
