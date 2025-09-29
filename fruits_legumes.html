@@ -3,304 +3,190 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boutique – Version Moderne</title>
-  <!-- Lucide icons CDN -->
-  <link rel="stylesheet" href="https://unpkg.com/lucide-icons/dist/lucide.css">
+  <title>Épicerie Sociale - Fruits & Légumes</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
-    :root {
-      --primary:#2563eb;
-      --secondary:#f97316;
-      --bg:#f9fafb;
-      --card:#ffffff;
-    }
     body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0; padding: 0;
-      background: var(--bg);
+      background: #f9f9f9;
+      font-family: 'Arial', sans-serif;
     }
     header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 15px 25px;
-      background: var(--primary);
+      background: linear-gradient(90deg, #007bff, #28a745);
       color: white;
-    }
-    header img {
-      height: 50px;
-    }
-    header h1 {
-      font-size: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .filter-sort {
-      display: flex;
-      justify-content: space-between;
-      padding: 15px 25px;
-      background: #e5e7eb;
-    }
-    .filter-sort label {
-      font-weight: 500;
-    }
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
-    .product {
-      background: var(--card);
-      border-radius: 12px;
       padding: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
       text-align: center;
-      transition: transform 0.2s ease;
     }
-    .product:hover {
-      transform: translateY(-3px);
+    .logo {
+      height: 60px;
+      margin-right: 10px;
     }
-    .product img {
-      max-width: 100%;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 8px;
+    .product-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
     }
-    .product button {
-      background: var(--secondary);
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 6px;
+    .product-card:hover {
+      transform: translateY(-5px);
     }
     .cart {
       position: fixed;
-      right: 0;
-      top: 0;
-      width: 320px;
-      height: 100%;
-      background: var(--card);
-      border-left: 1px solid #ddd;
+      top: 20px;
+      right: 20px;
+      background: #007bff;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 50px;
+      cursor: pointer;
+      z-index: 999;
+    }
+    .cart-count {
+      background: red;
+      color: white;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 50%;
+      position: absolute;
+      top: -5px;
+      right: -5px;
+    }
+    .cart-modal {
+      display: none;
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      width: 350px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
       padding: 15px;
-      box-shadow: -4px 0 8px rgba(0,0,0,0.05);
-      overflow-y: auto;
-      transition: transform 0.3s ease;
+      z-index: 1000;
     }
-    .cart.animate {
-      transform: translateX(-10px);
+    .btn-animate {
+      transition: transform 0.2s;
     }
-    .cart h2 {margin-top:0; display:flex; align-items:center; gap:8px;}
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 5px;
-    }
-    .total {
-      font-weight: bold;
-      margin-top: 10px;
-    }
-    .notice {
-      background:#d1fae5;
-      color:#065f46;
-      font-size: 0.9rem;
-      padding: 6px;
-      border-radius: 6px;
-      margin-top:6px;
-    }
-    .social-links {
-      padding: 20px;
-      text-align: center;
-      background: #e5e7eb;
-    }
-    .social-links a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: var(--primary);
-      font-weight:500;
-    }
-    select, input[type=number] {
-      padding:3px;
-      border-radius: 4px;
-      border:1px solid #ccc;
-    }
-    .payment-icons {
-      display:flex; gap:8px; margin-top:5px;
-    }
-    .payment-icons img {
-      height:24px;
-    }
-    button.checkout {
-      background:var(--primary);
-      width:100%;
-      color:white;
-      padding:10px;
-      border:none;
-      border-radius:6px;
-      margin-top:10px;
-      font-size:1rem;
-      cursor:pointer;
+    .btn-animate:active {
+      transform: scale(0.95);
     }
   </style>
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="Logo">
-    <h1><i data-lucide="shopping-bag"></i> Boutique</h1>
-  </header>
 
-  <div class="filter-sort">
-    <div>
-      <label for="filter">Filtrer :</label>
-      <select id="filter">
-        <option value="all">Tous</option>
-        <option value="categorie1">Catégorie 1</option>
-        <option value="categorie2">Catégorie 2</option>
-      </select>
-    </div>
-    <div>
-      <label for="sort">Trier :</label>
-      <select id="sort">
-        <option value="default">Par défaut</option>
-        <option value="price-asc">Prix croissant</option>
-        <option value="price-desc">Prix décroissant</option>
-      </select>
-    </div>
+<header>
+  <img src="assets/logo_fr.png" class="logo" alt="Logo">
+  <h1>Fruits et Légumes Solidaires</h1>
+  <p>Produits frais à prix solidaires – Livraison gratuite dès 20$</p>
+</header>
+
+<div class="container my-4">
+  <div class="row" id="product-list">
+    <!-- Produits -->
   </div>
+</div>
 
-  <div class="products" id="products">
-    <!-- Exemple de produit -->
-    <div class="product" data-category="categorie1" data-price="15">
-      <img src="https://via.placeholder.com/200x150" alt="Produit 1">
-      <h3>Produit 1</h3>
-      <p>15 €</p>
-      <input type="number" value="1" min="1" style="width:50px;">
-      <button onclick="addToCart('Produit 1', 15, this.previousElementSibling.value)">Ajouter</button>
-    </div>
-    <div class="product" data-category="categorie2" data-price="12">
-      <img src="https://via.placeholder.com/200x150" alt="Produit 2">
-      <h3>Produit 2</h3>
-      <p>12 €</p>
-      <input type="number" value="1" min="1" style="width:50px;">
-      <button onclick="addToCart('Produit 2', 12, this.previousElementSibling.value)">Ajouter</button>
-    </div>
-    <!-- Ajouter plus de produits ici -->
-  </div>
+<!-- Icône Panier -->
+<div class="cart" onclick="toggleCart()">
+  <i class="fa fa-shopping-cart"></i>
+  <span class="cart-count" id="cart-count">0</span>
+</div>
 
-  <div class="cart" id="cart">
-    <h2><i data-lucide="shopping-cart"></i> Panier</h2>
-    <div id="cart-items"></div>
-    <div>
-      <label for="mode">Mode de paiement :</label>
-      <select id="mode" onchange="updateTotal()">
-        <option value="enligne">En ligne</option>
-        <option value="magasin">Au magasin</option>
-        <option value="livraison">Livraison à domicile (+5€)</option>
-      </select>
-    </div>
-    <div class="payment-icons">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/MasterCard_Logo.svg" alt="Mastercard">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Interac_logo.svg" alt="Débit">
-    </div>
-    <div class="total" id="total">Total : 0 €</div>
-    <div class="notice" id="notice" style="display:none;">Livraison gratuite pour commandes > 20 €</div>
-    <button class="checkout" onclick="checkout()">Valider la commande</button>
-    <p style="font-size:0.9rem;margin-top:8px;">Ou appelez le <strong>514&nbsp;123&nbsp;4567</strong> pour confirmer.</p>
-  </div>
+<!-- Panier -->
+<div class="cart-modal" id="cart-modal">
+  <h5>Votre Panier</h5>
+  <div id="cart-items"></div>
+  <hr>
+  <p>Sous-total: <span id="subtotal">0.00</span>$</p>
+  <p>Frais livraison: <span id="shipping">0.00</span>$</p>
+  <p><strong>Total: <span id="total">0.00</span>$</strong></p>
+  <p id="free-shipping-msg" style="color:green; display:none;">Livraison gratuite !</p>
+  <button class="btn btn-success w-100 mb-2" onclick="proceedPayment()">Paiement en ligne</button>
+  <button class="btn btn-secondary w-100" onclick="callOrder()">Ou appeler: 514-123-4567</button>
+</div>
 
-  <div class="social-links">
-    <p>Découvrez nos autres articles sur :</p>
-    <a href="https://facebook.com" target="_blank">Facebook</a>
-    <a href="https://instagram.com" target="_blank">Instagram</a>
-    <a href="https://twitter.com" target="_blank">Twitter</a>
-  </div>
+<footer class="text-center p-3">
+  <p>&copy; 2025 Carrefour des Initiatives Éducatives et Entrepreneuriales</p>
+  <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook fa-2x mx-2"></i></a>
+  <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram fa-2x mx-2"></i></a>
+</footer>
 
-  <script src="https://unpkg.com/lucide-icons/dist/lucide.js"></script>
-  <script>
-    lucide.createIcons();
-    let cart = [];
+<script>
+const products = [
+  {id:1, name:'Pommes (1 kg)', price:2.5, img:'assets/fruits/pommes.jpg'},
+  {id:2, name:'Carottes (1 kg)', price:1.8, img:'assets/fruits/carottes.jpg'},
+  {id:3, name:'Oranges (1 kg)', price:3.0, img:'assets/fruits/oranges.jpg'}
+];
 
-    function addToCart(name, price, quantity) {
-      quantity = parseInt(quantity);
-      let existing = cart.find(item => item.name === name);
-      if(existing){
-        existing.quantity += quantity;
-      } else {
-        cart.push({name, price, quantity});
-      }
-      renderCart();
-      animateCart();
-    }
+const cart = [];
 
-    function renderCart() {
-      const cartItemsDiv = document.getElementById('cart-items');
-      cartItemsDiv.innerHTML = '';
-      cart.forEach(item => {
-        cartItemsDiv.innerHTML += `
-          <div class="cart-item">
-            <span>${item.name} x${item.quantity}</span>
-            <span>${(item.price * item.quantity).toFixed(2)} €</span>
-          </div>`;
-      });
-      updateTotal();
-    }
+function renderProducts(){
+  const container = document.getElementById('product-list');
+  container.innerHTML = '';
+  products.forEach(p=>{
+    container.innerHTML += `
+    <div class="col-md-4 mb-4">
+      <div class="product-card p-3">
+        <img src="${p.img}" class="img-fluid rounded mb-2">
+        <h5>${p.name}</h5>
+        <p><strong>${p.price.toFixed(2)} $</strong></p>
+        <input type="number" min="1" value="1" id="qty-${p.id}" class="form-control mb-2">
+        <button class="btn btn-primary w-100 btn-animate" onclick="addToCart(${p.id})">
+          <i class="fa fa-cart-plus"></i> Ajouter au panier
+        </button>
+      </div>
+    </div>`;
+  });
+}
 
-    function updateTotal() {
-      let total = 0;
-      cart.forEach(item => {
-        total += item.price * item.quantity;
-      });
-      const mode = document.getElementById('mode').value;
-      if(mode === 'livraison'){
-        if(total <= 20){
-          total += 5; // frais livraison si <=20
-          document.getElementById('notice').style.display='none';
-        } else {
-          document.getElementById('notice').style.display='block';
-        }
-      } else {
-        document.getElementById('notice').style.display='none';
-      }
-      document.getElementById('total').innerText = 'Total : ' + total.toFixed(2) + ' €';
-    }
+function addToCart(id){
+  const qty = parseInt(document.getElementById('qty-'+id).value);
+  const product = products.find(p=>p.id===id);
+  const item = cart.find(i=>i.id===id);
+  if(item){
+    item.qty += qty;
+  } else {
+    cart.push({...product, qty:qty});
+  }
+  updateCart();
+}
 
-    function checkout() {
-      alert('Commande validée ! Merci. Vous pouvez payer en ligne ou appeler 514 123 4567.');
-    }
+function updateCart(){
+  document.getElementById('cart-count').innerText = cart.reduce((sum,i)=>sum+i.qty,0);
+  let subtotal=0;
+  const cartItems=document.getElementById('cart-items');
+  cartItems.innerHTML='';
+  cart.forEach(item=>{
+    subtotal += item.price*item.qty;
+    cartItems.innerHTML += `<p>${item.name} x${item.qty} = ${(item.price*item.qty).toFixed(2)}$</p>`;
+  });
+  let shipping = subtotal>20?0:5;
+  document.getElementById('free-shipping-msg').style.display = shipping===0?'block':'none';
+  document.getElementById('subtotal').innerText=subtotal.toFixed(2);
+  document.getElementById('shipping').innerText=shipping.toFixed(2);
+  document.getElementById('total').innerText=(subtotal+shipping).toFixed(2);
+}
 
-    function animateCart() {
-      const cartDiv = document.getElementById('cart');
-      cartDiv.classList.add('animate');
-      setTimeout(()=>cartDiv.classList.remove('animate'),200);
-    }
+function toggleCart(){
+  const modal=document.getElementById('cart-modal');
+  modal.style.display=modal.style.display==='block'?'none':'block';
+}
 
-    // Filtrage et tri
-    document.getElementById('filter').addEventListener('change', () => {
-      const category = document.getElementById('filter').value;
-      document.querySelectorAll('.product').forEach(prod => {
-        if(category === 'all' || prod.dataset.category === category){
-          prod.style.display = 'block';
-        } else {
-          prod.style.display = 'none';
-        }
-      });
-    });
+function proceedPayment(){
+  // Ici on peut vérifier si Stripe est dispo
+  const stripeAvailable=false; // mettre true si Stripe configuré
+  if(!stripeAvailable){
+    alert("Paiement en ligne non disponible pour le moment. Veuillez payer en magasin ou à la livraison.");
+  } else {
+    alert("Redirection vers Stripe...");
+    // Code Stripe réel ici
+  }
+}
 
-    document.getElementById('sort').addEventListener('change', () => {
-      const sort = document.getElementById('sort').value;
-      const container = document.getElementById('products');
-      let products = Array.from(container.children);
-      if(sort === 'price-asc'){
-        products.sort((a,b)=>a.dataset.price - b.dataset.price);
-      } else if(sort === 'price-desc'){
-        products.sort((a,b)=>b.dataset.price - a.dataset.price);
-      }
-      container.innerHTML = '';
-      products.forEach(p=>container.appendChild(p));
-    });
-  </script>
+function callOrder(){
+  window.location.href='tel:5141234567';
+}
+
+renderProducts();
+</script>
 </body>
 </html>
