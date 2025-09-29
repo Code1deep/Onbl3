@@ -4,7 +4,132 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fruits et Légumes - Épicerie Sociale</title>
-  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* --- Styles généraux --- */
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #f8f8f8;
+      color: #333;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* --- Header --- */
+    .main-header {
+      background: #fff;
+      padding: 1rem 0;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+    .logo-container {
+      max-width: 150px; /* réduit le bloc logo */
+      margin: 0 auto;
+    }
+    .logo {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .page-title {
+      margin: 0.5rem 0 0.25rem;
+      font-size: 1.8rem;
+    }
+    .page-subtitle {
+      margin: 0;
+      font-size: 1rem;
+      color: #666;
+    }
+
+    /* --- Navigation --- */
+    .main-nav {
+      background: #005aa7;
+    }
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 0.5rem;
+    }
+    .nav-link {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .nav-link:hover {
+      text-decoration: underline;
+    }
+
+    /* --- Section Titre --- */
+    .section-title {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    /* --- Barre de filtre --- */
+    .filter-bar {
+      text-align: right;
+      margin-bottom: 1rem;
+    }
+    .filter-bar label {
+      font-weight: bold;
+      margin-right: 0.5rem;
+    }
+    .filter-bar select {
+      padding: 0.3rem 0.5rem;
+    }
+
+    /* --- Grille produits --- */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .service-card {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-4px);
+    }
+    .service-card img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+    .service-title {
+      font-size: 1.2rem;
+      margin: 0.25rem 0;
+    }
+    .service-card p {
+      margin: 0.25rem 0;
+    }
+
+    /* --- Footer --- */
+    .main-footer {
+      background: #f0f0f0;
+      padding: 1rem 0;
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .footer-links a {
+      margin: 0 0.5rem;
+      color: #005aa7;
+      text-decoration: none;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
   <!-- Header commun -->
@@ -28,21 +153,35 @@
   <section class="section">
     <div class="container">
       <h2 class="section-title">Nos Produits</h2>
-      <div class="services-grid">
-        <div class="service-card">
-          <img src="assets/fruits/pommes.jpg" alt="Pommes" style="width:100%; border-radius:8px;">
+
+      <!-- Barre de filtre -->
+      <div class="filter-bar">
+        <label for="tri">Trier par :</label>
+        <select id="tri" onchange="trierProduits(this.value)">
+          <option value="nom">Nom</option>
+          <option value="prix_solidaire">Prix solidaire</option>
+          <option value="prix_reel">Prix réel</option>
+          <option value="quantite">Quantité restante</option>
+        </select>
+      </div>
+
+      <div class="services-grid" id="liste-produits">
+        <div class="service-card" data-nom="Pommes" data-prix-solidaire="2.50" data-prix-reel="4.00" data-quantite="15">
+          <img src="assets/fruits/pommes.jpg" alt="Pommes">
           <h3 class="service-title">Pommes (1 kg)</h3>
           <p>Origine Québec, production locale</p>
           <p><strong>Prix solidaire :</strong> 2,50 $</p>
           <p><strong>Prix réel :</strong> 4,00 $</p>
+          <p><strong>Quantité restante :</strong> 15</p>
         </div>
 
-        <div class="service-card">
-          <img src="assets/fruits/carottes.jpg" alt="Carottes" style="width:100%; border-radius:8px;">
+        <div class="service-card" data-nom="Carottes" data-prix-solidaire="1.80" data-prix-reel="3.50" data-quantite="30">
+          <img src="assets/fruits/carottes.jpg" alt="Carottes">
           <h3 class="service-title">Carottes (1 kg)</h3>
           <p>Fraîches et croquantes</p>
           <p><strong>Prix solidaire :</strong> 1,80 $</p>
           <p><strong>Prix réel :</strong> 3,50 $</p>
+          <p><strong>Quantité restante :</strong> 30</p>
         </div>
 
         <!-- Ajouter d’autres produits ici -->
@@ -60,5 +199,28 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    // Simple fonction de tri client-side
+    function trierProduits(critere) {
+      const liste = document.getElementById('liste-produits');
+      const cards = Array.from(liste.querySelectorAll('.service-card'));
+
+      cards.sort((a, b) => {
+        let va = a.dataset[critere];
+        let vb = b.dataset[critere];
+
+        if (critere === 'nom') {
+          return va.localeCompare(vb);
+        } else {
+          return parseFloat(va) - parseFloat(vb);
+        }
+      });
+
+      // Réinjecter les cartes triées
+      liste.innerHTML = '';
+      cards.forEach(c => liste.appendChild(c));
+    }
+  </script>
 </body>
 </html>
