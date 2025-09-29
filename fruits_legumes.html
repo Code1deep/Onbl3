@@ -3,224 +3,224 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fruits et Légumes - Épicerie Sociale</title>
+  <title>Boutique – Exemple</title>
   <style>
-    /* --- Styles généraux --- */
     body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background-color: #f8f8f8;
-      color: #333;
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: #f8f8f8;
     }
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    /* --- Header --- */
-    .main-header {
-      background: #fff;
-      padding: 1rem 0;
-      text-align: center;
-      border-bottom: 1px solid #eee;
-    }
-    .logo-container {
-      max-width: 150px; /* réduit le bloc logo */
-      margin: 0 auto;
-    }
-    .logo {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    .page-title {
-      margin: 0.5rem 0 0.25rem;
-      font-size: 1.8rem;
-    }
-    .page-subtitle {
-      margin: 0;
-      font-size: 1rem;
-      color: #666;
-    }
-
-    /* --- Navigation --- */
-    .main-nav {
-      background: #005aa7;
-    }
-    .nav-container {
+    header {
       display: flex;
-      justify-content: center;
-      gap: 2rem;
-      padding: 0.5rem;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background: #004080;
+      color: white;
     }
-    .nav-link {
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
+    header img {
+      height: 50px; /* logo réduit */
     }
-    .nav-link:hover {
-      text-decoration: underline;
+    .filter-sort {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background: #eee;
     }
-
-    /* --- Section Titre --- */
-    .section-title {
-      font-size: 1.6rem;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-
-    /* --- Barre de filtre --- */
-    .filter-bar {
-      text-align: right;
-      margin-bottom: 1rem;
-    }
-    .filter-bar label {
-      font-weight: bold;
-      margin-right: 0.5rem;
-    }
-    .filter-bar select {
-      padding: 0.3rem 0.5rem;
-    }
-
-    /* --- Grille produits --- */
-    .services-grid {
+    .products {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      padding: 20px;
     }
-    .service-card {
-      background: #fff;
-      padding: 1rem;
+    .product {
+      background: white;
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      transition: transform 0.2s ease;
-    }
-    .service-card:hover {
-      transform: translateY(-4px);
-    }
-    .service-card img {
-      width: 100%;
-      border-radius: 8px;
-      margin-bottom: 0.5rem;
-    }
-    .service-title {
-      font-size: 1.2rem;
-      margin: 0.25rem 0;
-    }
-    .service-card p {
-      margin: 0.25rem 0;
-    }
-
-    /* --- Footer --- */
-    .main-footer {
-      background: #f0f0f0;
-      padding: 1rem 0;
-      margin-top: 2rem;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       text-align: center;
-      font-size: 0.9rem;
-      color: #666;
     }
-    .footer-links a {
-      margin: 0 0.5rem;
-      color: #005aa7;
+    .product img {
+      max-width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .product button {
+      background: #004080;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .cart {
+      position: fixed;
+      right: 0;
+      top: 0;
+      width: 300px;
+      height: 100%;
+      background: white;
+      border-left: 1px solid #ccc;
+      padding: 15px;
+      box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+      overflow-y: auto;
+    }
+    .cart h2 {margin-top:0;}
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    .total {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .social-links {
+      padding: 20px;
+      text-align: center;
+      background: #eee;
+    }
+    .social-links a {
+      margin: 0 10px;
       text-decoration: none;
-    }
-    .footer-links a:hover {
-      text-decoration: underline;
+      color: #004080;
     }
   </style>
 </head>
 <body>
-  <!-- Header commun -->
-  <header class="main-header">
-    <div class="logo-container">
-      <img src="assets/logo_fr.png" alt="Logo Carrefour" class="logo">
-    </div>
-    <h1 class="page-title">Fruits et Légumes</h1>
-    <p class="page-subtitle">Sélection de produits frais à prix solidaires</p>
+  <header>
+    <img src="logo.png" alt="Logo">
+    <h1>Boutique</h1>
   </header>
 
-  <!-- Navigation -->
-  <nav class="main-nav">
-    <div class="nav-container">
-      <a href="index.html" class="nav-link">Accueil</a>
-      <a href="epicerie_fr.html" class="nav-link">Retour à l'Épicerie Sociale</a>
+  <div class="filter-sort">
+    <div>
+      <label for="filter">Filtrer :</label>
+      <select id="filter">
+        <option value="all">Tous</option>
+        <option value="categorie1">Catégorie 1</option>
+        <option value="categorie2">Catégorie 2</option>
+      </select>
     </div>
-  </nav>
-
-  <!-- Liste des articles -->
-  <section class="section">
-    <div class="container">
-      <h2 class="section-title">Nos Produits</h2>
-
-      <!-- Barre de filtre -->
-      <div class="filter-bar">
-        <label for="tri">Trier par :</label>
-        <select id="tri" onchange="trierProduits(this.value)">
-          <option value="nom">Nom</option>
-          <option value="prix_solidaire">Prix solidaire</option>
-          <option value="prix_reel">Prix réel</option>
-          <option value="quantite">Quantité restante</option>
-        </select>
-      </div>
-
-      <div class="services-grid" id="liste-produits">
-        <div class="service-card" data-nom="Pommes" data-prix-solidaire="2.50" data-prix-reel="4.00" data-quantite="15">
-          <img src="assets/fruits/pommes.jpg" alt="Pommes">
-          <h3 class="service-title">Pommes (1 kg)</h3>
-          <p>Origine Québec, production locale</p>
-          <p><strong>Prix solidaire :</strong> 2,50 $</p>
-          <p><strong>Prix réel :</strong> 4,00 $</p>
-          <p><strong>Quantité restante :</strong> 15</p>
-        </div>
-
-        <div class="service-card" data-nom="Carottes" data-prix-solidaire="1.80" data-prix-reel="3.50" data-quantite="30">
-          <img src="assets/fruits/carottes.jpg" alt="Carottes">
-          <h3 class="service-title">Carottes (1 kg)</h3>
-          <p>Fraîches et croquantes</p>
-          <p><strong>Prix solidaire :</strong> 1,80 $</p>
-          <p><strong>Prix réel :</strong> 3,50 $</p>
-          <p><strong>Quantité restante :</strong> 30</p>
-        </div>
-
-        <!-- Ajouter d’autres produits ici -->
-      </div>
+    <div>
+      <label for="sort">Trier :</label>
+      <select id="sort">
+        <option value="default">Par défaut</option>
+        <option value="price-asc">Prix croissant</option>
+        <option value="price-desc">Prix décroissant</option>
+      </select>
     </div>
-  </section>
+  </div>
 
-  <!-- Footer -->
-  <footer class="main-footer">
-    <div class="container">
-      <p>&copy; 2025 Carrefour des Initiatives Éducatives et Entrepreneuriales</p>
-      <div class="footer-links">
-        <a href="index.html">Accueil</a>
-        <a href="contact.html">Contact</a>
-      </div>
+  <div class="products" id="products">
+    <!-- Exemple de produit -->
+    <div class="product" data-category="categorie1" data-price="15">
+      <img src="https://via.placeholder.com/200x150" alt="Produit 1">
+      <h3>Produit 1</h3>
+      <p>15 €</p>
+      <input type="number" value="1" min="1" style="width:50px;">
+      <button onclick="addToCart('Produit 1', 15, this.previousElementSibling.value)">Ajouter</button>
     </div>
-  </footer>
+    <div class="product" data-category="categorie2" data-price="25">
+      <img src="https://via.placeholder.com/200x150" alt="Produit 2">
+      <h3>Produit 2</h3>
+      <p>25 €</p>
+      <input type="number" value="1" min="1" style="width:50px;">
+      <button onclick="addToCart('Produit 2', 25, this.previousElementSibling.value)">Ajouter</button>
+    </div>
+    <!-- Ajouter plus de produits ici -->
+  </div>
+
+  <div class="cart" id="cart">
+    <h2>Panier</h2>
+    <div id="cart-items"></div>
+    <div>
+      <label for="mode">Mode de paiement :</label>
+      <select id="mode" onchange="updateTotal()">
+        <option value="enligne">En ligne</option>
+        <option value="magasin">Au magasin</option>
+        <option value="livraison">Livraison à domicile (+5€)</option>
+      </select>
+    </div>
+    <div class="total" id="total">Total : 0 €</div>
+    <button onclick="checkout()">Valider la commande</button>
+  </div>
+
+  <div class="social-links">
+    <p>Découvrez nos autres articles sur :</p>
+    <a href="https://facebook.com" target="_blank">Facebook</a>
+    <a href="https://instagram.com" target="_blank">Instagram</a>
+    <a href="https://twitter.com" target="_blank">Twitter</a>
+  </div>
 
   <script>
-    // Simple fonction de tri client-side
-    function trierProduits(critere) {
-      const liste = document.getElementById('liste-produits');
-      const cards = Array.from(liste.querySelectorAll('.service-card'));
+    let cart = [];
 
-      cards.sort((a, b) => {
-        let va = a.dataset[critere];
-        let vb = b.dataset[critere];
+    function addToCart(name, price, quantity) {
+      quantity = parseInt(quantity);
+      let existing = cart.find(item => item.name === name);
+      if(existing){
+        existing.quantity += quantity;
+      } else {
+        cart.push({name, price, quantity});
+      }
+      renderCart();
+    }
 
-        if (critere === 'nom') {
-          return va.localeCompare(vb);
+    function renderCart() {
+      const cartItemsDiv = document.getElementById('cart-items');
+      cartItemsDiv.innerHTML = '';
+      cart.forEach(item => {
+        cartItemsDiv.innerHTML += `
+          <div class="cart-item">
+            <span>${item.name} x${item.quantity}</span>
+            <span>${item.price * item.quantity} €</span>
+          </div>`;
+      });
+      updateTotal();
+    }
+
+    function updateTotal() {
+      let total = 0;
+      cart.forEach(item => {
+        total += item.price * item.quantity;
+      });
+      const mode = document.getElementById('mode').value;
+      if(mode === 'livraison'){
+        total += 5;
+      }
+      document.getElementById('total').innerText = 'Total : ' + total + ' €';
+    }
+
+    function checkout() {
+      alert('Commande validée ! Merci.');
+    }
+
+    // Filtrage et tri
+    document.getElementById('filter').addEventListener('change', () => {
+      const category = document.getElementById('filter').value;
+      document.querySelectorAll('.product').forEach(prod => {
+        if(category === 'all' || prod.dataset.category === category){
+          prod.style.display = 'block';
         } else {
-          return parseFloat(va) - parseFloat(vb);
+          prod.style.display = 'none';
         }
       });
+    });
 
-      // Réinjecter les cartes triées
-      liste.innerHTML = '';
-      cards.forEach(c => liste.appendChild(c));
-    }
+    document.getElementById('sort').addEventListener('change', () => {
+      const sort = document.getElementById('sort').value;
+      const container = document.getElementById('products');
+      let products = Array.from(container.children);
+      if(sort === 'price-asc'){
+        products.sort((a,b)=>a.dataset.price - b.dataset.price);
+      } else if(sort === 'price-desc'){
+        products.sort((a,b)=>b.dataset.price - a.dataset.price);
+      }
+      container.innerHTML = '';
+      products.forEach(p=>container.appendChild(p));
+    });
   </script>
 </body>
 </html>
