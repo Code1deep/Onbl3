@@ -1,76 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fruits & Vegetables - Social Grocery</title>
-  <!-- Include the same CSS as the main page -->
+  <title>Fruits et Légumes - Épicerie Sociale</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <!-- Same header and navigation as the main page -->
+  <!-- Header commun -->
   <header class="main-header">
-    <div class="container header-container">
-      <div class="logo-container">
-        <img src="assets/logo_en.png" alt="Carrefour Logo" class="logo">
-      </div>
-      <div class="header-content">
-        <h1 class="page-title">Fruits & Vegetables</h1>
-        <p class="page-subtitle">Fresh seasonal products at solidarity prices</p>
-      </div>
+    <div class="logo-container">
+      <img src="assets/logo_fr.png" alt="Logo Carrefour" class="logo">
     </div>
+    <h1 class="page-title">Fruits et Légumes</h1>
+    <p class="page-subtitle">Sélection de produits frais à prix solidaires</p>
   </header>
 
-  <!-- Identical navigation -->
+  <!-- Navigation -->
   <nav class="main-nav">
     <div class="nav-container">
-      <!-- Same navigation links -->
+      <a href="index.html" class="nav-link">Accueil</a>
+      <a href="epicerie_fr.html" class="nav-link">Retour à l'Épicerie Sociale</a>
     </div>
   </nav>
 
-  <!-- Breadcrumb -->
+  <!-- Liste des articles -->
   <section class="section">
     <div class="container">
-      <div class="breadcrumb">
-        <a href="epicerie_en.html">Social Grocery</a> &gt; Fruits & Vegetables
-      </div>
-      
-      <h2 class="section-title">Our Fruits and Vegetables</h2>
-      <p class="section-subtitle">Fresh, local and seasonal products at solidarity prices</p>
-      
-      <div class="products-grid">
-        <!-- Example product -->
-        <div class="product-card">
-          <img src="assets/apples.jpg" alt="Apples" class="product-image">
-          <div class="product-info">
-            <h3 class="product-name">McIntosh Apples</h3>
-            <p class="product-description">Local juicy apples, perfect for cooking or eating fresh.</p>
-            <div class="product-prices">
-              <span class="solidarity-price">$2.50/kg</span>
-              <span class="real-price">$5.99/kg</span>
-            </div>
-          </div>
+      <h2 class="section-title">Nos Produits</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <img src="assets/fruits/pommes.jpg" alt="Pommes" style="width:100%; border-radius:8px;">
+          <h3 class="service-title">Pommes (1 kg)</h3>
+          <p>Origine Québec, production locale</p>
+          <p><strong>Prix solidaire :</strong> 2,50 $</p>
+          <p><strong>Prix réel :</strong> 4,00 $</p>
         </div>
-        
-        <div class="product-card">
-          <img src="assets/carrots.jpg" alt="Carrots" class="product-image">
-          <div class="product-info">
-            <h3 class="product-name">Organic Carrots</h3>
-            <p class="product-description">Fresh carrots locally grown without pesticides.</p>
-            <div class="product-prices">
-              <span class="solidarity-price">$1.75/kg</span>
-              <span class="real-price">$3.50/kg</span>
-            </div>
-          </div>
+
+        <div class="service-card">
+          <img src="assets/fruits/carottes.jpg" alt="Carottes" style="width:100%; border-radius:8px;">
+          <h3 class="service-title">Carottes (1 kg)</h3>
+          <p>Fraîches et croquantes</p>
+          <p><strong>Prix solidaire :</strong> 1,80 $</p>
+          <p><strong>Prix réel :</strong> 3,50 $</p>
         </div>
-        
-        <!-- Add other products in the same way -->
+
+        <!-- Ajouter d’autres produits ici -->
       </div>
     </div>
   </section>
 
-  <!-- Same footer as the main page -->
+  <!-- Footer -->
   <footer class="main-footer">
-    <!-- Footer content identical -->
+    <div class="container">
+      <p>&copy; 2025 Carrefour des Initiatives Éducatives et Entrepreneuriales</p>
+      <div class="footer-links">
+        <a href="index.html">Accueil</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
   </footer>
 </body>
 </html>
