@@ -32,29 +32,40 @@
       padding: 0 20px;
     }
     
-    /* Header Styles */
+    /* Header Styles - MODIFIÉ */
     .main-header {
       background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
       color: white;
-      padding: 40px 0;
-      text-align: center;
+      padding: 20px 0;
+    }
+    
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
     
     .logo-container {
-      margin-bottom: 20px;
+      flex: 0 0 auto;
     }
     
     .logo {
       height: 80px;
     }
     
+    .header-content {
+      flex: 1;
+      text-align: center;
+      padding: 0 20px;
+    }
+    
     .page-title {
-      font-size: 2.5em;
-      margin-bottom: 10px;
+      font-size: 2.2em;
+      margin-bottom: 5px;
     }
     
     .page-subtitle {
-      font-size: 1.3em;
+      font-size: 1.1em;
       opacity: 0.9;
     }
     
@@ -303,7 +314,84 @@
       color: white;
     }
     
+    /* Styles pour les pages de catégories */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 40px;
+    }
+    
+    .product-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .product-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .product-info {
+      padding: 20px;
+    }
+    
+    .product-name {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      color: var(--dark-blue);
+    }
+    
+    .product-description {
+      margin-bottom: 15px;
+      color: #666;
+    }
+    
+    .product-prices {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+    
+    .solidarity-price {
+      color: var(--green);
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+    
+    .real-price {
+      color: #999;
+      text-decoration: line-through;
+    }
+    
+    .breadcrumb {
+      margin: 20px 0;
+      font-size: 0.9em;
+    }
+    
+    .breadcrumb a {
+      color: var(--primary-blue);
+      text-decoration: none;
+    }
+    
     @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .logo-container {
+        margin-bottom: 15px;
+      }
+      
       .nav-container {
         flex-direction: column;
       }
@@ -325,13 +413,17 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
+  <!-- Header MODIFIÉ -->
   <header class="main-header">
-    <div class="logo-container">
-      <img src="assets/logo_fr.png" alt="Logo Carrefour" class="logo">
+    <div class="container header-container">
+      <div class="logo-container">
+        <img src="assets/logo_fr.png" alt="Logo Carrefour" class="logo">
+      </div>
+      <div class="header-content">
+        <h1 class="page-title">Épicerie Sociale et Distribution</h1>
+        <p class="page-subtitle">Produits de première nécessité à prix solidaires + livraison sociale</p>
+      </div>
     </div>
-    <h1 class="page-title">Épicerie Sociale et Distribution</h1>
-    <p class="page-subtitle">Produits de première nécessité à prix solidaires + livraison sociale</p>
   </header>
 
   <!-- Navigation -->
@@ -387,46 +479,40 @@
     </div>
   </section>
 
-  <!-- Services Details -->
+  <!-- Services Details - MODIFIÉ avec liens vers sous-pages -->
   <section class="section section-alt">
     <div class="container">
-      <h2 class="section-title">Services Offerts</h2>
+      <h2 class="section-title">Nos Produits</h2>
       
       <div class="features-grid">
         <div class="feature-item">
-          <h4>🎯 Paniers alimentaires équilibrés</h4>
-          <p>Composition nutritionnelle variée adaptée aux besoins des familles</p>
-        </div>
-        
-        <div class="feature-item">
-          <h4>📦 Drive social sans contact</h4>
-          <p>Réservation en ligne et retrait rapide en point de collecte</p>
-        </div>
-        
-        <div class="feature-item">
           <h4>🍎 Fruits et légumes frais</h4>
           <p>Approvisionnement local et circuits courts privilégiés</p>
+          <a href="fruits_legumes.html" class="btn btn-secondary">Voir les articles</a>
         </div>
         
         <div class="feature-item">
-          <h4>👕 Vêtements et produits d'hygiène</h4>
+          <h4>🥫 Produits secs</h4>
+          <p>Pâtes, riz, conserves et autres produits non périssables</p>
+          <a href="produits_sec.html" class="btn btn-secondary">Voir les articles</a>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🧴 Produits d'hygiène</h4>
+          <p>Articles essentiels pour le bien-être quotidien</p>
+          <a href="produits_hygiene.html" class="btn btn-secondary">Voir les articles</a>
+        </div>
+        
+        <div class="feature-item">
+          <h4>👕 Vêtements</h4>
           <p>Articles essentiels neufs ou en excellent état</p>
-        </div>
-        
-        <div class="feature-item">
-          <h4>💻 Boutique en ligne</h4>
-          <p>Plateforme numérique accessible pour commander à l'avance</p>
-        </div>
-        
-        <div class="feature-item">
-          <h4>🎓 Ateliers nutrition-santé</h3>
-          <p>Formations sur l'alimentation saine et la gestion du budget</p>
+          <a href="vetements.html" class="btn btn-secondary">Voir les articles</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Pricing Section -->
+  <!-- Pricing Section - RESTÉE INCHANGÉE -->
   <section class="section">
     <div class="container">
       <h2 class="section-title">Tarifs Solidaires</h2>
