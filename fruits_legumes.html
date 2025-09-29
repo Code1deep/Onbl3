@@ -3,42 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boutique – Exemple</title>
+  <title>Boutique – Version Moderne</title>
+  <!-- Lucide icons CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/lucide-icons/dist/lucide.css">
   <style>
+    :root {
+      --primary:#2563eb;
+      --secondary:#f97316;
+      --bg:#f9fafb;
+      --card:#ffffff;
+    }
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       margin: 0; padding: 0;
-      background: #f8f8f8;
+      background: var(--bg);
     }
     header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 20px;
-      background: #004080;
+      padding: 15px 25px;
+      background: var(--primary);
       color: white;
     }
     header img {
-      height: 50px; /* logo réduit */
+      height: 50px;
+    }
+    header h1 {
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .filter-sort {
       display: flex;
       justify-content: space-between;
-      padding: 10px 20px;
-      background: #eee;
+      padding: 15px 25px;
+      background: #e5e7eb;
+    }
+    .filter-sort label {
+      font-weight: 500;
     }
     .products {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
       padding: 20px;
     }
     .product {
-      background: white;
-      border-radius: 8px;
-      padding: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      background: var(--card);
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
       text-align: center;
+      transition: transform 0.2s ease;
+    }
+    .product:hover {
+      transform: translateY(-3px);
     }
     .product img {
       max-width: 100%;
@@ -47,26 +68,31 @@
       border-radius: 8px;
     }
     .product button {
-      background: #004080;
+      background: var(--secondary);
       color: white;
       border: none;
-      padding: 6px 12px;
-      border-radius: 4px;
+      padding: 8px 15px;
+      border-radius: 6px;
       cursor: pointer;
+      margin-top: 6px;
     }
     .cart {
       position: fixed;
       right: 0;
       top: 0;
-      width: 300px;
+      width: 320px;
       height: 100%;
-      background: white;
-      border-left: 1px solid #ccc;
+      background: var(--card);
+      border-left: 1px solid #ddd;
       padding: 15px;
-      box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+      box-shadow: -4px 0 8px rgba(0,0,0,0.05);
       overflow-y: auto;
+      transition: transform 0.3s ease;
     }
-    .cart h2 {margin-top:0;}
+    .cart.animate {
+      transform: translateX(-10px);
+    }
+    .cart h2 {margin-top:0; display:flex; align-items:center; gap:8px;}
     .cart-item {
       display: flex;
       justify-content: space-between;
@@ -76,22 +102,53 @@
       font-weight: bold;
       margin-top: 10px;
     }
+    .notice {
+      background:#d1fae5;
+      color:#065f46;
+      font-size: 0.9rem;
+      padding: 6px;
+      border-radius: 6px;
+      margin-top:6px;
+    }
     .social-links {
       padding: 20px;
       text-align: center;
-      background: #eee;
+      background: #e5e7eb;
     }
     .social-links a {
       margin: 0 10px;
       text-decoration: none;
-      color: #004080;
+      color: var(--primary);
+      font-weight:500;
+    }
+    select, input[type=number] {
+      padding:3px;
+      border-radius: 4px;
+      border:1px solid #ccc;
+    }
+    .payment-icons {
+      display:flex; gap:8px; margin-top:5px;
+    }
+    .payment-icons img {
+      height:24px;
+    }
+    button.checkout {
+      background:var(--primary);
+      width:100%;
+      color:white;
+      padding:10px;
+      border:none;
+      border-radius:6px;
+      margin-top:10px;
+      font-size:1rem;
+      cursor:pointer;
     }
   </style>
 </head>
 <body>
   <header>
     <img src="logo.png" alt="Logo">
-    <h1>Boutique</h1>
+    <h1><i data-lucide="shopping-bag"></i> Boutique</h1>
   </header>
 
   <div class="filter-sort">
@@ -122,18 +179,18 @@
       <input type="number" value="1" min="1" style="width:50px;">
       <button onclick="addToCart('Produit 1', 15, this.previousElementSibling.value)">Ajouter</button>
     </div>
-    <div class="product" data-category="categorie2" data-price="25">
+    <div class="product" data-category="categorie2" data-price="12">
       <img src="https://via.placeholder.com/200x150" alt="Produit 2">
       <h3>Produit 2</h3>
-      <p>25 €</p>
+      <p>12 €</p>
       <input type="number" value="1" min="1" style="width:50px;">
-      <button onclick="addToCart('Produit 2', 25, this.previousElementSibling.value)">Ajouter</button>
+      <button onclick="addToCart('Produit 2', 12, this.previousElementSibling.value)">Ajouter</button>
     </div>
     <!-- Ajouter plus de produits ici -->
   </div>
 
   <div class="cart" id="cart">
-    <h2>Panier</h2>
+    <h2><i data-lucide="shopping-cart"></i> Panier</h2>
     <div id="cart-items"></div>
     <div>
       <label for="mode">Mode de paiement :</label>
@@ -143,8 +200,15 @@
         <option value="livraison">Livraison à domicile (+5€)</option>
       </select>
     </div>
+    <div class="payment-icons">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/MasterCard_Logo.svg" alt="Mastercard">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Interac_logo.svg" alt="Débit">
+    </div>
     <div class="total" id="total">Total : 0 €</div>
-    <button onclick="checkout()">Valider la commande</button>
+    <div class="notice" id="notice" style="display:none;">Livraison gratuite pour commandes > 20 €</div>
+    <button class="checkout" onclick="checkout()">Valider la commande</button>
+    <p style="font-size:0.9rem;margin-top:8px;">Ou appelez le <strong>514&nbsp;123&nbsp;4567</strong> pour confirmer.</p>
   </div>
 
   <div class="social-links">
@@ -154,7 +218,9 @@
     <a href="https://twitter.com" target="_blank">Twitter</a>
   </div>
 
+  <script src="https://unpkg.com/lucide-icons/dist/lucide.js"></script>
   <script>
+    lucide.createIcons();
     let cart = [];
 
     function addToCart(name, price, quantity) {
@@ -166,6 +232,7 @@
         cart.push({name, price, quantity});
       }
       renderCart();
+      animateCart();
     }
 
     function renderCart() {
@@ -175,7 +242,7 @@
         cartItemsDiv.innerHTML += `
           <div class="cart-item">
             <span>${item.name} x${item.quantity}</span>
-            <span>${item.price * item.quantity} €</span>
+            <span>${(item.price * item.quantity).toFixed(2)} €</span>
           </div>`;
       });
       updateTotal();
@@ -188,13 +255,26 @@
       });
       const mode = document.getElementById('mode').value;
       if(mode === 'livraison'){
-        total += 5;
+        if(total <= 20){
+          total += 5; // frais livraison si <=20
+          document.getElementById('notice').style.display='none';
+        } else {
+          document.getElementById('notice').style.display='block';
+        }
+      } else {
+        document.getElementById('notice').style.display='none';
       }
-      document.getElementById('total').innerText = 'Total : ' + total + ' €';
+      document.getElementById('total').innerText = 'Total : ' + total.toFixed(2) + ' €';
     }
 
     function checkout() {
-      alert('Commande validée ! Merci.');
+      alert('Commande validée ! Merci. Vous pouvez payer en ligne ou appeler 514 123 4567.');
+    }
+
+    function animateCart() {
+      const cartDiv = document.getElementById('cart');
+      cartDiv.classList.add('animate');
+      setTimeout(()=>cartDiv.classList.remove('animate'),200);
     }
 
     // Filtrage et tri
