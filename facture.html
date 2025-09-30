@@ -1,1 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Facture - Plateforme Multi-Services</title>
+    <link rel="stylesheet" href="assets/style.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f9f9f9;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        table th {
+            background: #3498db;
+            color: white;
+        }
+        .actions {
+            margin-top: 20px;
+        }
+        .actions button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .pay-btn {
+            background: #27ae60;
+            color: white;
+        }
+        .clear-btn {
+            background: #e74c3c;
+            color: white;
+        }
+        .phone-btn {
+            background: #f39c12;
+            color: white;
+        }
+        .notice {
+            margin: 15px 0;
+            padding: 10px;
+            background: #ffeaa7;
+            border-left: 5px solid #f39c12;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Facture - Votre commande</h1>
+
+    <div id="invoice">
+        <!-- Généré par cart.js -->
+    </div>
+
+    <div class="notice">
+        🚚 Livraison gratuite pour toute commande supérieure à 20$.
+    </div>
+
+    <div class="actions">
+        <button class="phone-btn" onclick="alert('Veuillez confirmer au 514 123 4567. Merci !')">
+            📞 Terminer la commande par téléphone
+        </button>
+    </div>
+
+    <script src="assets/cart.js"></script>
+    <script>
+        // Génération de la facture au chargement
+        window.onload = generateInvoice;
+    </script>
+
+</body>
+</html>
 
