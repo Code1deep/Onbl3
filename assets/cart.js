@@ -1,138 +1,142 @@
-/* ==========================================================
-   cart.js - Gestion du panier et génération des factures
-   Multilangue : Français (facture.html) et Anglais (invoice_en.html)
-   ========================================================== */
+// ==================== CART LOGIC ====================
 
-// Clés pour LocalStorage
-const STORAGE_KEY = "cart";
-
-// Langue (détectée selon la page HTML)
-let lang = document.documentElement.lang === "en" ? "en" : "fr";
-
-// Textes multilingues
-const i18n = {
-    fr: {
-        title: "Facture - Votre commande",
-        clientCode: "Code client",
-        orderRef: "Référence commande",
-        orderDate: "Date",
-        items: "Articles",
-        qty: "Qté",
-        price: "Prix",
-        total: "Total",
-        subtotal: "Sous-total",
-        shipping: "Livraison",
-        freeShipping: "Livraison gratuite !",
-        payOnline: "💳 Payer en ligne",
-        clearCart: "🗑️ Vider le panier",
-        phone: "📞 Compléter la commande par téléphone",
-        phoneMsg: "Veuillez confirmer en appelant le 514 123 4567. Merci !",
-        empty: "Votre panier est vide."
-    },
-    en: {
-        title: "Invoice - Your Order",
-        clientCode: "Client Code",
-        orderRef: "Order Reference",
-        orderDate: "Date",
-        items: "Items",
-        qty: "Qty",
-        price: "Price",
-        total: "Total",
-        subtotal: "Subtotal",
-        shipping: "Shipping",
-        freeShipping: "Free delivery!",
-        payOnline: "💳 Pay Online",
-        clearCart: "🗑️ Clear Cart",
-        phone: "📞 Complete order by phone",
-        phoneMsg: "Please confirm by calling 514 123 4567. Thank you!",
-        empty: "Your cart is empty."
-    }
-};
-
-// Génération ID commande
-function generateOrderRef() {
-    return "CMD-" + Date.now().toString().slice(-6);
+// Charger panier depuis localStorage
+function loadCart() {
+  return JSON.parse(localStorage.getItem("cart")) || [];
 }
 
-// Charger le panier depuis LocalStorage
-function getCart() {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-}
-
-// Sauvegarder le panier
+// Sauvegarder panier
 function saveCart(cart) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+// Ajouter un produit
+function addToCart(product) {
+  let cart = loadCart();
+  const existing = cart.find(p => p.id === product.id);
+  if (existing) {
+    existing.quantity += product.quantity;
+  } else {
+    cart.push(product);
+  }
+  saveCart(cart);
+  updateCartUI();
+}
+
+// Supprimer un article
+function removeItem(id) {
+  let cart = loadCart().filter(p => p.id !== id);
+  saveCart(cart);
+  updateCartUI();
 }
 
 // Vider le panier
 function clearCart() {
-    if (confirm(lang === "fr" ? "Voulez-vous vider le panier ?" : "Clear the cart?")) {
-        localStorage.removeItem(STORAGE_KEY);
-        generateInvoice();
-    }
+  localStorage.removeItem("cart");
+  updateCartUI();
 }
 
-// Générer facture
-function generateInvoice() {
-    const cart = getCart();
-    const invoice = document.getElementById("invoice");
+// ==================== UI UPDATE ====================
 
-    if (!cart.length) {
-        invoice.innerHTML = `<p>${i18n[lang].empty}</p>`;
-        return;
-    }
+function updateCartUI() {
+  const cart = loadCart();
+  const cartItems = document.getElementById("cart-items");
+  const subtotalEl = document.getElementById("subtotal");
+  const deliveryEl = document.getElementById("delivery");
+  const totalEl = document.getElementById("total");
+  const countEl = document.getElementById("cart-count");
 
-    const clientCode = localStorage.getItem("clientCode") || "N/A";
-    const orderRef = localStorage.getItem("orderRef") || generateOrderRef();
-    localStorage.setItem("orderRef", orderRef);
-    const date = new Date().toLocaleDateString();
+  if (!cartItems) return; // si on est pas sur facture.html
 
-    let subtotal = 0;
-    let rows = "";
-    cart.forEach(item => {
-        const lineTotal = item.price * item.qty;
-        subtotal += lineTotal;
-        rows += `
-            <tr>
-                <td>${item.name}</td>
-                <td>${item.qty}</td>
-                <td>${item.price.toFixed(2)} $</td>
-                <td>${lineTotal.toFixed(2)} $</td>
-            </tr>`;
-    });
+  cartItems.innerHTML = "";
+  let subtotal = 0;
 
-    const shipping = subtotal > 20 ? 0 : 5;
-    const total = subtotal + shipping;
+  cart.forEach(item => {
+    subtotal += item.price * item.quantity;
+    cartItems.innerHTML += `
+      <p>${item.name} x${item.quantity} = ${(item.price * item.quantity).toFixed(2)}$
+      <button class="btn btn-sm btn-danger" onclick="removeItem(${item.id})">❌</button></p>`;
+  });
 
-    invoice.innerHTML = `
-        <h2>${i18n[lang].title}</h2>
-        <p><strong>${i18n[lang].clientCode}:</strong> ${clientCode}</p>
-        <p><strong>${i18n[lang].orderRef}:</strong> ${orderRef}</p>
-        <p><strong>${i18n[lang].orderDate}:</strong> ${date}</p>
+  const delivery = subtotal > 20 ? 0 : 5;
+  if (subtotal > 20) {
+    document.getElementById("free-shipping-msg").style.display = "block";
+  } else {
+    document.getElementById("free-shipping-msg").style.display = "none";
+  }
 
-        <table>
-            <thead>
-                <tr>
-                    <th>${i18n[lang].items}</th>
-                    <th>${i18n[lang].qty}</th>
-                    <th>${i18n[lang].price}</th>
-                    <th>${i18n[lang].total}</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${rows}
-            </tbody>
-        </table>
-
-        <p><strong>${i18n[lang].subtotal}:</strong> ${subtotal.toFixed(2)} $</p>
-        <p><strong>${i18n[lang].shipping}:</strong> ${shipping.toFixed(2)} $</p>
-        <p><strong>${i18n[lang].total}:</strong> ${total.toFixed(2)} $</p>
-        <p style="color:green">${shipping === 0 ? i18n[lang].freeShipping : ""}</p>
-
-        <div class="actions">
-            <button class="pay-btn">${i18n[lang].payOnline}</button>
-            <button class="clear-btn" onclick="clearCart()">${i18n[lang].clearCart}</button>
-            <button class="phone-btn" onclick="alert('${i18n[lang].phoneMsg}')">${i18n[lang].phone}</button>
-        </div>
-    `;
+  subtotalEl.textContent = subtotal.toFixed(2);
+  deliveryEl.textContent = delivery.toFixed(2);
+  totalEl.textContent = (subtotal + delivery).toFixed(2);
+  if (countEl) countEl.textContent = cart.reduce((s, i) => s + i.quantity, 0);
 }
+
+// ==================== STRIPE CHECKOUT ====================
+
+// ⚠️ clé publique Stripe TEST
+const STRIPE_PUBLIC_KEY = "pk_test_xxxxxxxxxxxxxxxxx";
+let stripeAvailable = true; // admin modifie selon dispo
+
+async function payOnline() {
+  if (!stripeAvailable) {
+    alert("Paiement en ligne indisponible. Merci de payer au magasin ou à la livraison.");
+    return;
+  }
+
+  const stripe = Stripe(STRIPE_PUBLIC_KEY);
+  const cart = loadCart();
+  const delivery = parseFloat(document.getElementById("delivery").textContent) || 0;
+
+  if (cart.length === 0) {
+    alert("Votre panier est vide.");
+    return;
+  }
+
+  const res = await fetch("/create-checkout-session", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ cart: cart, delivery_fee: delivery })
+  });
+
+  const data = await res.json();
+  if (data.id) {
+    stripe.redirectToCheckout({ sessionId: data.id });
+  } else {
+    alert("Erreur Stripe : " + data.error);
+  }
+}
+
+// ==================== FACTURE OFFLINE ====================
+
+function generateInvoice(clientCode) {
+  const cart = loadCart();
+  if (cart.length === 0) {
+    alert("Votre panier est vide.");
+    return;
+  }
+
+  const ref = "CMD-" + Math.floor(Math.random() * 100000);
+  const date = new Date().toLocaleString();
+
+  let invoiceHTML = `<h3>Facture</h3>
+  <p><strong>Commande:</strong> ${ref}</p>
+  <p><strong>Client:</strong> ${clientCode || "N/A"}</p>
+  <p><strong>Date:</strong> ${date}</p>
+  <ul>`;
+
+  let total = 0;
+  cart.forEach(i => {
+    total += i.price * i.quantity;
+    invoiceHTML += `<li>${i.name} x${i.quantity} = ${(i.price * i.quantity).toFixed(2)}$</li>`;
+  });
+  let delivery = total > 20 ? 0 : 5;
+  invoiceHTML += `</ul>
+  <p>Sous-total: ${total.toFixed(2)}$</p>
+  <p>Livraison: ${delivery.toFixed(2)}$</p>
+  <h4>Total: ${(total + delivery).toFixed(2)}$</h4>`;
+
+  document.getElementById("cart-items").innerHTML = invoiceHTML;
+}
+
+// Init UI
+document.addEventListener("DOMContentLoaded", updateCartUI);
