@@ -1,183 +1,216 @@
-// ==================== STOCK LOGIC ====================
+// cart.js - Gestion du panier uniquement
+class CartManager {
+  constructor() {
+    this.currentClientCode = null;
+  }
 
-// Charger stock depuis localStorage
-function loadStock() {
-  return JSON.parse(localStorage.getItem("stock")) || {};
-}
+  // Ajouter au panier avec vérification du stock
+  addToCart(productId, quantity = 1) {
+    const clientCode = this.getClientCode();
+    if (!clientCode) {
+      alert("Veuillez entrer votre code client");
+      return false;
+    }
 
-// Sauvegarder stock
-function saveStock(stock) {
-  localStorage.setItem("stock", JSON.stringify(stock));
-}
+    const product = window.products.find(p => p.id === productId);
+    if (!product) {
+      alert("Produit non trouvé");
+      return false;
+    }
 
-// Mettre à jour affichage du stock sur la page
-function updateStockUI() {
-  const stock = loadStock();
-  for (let id in stock) {
-    const el = document.getElementById(`stock-${id}`);
-    if (el) {
-      el.textContent = `Stock restant: ${stock[id]}`;
-      el.style.color = stock[id] > 0 ? "green" : "red";
+    // Vérification du stock
+    if (product.stock < quantity) {
+      alert(`Stock insuffisant! Il ne reste que ${product.stock} unité(s) de ${product.name}`);
+      return false;
+    }
+
+    let cart = this.loadCart(clientCode);
+    
+    // Mettre à jour ou ajouter l'article
+    const existingItem = cart.find(item => item.id === productId);
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      cart.push({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: quantity,
+        stock: product.stock
+      });
+    }
+
+    // Décrémenter le stock
+    product.stock -= quantity;
+
+    this.saveCart(clientCode, cart);
+    this.updateCartUI();
+    
+    return true;
+  }
+
+  // Retirer un article du panier
+  removeItem(productId) {
+    const clientCode = this.getClientCode();
+    if (!clientCode) return;
+
+    let cart = this.loadCart(clientCode);
+    const item = cart.find(item => item.id === productId);
+    
+    if (item) {
+      // Restaurer le stock
+      const product = window.products.find(p => p.id === productId);
+      if (product) {
+        product.stock += item.quantity;
+      }
+      
+      cart = cart.filter(item => item.id !== productId);
+      this.saveCart(clientCode, cart);
+      this.updateCartUI();
+    }
+  }
+
+  // Vider le panier
+  clearCart() {
+    const clientCode = this.getClientCode();
+    if (!clientCode) return;
+
+    const cart = this.loadCart(clientCode);
+    
+    // Restaurer tous les stocks
+    cart.forEach(item => {
+      const product = window.products.find(p => p.id === item.id);
+      if (product) {
+        product.stock += item.quantity;
+      }
+    });
+
+    localStorage.removeItem(`cart_${clientCode}`);
+    this.updateCartUI();
+  }
+
+  // Charger le panier
+  loadCart(clientCode) {
+    return JSON.parse(localStorage.getItem(`cart_${clientCode}`)) || [];
+  }
+
+  // Sauvegarder le panier
+  saveCart(clientCode, cart) {
+    localStorage.setItem(`cart_${clientCode}`, JSON.stringify(cart));
+  }
+
+  // Obtenir le code client
+  getClientCode() {
+    const input = document.getElementById('clientCode');
+    return input ? input.value : null;
+  }
+
+  // Mettre à jour l'interface du panier
+  updateCartUI() {
+    const clientCode = this.getClientCode();
+    const cart = clientCode ? this.loadCart(clientCode) : [];
+    
+    // Mettre à jour le compteur
+    const countElement = document.getElementById('cart-count');
+    if (countElement) {
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      countElement.textContent = totalItems;
+    }
+
+    // Mettre à jour la modal du panier
+    this.updateCartModal(cart);
+  }
+
+  // Mettre à jour la modal du panier
+  updateCartModal(cart) {
+    const cartItems = document.getElementById('cart-items');
+    const subtotalElement = document.getElementById('subtotal');
+    const shippingElement = document.getElementById('shipping');
+    const totalElement = document.getElementById('total');
+    const freeShippingMsg = document.getElementById('free-shipping-msg');
+
+    if (!cartItems) return;
+
+    let subtotal = 0;
+    cartItems.innerHTML = '';
+
+    cart.forEach(item => {
+      const itemTotal = item.price * item.quantity;
+      subtotal += itemTotal;
+      
+      cartItems.innerHTML += `
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div>
+            <small>${item.name} x${item.quantity}</small>
+            <br>
+            <strong>${itemTotal.toFixed(2)} $</strong>
+          </div>
+          <button class="btn btn-sm btn-outline-danger" 
+                  onclick="cartManager.removeItem(${item.id})">
+            ❌
+          </button>
+        </div>
+      `;
+    });
+
+    if (cart.length === 0) {
+      cartItems.innerHTML = '<p class="text-muted">Votre panier est vide</p>';
+    }
+
+    // Calcul des frais
+    const shipping = subtotal > 20 ? 0 : 5;
+    const total = subtotal + shipping;
+
+    // Mise à jour des éléments UI
+    if (subtotalElement) subtotalElement.textContent = subtotal.toFixed(2);
+    if (shippingElement) shippingElement.textContent = shipping.toFixed(2);
+    if (totalElement) totalElement.textContent = total.toFixed(2);
+    
+    if (freeShippingMsg) {
+      freeShippingMsg.style.display = shipping === 0 ? 'block' : 'none';
+    }
+
+    // Activer/désactiver le bouton Terminer la commande
+    this.updateFinishOrderButton(cart.length > 0);
+  }
+
+  // Activer/désactiver le bouton Terminer la commande
+  updateFinishOrderButton(enable) {
+    const finishButton = document.querySelector('button[onclick*="proceedPayment"]');
+    if (finishButton) {
+      finishButton.disabled = !enable;
+      finishButton.style.opacity = enable ? '1' : '0.6';
+    }
+  }
+
+  // Basculer l'affichage du panier
+  toggleCart() {
+    const modal = document.getElementById('cart-modal');
+    if (modal) {
+      modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+      this.updateCartUI();
     }
   }
 }
 
-// ==================== CART LOGIC ====================
+// Initialisation du gestionnaire de panier
+const cartManager = new CartManager();
 
-// Charger panier depuis localStorage
-function loadCart() {
-  return JSON.parse(localStorage.getItem("cart")) || [];
+// Fonctions globales pour HTML
+function addToCart(productId) {
+  const quantityInput = document.getElementById(`qty-${productId}`);
+  const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
+  cartManager.addToCart(productId, quantity);
 }
 
-// Sauvegarder panier
-function saveCart(cart) {
-  localStorage.setItem("cart", JSON.stringify(cart));
+function removeItem(productId) {
+  cartManager.removeItem(productId);
 }
 
-// Ajouter un produit au panier
-function addToCart(product) {
-  let cart = loadCart();
-  let stock = loadStock();
-
-  // Vérifier stock
-  if (!stock[product.id] || stock[product.id] < product.quantity) {
-    alert("Stock insuffisant pour cet article.");
-    return;
-  }
-
-  // Décrémente stock
-  stock[product.id] -= product.quantity;
-
-  // Ajouter ou incrémenter dans panier
-  const existing = cart.find(p => p.id === product.id);
-  if (existing) {
-    existing.quantity += product.quantity;
-  } else {
-    cart.push(product);
-  }
-
-  saveCart(cart);
-  saveStock(stock);
-  updateCartUI();
-  updateStockUI();
-}
-
-// Supprimer un article du panier
-function removeItem(id) {
-  let cart = loadCart();
-  let stock = loadStock();
-
-  const item = cart.find(p => p.id === id);
-  if (item) {
-    // Rendre stock
-    stock[id] = (stock[id] || 0) + item.quantity;
-  }
-
-  // Retirer du panier
-  cart = cart.filter(p => p.id !== id);
-
-  saveCart(cart);
-  saveStock(stock);
-  updateCartUI();
-  updateStockUI();
-}
-
-// Vider le panier
 function clearCart() {
-  let cart = loadCart();
-  let stock = loadStock();
-
-  // Rendre tous les stocks
-  cart.forEach(item => {
-    stock[item.id] = (stock[item.id] || 0) + item.quantity;
-  });
-
-  localStorage.removeItem("cart");
-  saveStock(stock);
-
-  updateCartUI();
-  updateStockUI();
+  cartManager.clearCart();
 }
 
-// ==================== UI UPDATE ====================
-
-function updateCartUI() {
-  const cart = loadCart();
-  const cartItems = document.getElementById("cart-items");
-  const subtotalEl = document.getElementById("subtotal");
-  const deliveryEl = document.getElementById("delivery");
-  const totalEl = document.getElementById("total");
-  const countEl = document.getElementById("cart-count");
-
-  if (!cartItems) return;
-
-  cartItems.innerHTML = "";
-  let subtotal = 0;
-
-  cart.forEach(item => {
-    subtotal += item.price * item.quantity;
-    cartItems.innerHTML += `
-      <p>
-        ${item.name} x${item.quantity} = ${(item.price * item.quantity).toFixed(2)}$
-        <button class="btn btn-sm btn-danger" onclick="removeItem(${item.id})">❌</button>
-      </p>`;
-  });
-
-  const delivery = subtotal > 20 ? 0 : 5;
-  if (document.getElementById("free-shipping-msg")) {
-    document.getElementById("free-shipping-msg").style.display = subtotal > 20 ? "block" : "none";
-  }
-
-  if (subtotalEl) subtotalEl.textContent = subtotal.toFixed(2);
-  if (deliveryEl) deliveryEl.textContent = delivery.toFixed(2);
-  if (totalEl) totalEl.textContent = (subtotal + delivery).toFixed(2);
-  if (countEl) countEl.textContent = cart.reduce((s, i) => s + i.quantity, 0);
+function toggleCart() {
+  cartManager.toggleCart();
 }
-
-// ==================== FACTURE OFFLINE ====================
-
-function generateInvoice() {
-  const cart = loadCart();
-  if (cart.length === 0) {
-    alert("Votre panier est vide.");
-    return;
-  }
-
-  const ref = "CMD-" + Math.floor(Math.random() * 100000);
-  const date = new Date().toLocaleString();
-  const clientCode = localStorage.getItem("clientCode") || "N/A";
-
-  let invoiceHTML = `
-    <div class="alert alert-info">
-      <h4>Facture Hors Ligne</h4>
-      <p><strong>Commande:</strong> ${ref}</p>
-      <p><strong>Client:</strong> ${clientCode}</p>
-      <p><strong>Date:</strong> ${date}</p>
-      <hr>
-      <h5>Articles:</h5>
-      <ul class="list-unstyled">
-  `;
-
-  let total = 0;
-  cart.forEach(i => {
-    total += i.price * i.quantity;
-    invoiceHTML += `<li>${i.name} x${i.quantity} = ${(i.price * i.quantity).toFixed(2)}$</li>`;
-  });
-
-  let delivery = total > 20 ? 0 : 5;
-  invoiceHTML += `</ul>
-      <p><strong>Sous-total:</strong> ${total.toFixed(2)}$</p>
-      <p><strong>Livraison:</strong> ${delivery.toFixed(2)}$</p>
-      <h5>Total: ${(total + delivery).toFixed(2)}$</h5>
-      <p class="text-warning">Paiement à effectuer au magasin ou à la livraison</p>
-    </div>`;
-
-  document.getElementById("cart-items").innerHTML = invoiceHTML;
-}
-
-// ==================== INIT ====================
-
-document.addEventListener("DOMContentLoaded", () => {
-  updateCartUI();
-  updateStockUI();
-});
