@@ -88,6 +88,8 @@
   <p id="free-shipping-msg" style="color:green; display:none;">Livraison gratuite !</p>
   <button class="btn btn-warning w-100 mb-2" onclick="clearCart()">🗑️ Vider le panier</button>
   <button class="btn btn-success w-100 mb-2" onclick="proceedPayment()">Paiement en ligne</button>
+  <button class="btn btn-primary w-100 mb-2" onclick="viewDetailedInvoice()">
+  📋 Voir la facture détaillée</button>
   <button class="btn btn-secondary w-100" onclick="callOrder()">Ou appeler: 514-123-4567</button>
 </div>
 
@@ -102,6 +104,7 @@
 </footer>
 
 <script>
+// --- PRODUITS ---
 const products = [
   {id:1, name:'Pommes (1 kg)', price:2.5, img:'assets/fruits/pommes.jpg', tag:'vedette'},
   {id:2, name:'Carottes (1 kg)', price:1.8, img:'assets/fruits/carottes.jpg', tag:'nouveau'},
@@ -109,12 +112,13 @@ const products = [
 ];
 
 let cart = [];
-let stripeAvailable=true; // Admin change ici
+let stripeAvailable = true; // Admin modifie ici
 
 if(!stripeAvailable){
   document.getElementById('admin-alert').style.display='block';
 }
 
+// --- AFFICHAGE PRODUITS ---
 function renderProducts(list=products){
   const container=document.getElementById('product-list');
   container.innerHTML='';
@@ -141,6 +145,7 @@ function filterProducts(){
   renderProducts(filtered);
 }
 
+// --- PANIER ---
 function addToCart(id){
   const clientCode=document.getElementById('clientCode').value;
   if(!clientCode){alert("Veuillez entrer votre code client");return;}
@@ -191,32 +196,105 @@ function clearCart(){
   updateCart(clientCode);
 }
 
-function proceedPayment(){
+// --- FACTURE ---
+function generateDetailedInvoice(clientCode, cart) {
+  const orderNumber = 'CMD-' + Math.floor(Math.random() * 100000);
+  const orderDate = new Date().toLocaleString('fr-FR');
+  
+  let invoiceHTML = `
+    <div class="invoice-details mb-3 p-3 border rounded">
+      <h4>📋 Facture Détaillée</h4>
+      <p><strong>N° Commande:</strong> ${orderNumber}</p>
+      <p><strong>Code Client:</strong> ${clientCode}</p>
+      <p><strong>Date:</strong> ${orderDate}</p>
+      <table class="table table-sm mt-3">
+        <thead class="table-light">
+          <tr><th>Article</th><th>Qté</th><th>Prix</th><th>Total</th></tr>
+        </thead><tbody>
+  `;
+  
+  let subtotal=0;
+  cart.forEach(item=>{
+    const itemTotal=item.price*item.qty;
+    subtotal+=itemTotal;
+    invoiceHTML+=`<tr>
+      <td>${item.name}</td><td>${item.qty}</td>
+      <td>${item.price.toFixed(2)} $</td>
+      <td>${itemTotal.toFixed(2)} $</td></tr>`;
+  });
+  
+  const shipping=subtotal>20?0:5;
+  const total=subtotal+shipping;
+  
+  invoiceHTML+=`</tbody>
+    <tfoot>
+      <tr><td colspan="3">Sous-total</td><td>${subtotal.toFixed(2)} $</td></tr>
+      <tr><td colspan="3">Livraison</td><td>${shipping.toFixed(2)} $</td></tr>
+      <tr><td colspan="3"><strong>Total</strong></td><td><strong>${total.toFixed(2)} $</strong></td></tr>
+    </tfoot></table></div>`;
+  
+  return {html:invoiceHTML, orderNumber, subtotal, shipping, total};
+}
+
+// --- TERMINER LA COMMANDE ---
+function proceedPayment() {
+  const clientCode=document.getElementById('clientCode').value;
+  const cart=JSON.parse(localStorage.getItem(clientCode)||'[]');
+  
+  if(cart.length===0){alert("Votre panier est vide.");return;}
+  
+  if(!stripeAvailable){
+    // Paiement hors ligne
+    const invoice=generateDetailedInvoice(clientCode,cart);
+    document.getElementById('cart-items').innerHTML=invoice.html+`
+      <button class="btn btn-secondary w-100 mt-2" 
+        onclick="downloadOfflineInvoice('${clientCode}', ${JSON.stringify(cart)}, '${invoice.orderNumber}', ${invoice.subtotal}, ${invoice.shipping}, ${invoice.total})">
+        📄 Télécharger la facture
+      </button>`;
+    alert("Paiement en ligne indisponible. Vous pouvez payer en magasin ou à la livraison.");
+  } else {
+    // Paiement Stripe
+    fetch('/create-checkout-session',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({clientCode:clientCode,cart:cart})
+    })
+    .then(res=>res.json())
+    .then(data=>{
+      if(data.url){window.location=data.url;}
+      else{alert("Erreur lors du paiement.");}
+    })
+    .catch(err=>{console.error(err);alert("Erreur de connexion.");});
+  }
+}
+
+function downloadOfflineInvoice(clientCode,cart,orderNumber,subtotal,shipping,total){
+  const date=new Date().toLocaleString('fr-FR');
+  let txt=`FACTURE\nCommande: ${orderNumber}\nClient: ${clientCode}\nDate: ${date}\n\nArticles:\n`;
+  cart.forEach(i=>{txt+=`- ${i.name} x${i.qty} = ${(i.price*i.qty).toFixed(2)} $\n`;});
+  txt+=`\nSous-total: ${subtotal.toFixed(2)} $\nLivraison: ${shipping.toFixed(2)} $\nTOTAL: ${total.toFixed(2)} $\n\nPaiement en magasin ou à la livraison.`;
+  
+  const blob=new Blob([txt],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`facture-${orderNumber}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function viewDetailedInvoice(){
   const clientCode=document.getElementById('clientCode').value;
   const cart=JSON.parse(localStorage.getItem(clientCode)||'[]');
   if(cart.length===0){alert("Votre panier est vide.");return;}
-  if(!stripeAvailable){
-    const ref='CMD-'+Math.floor(Math.random()*100000);
-    const date=new Date().toLocaleString();
-    let html=`<h3>Facture</h3><p>Commande: ${ref}</p><p>Client: ${clientCode}</p><p>Date: ${date}</p><ul>`;
-    cart.forEach(i=>{html+=`<li>${i.name} x${i.qty} = ${(i.price*i.qty).toFixed(2)}$</li>`;});
-    html+='</ul>';
-    document.getElementById('cart-items').innerHTML=html;
-    alert("Paiement en ligne indisponible. Paiement possible au magasin ou à la livraison.");
-  } else {
-    fetch('/create-checkout-session', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({clientCode:clientCode, cart:cart})
-    })
-    .then(res=>res.json())
-    .then(data=>{window.location=data.url;});
-  }
+  const invoice=generateDetailedInvoice(clientCode,cart);
+  document.getElementById('cart-items').innerHTML=invoice.html;
 }
 
 function callOrder(){window.location.href='tel:5141234567';}
 
+// --- INIT ---
 renderProducts();
 </script>
+  
 </body>
 </html>
