@@ -1,124 +1,138 @@
-// cart.js amélioré
-// Gestion du panier global multi-pages + facture
+/* ==========================================================
+   cart.js - Gestion du panier et génération des factures
+   Multilangue : Français (facture.html) et Anglais (invoice_en.html)
+   ========================================================== */
 
-// ---------------- CONFIG ----------------
-const ONLINE_PAYMENT_AVAILABLE = true; // ⚠️ Mettre false si le paiement en ligne est indisponible
+// Clés pour LocalStorage
+const STORAGE_KEY = "cart";
 
-// ---------------- PANIER ----------------
+// Langue (détectée selon la page HTML)
+let lang = document.documentElement.lang === "en" ? "en" : "fr";
+
+// Textes multilingues
+const i18n = {
+    fr: {
+        title: "Facture - Votre commande",
+        clientCode: "Code client",
+        orderRef: "Référence commande",
+        orderDate: "Date",
+        items: "Articles",
+        qty: "Qté",
+        price: "Prix",
+        total: "Total",
+        subtotal: "Sous-total",
+        shipping: "Livraison",
+        freeShipping: "Livraison gratuite !",
+        payOnline: "💳 Payer en ligne",
+        clearCart: "🗑️ Vider le panier",
+        phone: "📞 Compléter la commande par téléphone",
+        phoneMsg: "Veuillez confirmer en appelant le 514 123 4567. Merci !",
+        empty: "Votre panier est vide."
+    },
+    en: {
+        title: "Invoice - Your Order",
+        clientCode: "Client Code",
+        orderRef: "Order Reference",
+        orderDate: "Date",
+        items: "Items",
+        qty: "Qty",
+        price: "Price",
+        total: "Total",
+        subtotal: "Subtotal",
+        shipping: "Shipping",
+        freeShipping: "Free delivery!",
+        payOnline: "💳 Pay Online",
+        clearCart: "🗑️ Clear Cart",
+        phone: "📞 Complete order by phone",
+        phoneMsg: "Please confirm by calling 514 123 4567. Thank you!",
+        empty: "Your cart is empty."
+    }
+};
+
+// Génération ID commande
+function generateOrderRef() {
+    return "CMD-" + Date.now().toString().slice(-6);
+}
+
+// Charger le panier depuis LocalStorage
 function getCart() {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    return cart;
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
 }
 
+// Sauvegarder le panier
 function saveCart(cart) {
-    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
 }
 
-// ---------------- CLIENT ----------------
-function getClientCode() {
-    let code = localStorage.getItem("clientCode");
-    if (!code) {
-        code = "CLT-" + new Date().toISOString().slice(0,10).replace(/-/g,"") + "-" + Math.floor(Math.random()*10000);
-        localStorage.setItem("clientCode", code);
-    }
-    return code;
-}
-
-// ---------------- PANIER ACTIONS ----------------
-function addToCart(name, price, quantity = 1) {
-    let cart = getCart();
-    let item = cart.find(i => i.name === name);
-    if (item) {
-        item.quantity += quantity;
-    } else {
-        cart.push({ name, price, quantity });
-    }
-    saveCart(cart);
-    alert(quantity + " x " + name + " ajouté au panier !");
-    updateCartDisplay();
-}
-
-function removeFromCart(name) {
-    let cart = getCart().filter(i => i.name !== name);
-    saveCart(cart);
-    updateCartDisplay();
-}
-
+// Vider le panier
 function clearCart() {
-    localStorage.removeItem("cart");
-    updateCartDisplay();
+    if (confirm(lang === "fr" ? "Voulez-vous vider le panier ?" : "Clear the cart?")) {
+        localStorage.removeItem(STORAGE_KEY);
+        generateInvoice();
+    }
 }
 
-// ---------------- AFFICHAGE PANIER ----------------
-function updateCartDisplay() {
-    let cart = getCart();
-    let container = document.getElementById("cart-items");
-    let totalEl = document.getElementById("cart-total");
-
-    if (!container || !totalEl) return;
-
-    container.innerHTML = "";
-    let total = 0;
-
-    cart.forEach(item => {
-        let itemEl = document.createElement("li");
-        itemEl.innerHTML = `${item.quantity} x ${item.name} - $${(item.price * item.quantity).toFixed(2)}
-            <button onclick="removeFromCart('${item.name}')">❌</button>`;
-        container.appendChild(itemEl);
-        total += item.price * item.quantity;
-    });
-
-    totalEl.textContent = "$" + total.toFixed(2);
-}
-
-// ---------------- FACTURE ----------------
+// Générer facture
 function generateInvoice() {
-    let cart = getCart();
-    let invoiceContainer = document.getElementById("invoice");
-    if (!invoiceContainer) return;
+    const cart = getCart();
+    const invoice = document.getElementById("invoice");
 
-    let clientCode = getClientCode();
-    let orderRef = "CMD-" + Date.now();
-    let date = new Date().toLocaleString();
-
-    let total = 0;
-    let html = `<h2>Facture</h2>
-        <p><b>Code client :</b> ${clientCode}</p>
-        <p><b>Commande :</b> ${orderRef}</p>
-        <p><b>Date :</b> ${date}</p>
-        <table border="1" cellspacing="0" cellpadding="5">
-            <tr><th>Article</th><th>Quantité</th><th>Prix</th><th>Sous-total</th></tr>`;
-
-    cart.forEach(item => {
-        let sub = item.price * item.quantity;
-        total += sub;
-        html += `<tr>
-            <td>${item.name}</td>
-            <td>${item.quantity}</td>
-            <td>$${item.price.toFixed(2)}</td>
-            <td>$${sub.toFixed(2)}</td>
-        </tr>`;
-    });
-
-    html += `</table>
-        <h3>Total: $${total.toFixed(2)}</h3>`;
-
-    if (ONLINE_PAYMENT_AVAILABLE) {
-        html += `<button onclick="payOnline()">💳 Payer en ligne</button>`;
-    } else {
-        html += `<p style="color:red; font-weight:bold;">
-            ⚠️ Paiement en ligne temporairement indisponible.<br>
-            Merci de régler en magasin ou à la livraison (cash ou carte débit).
-        </p>`;
+    if (!cart.length) {
+        invoice.innerHTML = `<p>${i18n[lang].empty}</p>`;
+        return;
     }
 
-    html += `<button onclick="clearCart()">🗑️ Vider le panier</button>`;
+    const clientCode = localStorage.getItem("clientCode") || "N/A";
+    const orderRef = localStorage.getItem("orderRef") || generateOrderRef();
+    localStorage.setItem("orderRef", orderRef);
+    const date = new Date().toLocaleDateString();
 
-    invoiceContainer.innerHTML = html;
-}
+    let subtotal = 0;
+    let rows = "";
+    cart.forEach(item => {
+        const lineTotal = item.price * item.qty;
+        subtotal += lineTotal;
+        rows += `
+            <tr>
+                <td>${item.name}</td>
+                <td>${item.qty}</td>
+                <td>${item.price.toFixed(2)} $</td>
+                <td>${lineTotal.toFixed(2)} $</td>
+            </tr>`;
+    });
 
-// ---------------- STRIPE PLACEHOLDER ----------------
-function payOnline() {
-    alert("Redirection vers Stripe Checkout (intégration backend nécessaire)...");
-    // Ici on fera la redirection vers le backend Flask/Node qui génère une session Stripe
+    const shipping = subtotal > 20 ? 0 : 5;
+    const total = subtotal + shipping;
+
+    invoice.innerHTML = `
+        <h2>${i18n[lang].title}</h2>
+        <p><strong>${i18n[lang].clientCode}:</strong> ${clientCode}</p>
+        <p><strong>${i18n[lang].orderRef}:</strong> ${orderRef}</p>
+        <p><strong>${i18n[lang].orderDate}:</strong> ${date}</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>${i18n[lang].items}</th>
+                    <th>${i18n[lang].qty}</th>
+                    <th>${i18n[lang].price}</th>
+                    <th>${i18n[lang].total}</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${rows}
+            </tbody>
+        </table>
+
+        <p><strong>${i18n[lang].subtotal}:</strong> ${subtotal.toFixed(2)} $</p>
+        <p><strong>${i18n[lang].shipping}:</strong> ${shipping.toFixed(2)} $</p>
+        <p><strong>${i18n[lang].total}:</strong> ${total.toFixed(2)} $</p>
+        <p style="color:green">${shipping === 0 ? i18n[lang].freeShipping : ""}</p>
+
+        <div class="actions">
+            <button class="pay-btn">${i18n[lang].payOnline}</button>
+            <button class="clear-btn" onclick="clearCart()">${i18n[lang].clearCart}</button>
+            <button class="phone-btn" onclick="alert('${i18n[lang].phoneMsg}')">${i18n[lang].phone}</button>
+        </div>
+    `;
 }
