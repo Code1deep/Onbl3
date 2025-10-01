@@ -130,6 +130,13 @@ function toggleOnlinePayment() {
     }
 }
 
+// 🔒 BONUS : masquer le bouton si on veut
+window.onload = () => {
+    document.getElementById("adminBtn").style.display = "inline-block"; // visible
+    // si tu veux masquer par défaut, mets "none"
+    // et tu crées un champ secret ou raccourci clavier pour l'afficher
+};
+
 function updatePaymentOptions() {
     const paymentOptionsDiv = document.getElementById("payment-options");
     if (!paymentOptionsDiv) return;
