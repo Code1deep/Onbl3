@@ -239,5 +239,223 @@ function callOrder(){window.location.href='tel:5141234567';}
 // --- INIT ---
 renderProducts();
 </script>
+<script>
+// --- PATCH: remplacer le lien facture.html par "Afficher le panier" et améliorer les fonctions facture/paiment/pdf --- 
+(function () {
+  // s'assurer que fonctions existantes (toggleCart, updateCart etc.) restent accessibles
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1) Remplacer tout lien vers facture.html par un bouton "Afficher le panier"
+    const factLinks = Array.from(document.querySelectorAll('a[href*="facture"]'));
+    factLinks.forEach(a => {
+      // changer libellé et comportement
+      a.textContent = 'Afficher le panier';
+      a.removeAttribute('href');
+      a.style.cursor = 'pointer';
+      a.onclick = (e) => { e.preventDefault(); if (typeof toggleCart === 'function') toggleCart(); };
+    });
+
+    // 2) Charger libs jsPDF + autotable si besoin (retourne Promise)
+    function loadScriptOnce(src) {
+      return new Promise((resolve, reject) => {
+        if (document.querySelector('script[src="' + src + '"]')) return resolve();
+        const s = document.createElement('script');
+        s.src = src;
+        s.onload = () => resolve();
+        s.onerror = () => reject(new Error('Erreur chargement ' + src));
+        document.head.appendChild(s);
+      });
+    }
+
+    // 3) Nouvelle implémentation de download PDF (utilise jsPDF + autotable)
+    async function downloadInvoicePDF(orderNumber, clientCode, cartItems) {
+      try {
+        await loadScriptOnce('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+        await loadScriptOnce('https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js');
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+
+        // Header
+        doc.setFontSize(14);
+        doc.text('Carrefour des Initiatives - Épicerie Sociale', 40, 40);
+        doc.setFontSize(11);
+        doc.text(`Facture N°: ${orderNumber}`, 40, 60);
+        doc.text(`Code client: ${clientCode}`, 40, 76);
+        doc.text(`Date: ${new Date().toLocaleString('fr-FR')}`, 40, 92);
+
+        // Table body
+        const body = cartItems.map(i => {
+          const total = (i.qty || i.quantity || i.qty === 0 ? i.qty : i.quantity) * i.price;
+          return [i.name || i.title || '', (i.qty || i.quantity || 0).toString(), i.price.toFixed(2) + ' $', total.toFixed(2) + ' $'];
+        });
+
+        doc.autoTable({
+          head: [['Article', 'Quantité', 'Prix unitaire', 'Total']],
+          body,
+          startY: 120,
+          margin: { left: 40, right: 40 }
+        });
+
+        // Totals
+        const subtotal = cartItems.reduce((s,i) => s + ( (i.qty||i.quantity||0) * i.price ), 0);
+        const shipping = subtotal > 20 ? 0 : 5;
+        const total = subtotal + shipping;
+        const finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 20 : 200;
+
+        doc.text(`Sous-total: ${subtotal.toFixed(2)} $`, 350, finalY);
+        doc.text(`Frais livraison: ${shipping.toFixed(2)} $`, 350, finalY + 16);
+        doc.setFontSize(12);
+        doc.text(`TOTAL: ${total.toFixed(2)} $`, 350, finalY + 36);
+
+        // Footer / Instructions
+        doc.setFontSize(10);
+        doc.text("Modes de paiement: En ligne (Visa/Mastercard) ou paiement au magasin/à la livraison (liquide ou débit).", 40, finalY + 70);
+        doc.save(`facture_${orderNumber}.pdf`);
+      } catch (err) {
+        alert('Erreur génération PDF: ' + (err.message || err));
+        console.error(err);
+      }
+    }
+
+    // 4) Nouvelle viewDetailedInvoice() : remplace/complète l'ancienne
+    window.viewDetailedInvoice = function () {
+      const clientCode = (document.getElementById('clientCode') || {}).value || localStorage.getItem('clientCode') || '';
+      if (!clientCode) { alert('Veuillez entrer votre code client.'); return; }
+      const cart = JSON.parse(localStorage.getItem(clientCode) || '[]');
+      if (!cart || cart.length === 0) { alert('Votre panier est vide.'); return; }
+
+      const orderNumber = 'CMD-' + Date.now();
+      const orderDate = new Date().toLocaleString('fr-FR');
+
+      // calculs
+      const subtotal = cart.reduce((s,i) => s + ((i.qty||i.quantity||0) * i.price), 0);
+      const shipping = subtotal > 20 ? 0 : 5;
+      const total = subtotal + shipping;
+
+      // construire HTML facture (injectée dans #cart-items)
+      let html = `<div class="invoice-details mb-3 p-3 border rounded">
+        <h4>📋 Facture Détaillée</h4>
+        <p><strong>N° Commande:</strong> ${orderNumber}</p>
+        <p><strong>Code Client:</strong> ${clientCode}</p>
+        <p><strong>Date:</strong> ${orderDate}</p>
+
+        <div class="table-responsive"><table class="table table-sm">
+          <thead><tr><th>Article</th><th>Qté</th><th>Prix</th><th>Total</th></tr></thead><tbody>`;
+
+      cart.forEach(i => {
+        const qty = i.qty || i.quantity || 0;
+        const lineTotal = (qty * i.price).toFixed(2);
+        html += `<tr><td>${i.name}</td><td>${qty}</td><td class="text-end">${i.price.toFixed(2)} $</td><td class="text-end">${lineTotal} $</td></tr>`;
+      });
+
+      html += `</tbody>
+        <tfoot>
+          <tr><td colspan="3" class="text-end"><strong>Sous-total:</strong></td><td class="text-end">${subtotal.toFixed(2)} $</td></tr>
+          <tr><td colspan="3" class="text-end"><strong>Frais livraison:</strong></td><td class="text-end">${shipping.toFixed(2)} $</td></tr>
+          <tr class="table-active"><td colspan="3" class="text-end"><strong>Total:</strong></td><td class="text-end"><strong>${total.toFixed(2)} $</strong></td></tr>
+        </tfoot>
+        </table></div>`;
+
+      // payment method selection
+      const stripeEnabled = (typeof stripeAvailable !== 'undefined') ? !!stripeAvailable : false;
+      html += `<div class="mb-2"><label><strong>Mode de paiement :</strong></label>
+        <select id="invoice-payment-method" class="form-control">
+          <option value="pickup">Paiement au magasin</option>
+          <option value="delivery">Paiement à la livraison</option>`;
+      if (stripeEnabled) html += `<option value="online">Paiement en ligne (carte)</option>`;
+      html += `</select></div>`;
+
+      // action buttons: payer, télécharger, fermer/retour
+      html += `<div class="d-grid gap-2">
+        <button class="btn btn-success" id="invoice-pay-btn">💳 Payer / Finaliser</button>
+        <button class="btn btn-secondary" id="invoice-download-btn">📄 Télécharger en PDF</button>
+        <button class="btn btn-outline-dark" id="invoice-close-btn">✖️ Fermer</button>
+        <button class="btn btn-outline-primary" id="invoice-return-shop">↩️ Retour au magasin</button>
+      </div>
+      </div>`;
+
+      document.getElementById('cart-items').innerHTML = html;
+
+      // lier événements
+      document.getElementById('invoice-download-btn').onclick = () => {
+        downloadInvoicePDF(orderNumber, clientCode, cart);
+      };
+      document.getElementById('invoice-close-btn').onclick = () => {
+        // fermer le modal panier (si toggleCart disponible)
+        if (typeof toggleCart === 'function') toggleCart();
+        // sinon vider l'affichage
+        else document.getElementById('cart-items').innerHTML = '';
+      };
+      document.getElementById('invoice-return-shop').onclick = () => {
+        // simplement recharger la page pour continuer les achats
+        window.location.reload();
+      };
+      document.getElementById('invoice-pay-btn').onclick = async () => {
+        const method = (document.getElementById('invoice-payment-method') || {}).value || 'pickup';
+        // si en ligne demandé mais non disponible
+        if (method === 'online' && !stripeEnabled) {
+          alert('Paiement en ligne temporairement indisponible. Choisissez paiement au magasin ou à la livraison.');
+          return;
+        }
+        // si paiement en ligne et stripeAvailable: tenter redirection (serveur requis)
+        if (method === 'online') {
+          // essayer de rediriger vers endpoint create-checkout-session
+          try {
+            const res = await fetch('/create-checkout-session', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({clientCode, cart, orderNumber})
+            });
+            const data = await res.json();
+            if (data && data.url) {
+              window.location = data.url;
+              return;
+            } else {
+              alert('Impossible de démarrer Stripe Checkout (réponse serveur manquante).');
+            }
+          } catch (err) {
+            console.error(err);
+            alert('Erreur de connexion au serveur Stripe. Essayez plus tard ou choisissez paiement au magasin.');
+            return;
+          }
+        }
+
+        // Pour paiement hors-ligne: générer PDF et fermer modal
+        await downloadInvoicePDF(orderNumber, clientCode, cart);
+        alert('Facture générée. Merci — présentez la facture au magasin ou payez à la livraison.');
+        // vider panier local pour marquer commande terminée (optionnel) : commenter si on veut conserver
+        // localStorage.removeItem(clientCode);
+        if (typeof toggleCart === 'function') toggleCart();
+      };
+    };
+
+    // 5) Remplacer la vieille proceedPayment() si appelée ailleurs : 
+    window.proceedPayment = function () {
+      // si la facture est affichée, simuler clic sur payer, sinon ouvrir la facture
+      const paySelect = document.getElementById('invoice-payment-method');
+      if (paySelect && document.getElementById('invoice-pay-btn')) {
+        document.getElementById('invoice-pay-btn').click();
+        return;
+      }
+      // sinon afficher la facture détaillée
+      if (typeof viewDetailedInvoice === 'function') viewDetailedInvoice();
+      else alert('Affichage facture indisponible.');
+    };
+
+    // 6) Si un bouton existant (secondaire) "Voir la facture" est mal configuré, on remplace son action par "Afficher panier" :
+    const secondaryBtns = Array.from(document.querySelectorAll('button, a'));
+    secondaryBtns.forEach(el => {
+      const text = (el.textContent || '').trim().toLowerCase();
+      if (text === 'voir facture' || text === 'voir la facture' || text === 'voir la facture détaillée') {
+        // remplace action pour afficher le panier/facture
+        el.onclick = (e) => { e.preventDefault(); if (typeof toggleCart === 'function') toggleCart(); };
+      }
+    });
+
+    // 7) Mettre à jour compteur/cart display (si updateCartUI existe)
+    if (typeof updateCartUI === 'function') updateCartUI();
+  });
+})();
+</script>
 </body>
 </html>
