@@ -7,6 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
+    /* Votre CSS existant */
     body { background: #f9f9f9; font-family: 'Arial', sans-serif; }
     header { background: linear-gradient(90deg, #007bff, #ffc107); color: white; padding: 15px; text-align: center; }
     .logo { height: 60px; margin-right: 10px; }
@@ -53,7 +54,7 @@
   <div class="row">
     <div class="col-md-6">
       <label for="clientCode"><strong>Code client :</strong></label>
-      <input type="text" id="clientCode" class="form-control" placeholder="Entrez votre code client">
+      <input type="text" id="clientCode" class="form-control" placeholder="Entrez votre code client" onchange="updateCartDisplay()">
     </div>
     <div class="col-md-6">
       <label for="filter"><strong>Trier par :</strong></label>
@@ -101,20 +102,63 @@ let adminLoggedIn = false;
 
 // --- PRODUITS SECS ---
 let products = [
-  {id:1, name:'Riz Basmati (1 kg)', price:3.5, img:'assets/dry/riz_basmati.jpg', category:'pates', tag:'vedette', stock:15},
-  {id:2, name:'Pâtes Spaghetti (500g)', price:1.8, img:'assets/dry/pates_spaghetti.jpg', category:'pates', tag:'top', stock:20},
-  {id:3, name:'Lentilles vertes (500g)', price:2.2, img:'assets/dry/lentilles.jpg', category:'cereales', tag:'nouveau', stock:12},
-  {id:4, name:'Haricots rouges (400g)', price:1.9, img:'assets/dry/haricots_rouges.jpg', category:'conserves', tag:'vedette', stock:18},
-  {id:5, name:'Thon en conserve (150g)', price:2.5, img:'assets/dry/thon_conserve.jpg', category:'conserves', tag:'top', stock:25},
-  {id:6, name:'Flocons d\'avoine (500g)', price:2.8, img:'assets/dry/flocons_avoine.jpg', category:'cereales', tag:'nouveau', stock:10},
-  {id:7, name:'Sucre blanc (1 kg)', price:2.0, img:'assets/dry/sucre_blanc.jpg', category:'epicerie', tag:'vedette', stock:22},
-  {id:8, name:'Farine de blé (1 kg)', price:1.5, img:'assets/dry/farine_ble.jpg', category:'epicerie', tag:'top', stock:16},
-  {id:9, name:'Café moulu (250g)', price:4.5, img:'assets/dry/cafe_moulu.jpg', category:'epicerie', tag:'vedette', stock:8},
-  {id:10, name:'Thé vert (20 sachets)', price:3.2, img:'assets/dry/the_vert.jpg', category:'epicerie', tag:'nouveau', stock:14},
-  {id:11, name:'Sauce tomate (400g)', price:1.6, img:'assets/dry/sauce_tomate.jpg', category:'conserves', tag:'top', stock:20},
-  {id:12, name:'Biscuits sablés (300g)', price:2.3, img:'assets/dry/biscuits_sables.jpg', category:'epicerie', tag:'vedette', stock:30}
+  {id:101, name:'Riz Basmati (1 kg)', price:3.5, img:'assets/dry/riz_basmati.jpg', category:'pates', tag:'vedette', stock:15},
+  {id:102, name:'Pâtes Spaghetti (500g)', price:1.8, img:'assets/dry/pates_spaghetti.jpg', category:'pates', tag:'top', stock:20},
+  {id:103, name:'Lentilles vertes (500g)', price:2.2, img:'assets/dry/lentilles.jpg', category:'cereales', tag:'nouveau', stock:12},
+  {id:104, name:'Haricots rouges (400g)', price:1.9, img:'assets/dry/haricots_rouges.jpg', category:'conserves', tag:'vedette', stock:18},
+  {id:105, name:'Thon en conserve (150g)', price:2.5, img:'assets/dry/thon_conserve.jpg', category:'conserves', tag:'top', stock:25},
+  {id:106, name:'Flocons d\'avoine (500g)', price:2.8, img:'assets/dry/flocons_avoine.jpg', category:'cereales', tag:'nouveau', stock:10},
+  {id:107, name:'Sucre blanc (1 kg)', price:2.0, img:'assets/dry/sucre_blanc.jpg', category:'epicerie', tag:'vedette', stock:22},
+  {id:108, name:'Farine de blé (1 kg)', price:1.5, img:'assets/dry/farine_ble.jpg', category:'epicerie', tag:'top', stock:16},
+  {id:109, name:'Café moulu (250g)', price:4.5, img:'assets/dry/cafe_moulu.jpg', category:'epicerie', tag:'vedette', stock:8},
+  {id:110, name:'Thé vert (20 sachets)', price:3.2, img:'assets/dry/the_vert.jpg', category:'epicerie', tag:'nouveau', stock:14},
+  {id:111, name:'Sauce tomate (400g)', price:1.6, img:'assets/dry/sauce_tomate.jpg', category:'conserves', tag:'top', stock:20},
+  {id:112, name:'Biscuits sablés (300g)', price:2.3, img:'assets/dry/biscuits_sables.jpg', category:'epicerie', tag:'vedette', stock:30}
 ];
-let cart = [];
+
+// --- FONCTIONS COMMUNES ---
+function getCart() {
+  const clientCode = document.getElementById('clientCode').value;
+  return clientCode ? JSON.parse(localStorage.getItem(clientCode) || '[]') : [];
+}
+
+function saveCart(cart) {
+  const clientCode = document.getElementById('clientCode').value;
+  if (clientCode) {
+    localStorage.setItem(clientCode, JSON.stringify(cart));
+  }
+}
+
+function updateCartDisplay() {
+  const cart = getCart();
+  document.getElementById('cart-count').innerText = cart.reduce((s,i) => s + i.qty, 0);
+  
+  // Mettre à jour les stocks affichés en fonction du panier
+  updateProductStocks(cart);
+  renderProducts();
+}
+
+function updateProductStocks(cart) {
+  // Réinitialiser tous les stocks aux valeurs par défaut
+  const defaultStocks = {
+    101:15, 102:20, 103:12, 104:18, 105:25, 106:10, 
+    107:22, 108:16, 109:8, 110:14, 111:20, 112:30
+  };
+  
+  // Appliquer les stocks par défaut
+  products.forEach(p => {
+    p.stock = defaultStocks[p.id];
+  });
+  
+  // Soustraire les quantités déjà dans le panier
+  cart.forEach(item => {
+    const product = products.find(p => p.id === item.id);
+    if (product) {
+      product.stock -= item.qty;
+      if (product.stock < 0) product.stock = 0;
+    }
+  });
+}
 
 // --- ADMIN SÉCURISÉ ---
 function adminLogin() {
@@ -125,7 +169,6 @@ function adminLogin() {
     document.querySelector('.admin-only').style.display = 'block';
     alert("✅ Mode administrateur activé");
     
-    // Auto-logout après 10 minutes
     setTimeout(() => {
       adminLoggedIn = false;
       document.querySelector('.admin-only').style.display = 'none';
@@ -168,6 +211,10 @@ function renderProducts(list=products){
   container.innerHTML='';
   list.forEach(p=>{
     const categoryName = getCategoryName(p.category);
+    const cart = getCart();
+    const cartItem = cart.find(item => item.id === p.id);
+    const currentQty = cartItem ? cartItem.qty : 0;
+    
     container.innerHTML+=`
       <div class="col-md-4 mb-4">
         <div class="product-card p-3">
@@ -176,9 +223,10 @@ function renderProducts(list=products){
           <h5 class="mt-2">${p.name}</h5>
           <p><strong>${p.price.toFixed(2)} $</strong></p>
           <p><em>Stock restant: ${p.stock}</em></p>
+          ${currentQty > 0 ? `<p class="text-success">Déjà dans le panier: ${currentQty}</p>` : ''}
           <input type="number" min="1" max="${p.stock}" value="1" id="qty-${p.id}" class="form-control mb-2">
           <button class="btn btn-warning w-100 btn-animate" onclick="addToCart(${p.id})" ${p.stock<=0 ? 'disabled' : ''}>
-            <i class="fa fa-cart-plus"></i> Ajouter au panier
+            <i class="fa fa-cart-plus"></i> ${currentQty > 0 ? 'Ajouter plus' : 'Ajouter au panier'}
           </button>
         </div>
       </div>`;
@@ -207,7 +255,7 @@ function addToCart(id){
   const clientCode=document.getElementById('clientCode').value;
   if(!clientCode){alert("Veuillez entrer votre code client");return;}
   
-  let cart = JSON.parse(localStorage.getItem(clientCode)||'[]');
+  let cart = getCart();
   const qty=parseInt(document.getElementById('qty-'+id).value);
   const product=products.find(p=>p.id===id);
 
@@ -215,47 +263,50 @@ function addToCart(id){
   product.stock-=qty;
 
   const item=cart.find(i=>i.id===id);
-  if(item){ item.qty+=qty; }
-  else { cart.push({...product, qty:qty}); }
+  if(item){ 
+    item.qty+=qty; 
+  } else { 
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      img: product.img,
+      qty: qty
+    }); 
+  }
 
-  localStorage.setItem(clientCode,JSON.stringify(cart));
+  saveCart(cart);
   renderProducts();
-  updateCart();
+  updateCartDisplay();
 }
 
 function removeItem(id){
-  const clientCode=document.getElementById('clientCode').value;
-  let cart = JSON.parse(localStorage.getItem(clientCode)||'[]');
+  const cart = getCart();
   const item=cart.find(i=>i.id===id);
   if(item){
     const product=products.find(p=>p.id===id);
     product.stock+=item.qty;
   }
-  cart=cart.filter(i=>i.id!==id);
-  localStorage.setItem(clientCode,JSON.stringify(cart));
+  const newCart = cart.filter(i=>i.id!==id);
+  saveCart(newCart);
   renderProducts();
-  updateCart();
+  updateCartDisplay();
 }
 
 function clearCart(){
   const clientCode=document.getElementById('clientCode').value;
-  let cart = JSON.parse(localStorage.getItem(clientCode)||'[]');
-  
-  cart.forEach(item=>{
-    const product=products.find(p=>p.id===item.id);
-    product.stock+=item.qty;
-  });
+  if(!clientCode){alert("Veuillez entrer votre code client");return;}
   
   localStorage.removeItem(clientCode);
   renderProducts();
-  updateCart();
+  updateCartDisplay();
+  alert("Panier vidé !");
 }
 
-function updateCart(){
-  const clientCode=document.getElementById('clientCode').value;
-  let cart = JSON.parse(localStorage.getItem(clientCode)||'[]');
+function updateCartDisplay() {
+  const cart = getCart();
+  document.getElementById('cart-count').innerText = cart.reduce((s,i) => s + i.qty, 0);
   
-  document.getElementById('cart-count').innerText=cart.reduce((s,i)=>s+i.qty,0);
   let subtotal=0;
   const cartItems=document.getElementById('cart-items');
   cartItems.innerHTML='';
@@ -276,7 +327,7 @@ function updateCart(){
 function toggleCart(){
   const modal=document.getElementById('cart-modal');
   modal.style.display=modal.style.display==='block'?'none':'block';
-  updateCart();
+  updateCartDisplay();
 }
 
 // --- PAIEMENT ---
@@ -293,7 +344,7 @@ function viewDetailedInvoice(){
   const clientCode=document.getElementById('clientCode').value;
   if(!clientCode){alert("Veuillez entrer votre code client");return;}
   
-  let cart = JSON.parse(localStorage.getItem(clientCode)||'[]');
+  let cart = getCart();
   if(cart.length===0){alert("Votre panier est vide.");return;}
   
   const orderNumber = 'CMD-' + Math.floor(Math.random() * 100000);
@@ -359,7 +410,6 @@ function processPayment(orderNumber, clientCode) {
   
   if (method === 'online') {
     alert('Redirection vers le paiement sécurisé...');
-    // Ici vous intégreriez Stripe
   } else {
     alert('Commande confirmée ! Présentez cette facture au magasin ou à la livraison.');
     downloadInvoicePDF(orderNumber, clientCode);
@@ -375,8 +425,6 @@ function processPayment(orderNumber, clientCode) {
 function callOrder(){window.location.href='tel:5141234567';}
 
 function downloadInvoicePDF(orderNumber, clientCode) {
-  alert("Fonction PDF: Téléchargement de la facture " + orderNumber);
-  // Implémentation PDF simplifiée
   const invoiceContent = document.querySelector('.invoice-details').innerHTML;
   const win = window.open('', '_blank');
   win.document.write(`
@@ -390,9 +438,10 @@ function downloadInvoicePDF(orderNumber, clientCode) {
 
 // --- INITIALISATION ---
 document.addEventListener('DOMContentLoaded', function() {
+  // Mettre à jour l'affichage du panier au chargement
+  updateCartDisplay();
   renderProducts();
   updatePaymentInterface();
-  // Masquer l'alerte admin au démarrage
   document.getElementById('admin-alert').style.display = stripeAvailable ? 'none' : 'block';
 });
 </script>
