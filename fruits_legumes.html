@@ -18,32 +18,28 @@
     .btn-animate { transition: transform 0.2s; }
     .btn-animate:active { transform: scale(0.95); }
     .alert-admin { background: #ffdddd; border: 1px solid #ff8888; color: #990000; padding: 10px; text-align: center; font-weight: bold; display: none; }
+    .admin-only { display: none; }
   </style>
 </head>
 <body>
 <header>
   <img src="assets/logo_fr.png" class="logo" alt="Logo">
   <h1>Fruits et Légumes Solidaires</h1>
-  <p>Produits frais à prix solidaires – Livraison gratuite dès 20$</p>
+  <p>Produis frais à prix solidaires – Livraison gratuite dès 20$</p>
 </header>
 
 <!-- Bandeau admin paiement en ligne -->
 <div id="admin-alert" class="alert-admin">⚠️ Paiement en ligne temporairement indisponible. Paiement possible au magasin ou à la livraison.</div>
 
-
-<!-- Section admin -->
-<div class="text-center my-2">
+<!-- Section admin (cachée par défaut) -->
+<div class="admin-only text-center my-2">
   <button class="btn btn-sm btn-outline-danger" onclick="togglePayment()">⚙️ Activer/Désactiver paiement en ligne</button>
 </div>
-<!-- Panier --> 
-<div id="cart"></div>
-<button onclick="showInvoice()">🧾 Afficher Facture</button>
 
-<!-- Facture -->
-<div id="invoice"></div>
-
-<!-- Bouton Admin -->
-<button id="adminBtn" onclick="toggleOnlinePayment()">🔑 Activer/Désactiver Paiement en ligne</button>
+<!-- Bouton connexion admin -->
+<div class="text-center my-2">
+  <button class="btn btn-sm btn-outline-secondary" onclick="adminLogin()">🔑 Connexion Admin</button>
+</div>
 
 <div class="container my-3">
   <a href="page2.html">→ Page suivante</a> | <a href="page1.html">← Page précédente</a>
@@ -51,7 +47,7 @@
     <a href="fruits_legumes.html" class="btn btn-outline-success mx-1">Fruits & Légumes</a>
     <a href="produits_sec.html" class="btn btn-outline-primary mx-1">Produits Secs</a>
     <a href="hygiene_products.html" class="btn btn-outline-danger mx-1">Hygiène</a>
-    <a href="facture.html" class="btn btn-dark mx-1">Voir Facture</a>
+    <button class="btn btn-dark mx-1" onclick="toggleCart()">🛒 Voir Panier</button>
   </nav>
   <div class="row">
     <div class="col-md-6">
@@ -69,7 +65,6 @@
     </div>
   </div>
 </div>
-
 
 <div class="container my-4">
   <div class="row" id="product-list"></div>
@@ -92,11 +87,16 @@
   <p id="free-shipping-msg" style="color:green; display:none;">Livraison gratuite !</p>
   <button class="btn btn-warning w-100 mb-2" onclick="clearCart()">🗑️ Vider le panier</button>
   <button class="btn btn-success w-100 mb-2" onclick="proceedPayment()">Paiement en ligne</button>
-  <button class="btn btn-primary w-100 mb-2" onclick="viewDetailedInvoice()"> 📋 Voir la facture détaillée</button>
-  <button class="btn btn-secondary w-100" onclick="callOrder()">Ou appeler: 514-123-4567</button>
+  <button class="btn btn-primary w-100 mb-2" onclick="viewDetailedInvoice()">📋 Voir la facture détaillée</button>
+  <button class="btn btn-secondary w-100" onclick="callOrder()">📞 Appeler: 514-123-4567</button>
 </div>
 
 <script>
+// --- CONFIGURATION ---
+const ADMIN_PASSWORD = "admin123";
+let stripeAvailable = false;
+let adminLoggedIn = false;
+
 // --- PRODUITS ---
 let products = [
   {id:1, name:'Pommes (1 kg)', price:2.5, img:'assets/fruits/pommes.jpg', tag:'vedette', stock:10},
@@ -104,12 +104,51 @@ let products = [
   {id:3, name:'Oranges (1 kg)', price:3.0, img:'assets/fruits/oranges.jpg', tag:'top', stock:12}
 ];
 let cart = [];
-let stripeAvailable = true;
 
-// --- ADMIN : activer/désactiver paiement en ligne ---
+// --- ADMIN SÉCURISÉ ---
+function adminLogin() {
+  const password = prompt("🔑 Entrez le mot de passe administrateur :");
+  
+  if (password === ADMIN_PASSWORD) {
+    adminLoggedIn = true;
+    document.querySelector('.admin-only').style.display = 'block';
+    alert("✅ Mode administrateur activé");
+    
+    // Auto-logout après 10 minutes
+    setTimeout(() => {
+      adminLoggedIn = false;
+      document.querySelector('.admin-only').style.display = 'none';
+      alert("🔒 Session admin expirée");
+    }, 600000);
+    
+  } else {
+    alert("❌ Mot de passe incorrect");
+  }
+}
+
 function togglePayment() {
+  if (!adminLoggedIn) {
+    adminLogin();
+    return;
+  }
+  
   stripeAvailable = !stripeAvailable;
   document.getElementById('admin-alert').style.display = stripeAvailable ? 'none' : 'block';
+  alert("Paiement en ligne " + (stripeAvailable ? "ACTIVÉ ✅" : "DÉSACTIVÉ ❌"));
+  updatePaymentInterface();
+}
+
+function updatePaymentInterface() {
+  const onlinePaymentBtn = document.querySelector('button[onclick="proceedPayment()"]');
+  if (onlinePaymentBtn) {
+    if (stripeAvailable) {
+      onlinePaymentBtn.disabled = false;
+      onlinePaymentBtn.style.opacity = "1";
+    } else {
+      onlinePaymentBtn.disabled = true;
+      onlinePaymentBtn.style.opacity = "0.6";
+    }
+  }
 }
 
 // --- AFFICHAGE PRODUITS ---
@@ -120,7 +159,7 @@ function renderProducts(list=products){
     container.innerHTML+=`
       <div class="col-md-4 mb-4">
         <div class="product-card p-3">
-          <img src="${p.img}" class="img-fluid rounded mb-2">
+          <img src="${p.img}" class="img-fluid rounded mb-2" alt="${p.name}">
           <h5>${p.name}</h5>
           <p><strong>${p.price.toFixed(2)} $</strong></p>
           <p><em>Stock restant: ${p.stock}</em></p>
@@ -144,12 +183,13 @@ function filterProducts(){
 function addToCart(id){
   const clientCode=document.getElementById('clientCode').value;
   if(!clientCode){alert("Veuillez entrer votre code client");return;}
-  cart=JSON.parse(localStorage.getItem(clientCode)||'[]');
+  
+  let cart = JSON.parse(localStorage.getItem(clientCode)||'[]');
   const qty=parseInt(document.getElementById('qty-'+id).value);
   const product=products.find(p=>p.id===id);
 
   if(product.stock<qty){ alert("Stock insuffisant."); return; }
-  product.stock-=qty; // décrémenter stock
+  product.stock-=qty;
 
   const item=cart.find(i=>i.id===id);
   if(item){ item.qty+=qty; }
@@ -157,44 +197,52 @@ function addToCart(id){
 
   localStorage.setItem(clientCode,JSON.stringify(cart));
   renderProducts();
-  updateCart(clientCode);
+  updateCart();
 }
 
 function removeItem(id){
   const clientCode=document.getElementById('clientCode').value;
+  let cart = JSON.parse(localStorage.getItem(clientCode)||'[]');
   const item=cart.find(i=>i.id===id);
-  if(item){ // remettre stock
+  if(item){
     const product=products.find(p=>p.id===id);
     product.stock+=item.qty;
   }
   cart=cart.filter(i=>i.id!==id);
   localStorage.setItem(clientCode,JSON.stringify(cart));
   renderProducts();
-  updateCart(clientCode);
+  updateCart();
 }
 
 function clearCart(){
   const clientCode=document.getElementById('clientCode').value;
+  let cart = JSON.parse(localStorage.getItem(clientCode)||'[]');
+  
   cart.forEach(item=>{
     const product=products.find(p=>p.id===item.id);
-    product.stock+=item.qty; // remettre stock
+    product.stock+=item.qty;
   });
+  
   localStorage.removeItem(clientCode);
   renderProducts();
-  updateCart(clientCode);
+  updateCart();
 }
 
-function updateCart(clientCode){
-  cart=JSON.parse(localStorage.getItem(clientCode)||'[]');
+function updateCart(){
+  const clientCode=document.getElementById('clientCode').value;
+  let cart = JSON.parse(localStorage.getItem(clientCode)||'[]');
+  
   document.getElementById('cart-count').innerText=cart.reduce((s,i)=>s+i.qty,0);
   let subtotal=0;
   const cartItems=document.getElementById('cart-items');
   cartItems.innerHTML='';
+  
   cart.forEach(item=>{
     subtotal+=item.price*item.qty;
     cartItems.innerHTML+=`<p>${item.name} x${item.qty} = ${(item.price*item.qty).toFixed(2)}$ 
       <button onclick="removeItem(${item.id})" class="btn btn-sm btn-danger">❌</button></p>`;
   });
+  
   let shipping=subtotal>20?0:5;
   document.getElementById('free-shipping-msg').style.display=shipping===0?'block':'none';
   document.getElementById('subtotal').innerText=subtotal.toFixed(2);
@@ -205,17 +253,33 @@ function updateCart(clientCode){
 function toggleCart(){
   const modal=document.getElementById('cart-modal');
   modal.style.display=modal.style.display==='block'?'none':'block';
-  const clientCode=document.getElementById('clientCode').value;
-  if(clientCode) updateCart(clientCode);
+  updateCart();
 }
 
-// --- FACTURE ---
+// --- PAIEMENT ---
+function proceedPayment() {
+  if (!stripeAvailable) {
+    alert("⚠️ Paiement en ligne temporairement indisponible. Utilisez 'Voir la facture détaillée' pour d'autres options.");
+    return;
+  }
+  viewDetailedInvoice();
+}
+
+// --- FACTURE DÉTAILLÉE ---
 function viewDetailedInvoice(){
   const clientCode=document.getElementById('clientCode').value;
-  cart=JSON.parse(localStorage.getItem(clientCode)||'[]');
+  if(!clientCode){alert("Veuillez entrer votre code client");return;}
+  
+  let cart = JSON.parse(localStorage.getItem(clientCode)||'[]');
   if(cart.length===0){alert("Votre panier est vide.");return;}
+  
   const orderNumber = 'CMD-' + Math.floor(Math.random() * 100000);
   const orderDate = new Date().toLocaleString('fr-FR');
+  
+  let subtotal=cart.reduce((s,i)=>s+(i.price*i.qty),0);
+  let shipping=subtotal>20?0:5;
+  let total=subtotal+shipping;
+
   let invoiceHTML = `
     <div class="invoice-details mb-3 p-3 border rounded">
       <h4>📋 Facture Détaillée</h4>
@@ -226,247 +290,88 @@ function viewDetailedInvoice(){
         <thead class="table-light">
           <tr><th>Article</th><th>Qté</th><th>Prix</th><th>Total</th></tr>
         </thead><tbody>`;
-  let subtotal=0;
+  
   cart.forEach(item=>{
     const itemTotal=item.price*item.qty;
-    subtotal+=itemTotal;
     invoiceHTML+=`<tr><td>${item.name}</td><td>${item.qty}</td>
     <td>${item.price.toFixed(2)} $</td><td>${itemTotal.toFixed(2)} $</td></tr>`;
   });
-  const shipping=subtotal>20?0:5;
-  const total=subtotal+shipping;
+  
   invoiceHTML+=`</tbody><tfoot>
     <tr><td colspan="3">Sous-total</td><td>${subtotal.toFixed(2)} $</td></tr>
     <tr><td colspan="3">Livraison</td><td>${shipping.toFixed(2)} $</td></tr>
     <tr><td colspan="3"><strong>Total</strong></td><td><strong>${total.toFixed(2)} $</strong></td></tr>
-  </tfoot></table>
-  <button class="btn btn-outline-secondary w-100 mt-2" onclick="window.location.reload()">↩️ Retour au magasin</button>
-  </div>`;
+  </tfoot></table>`;
+
+  // Options de paiement
+  invoiceHTML += `<div class="mb-2"><label><strong>Mode de paiement :</strong></label>
+    <select id="invoice-payment-method" class="form-control">
+      <option value="pickup">Paiement au magasin</option>
+      <option value="delivery">Paiement à la livraison</option>`;
+  
+  if (stripeAvailable) {
+    invoiceHTML += `<option value="online">Paiement en ligne (carte)</option>`;
+  }
+  
+  invoiceHTML += `</select></div>`;
+
+  // Boutons d'action
+  invoiceHTML += `<div class="d-grid gap-2">
+    <button class="btn btn-success" onclick="processPayment('${orderNumber}', '${clientCode}')">💳 Payer / Finaliser</button>
+    <button class="btn btn-secondary" onclick="downloadInvoicePDF('${orderNumber}', '${clientCode}')">📄 Télécharger en PDF</button>
+    <button class="btn btn-outline-dark" onclick="toggleCart()">✖️ Fermer</button>
+    <button class="btn btn-outline-primary" onclick="window.location.reload()">↩️ Retour au magasin</button>
+  </div></div>`;
+
   document.getElementById('cart-items').innerHTML=invoiceHTML;
 }
 
+function processPayment(orderNumber, clientCode) {
+  const method = document.getElementById('invoice-payment-method').value;
+  
+  if (method === 'online' && !stripeAvailable) {
+    alert('Paiement en ligne temporairement indisponible. Choisissez paiement au magasin ou à la livraison.');
+    return;
+  }
+  
+  if (method === 'online') {
+    alert('Redirection vers le paiement sécurisé...');
+    // Ici vous intégreriez Stripe
+  } else {
+    alert('Commande confirmée ! Présentez cette facture au magasin ou à la livraison.');
+    downloadInvoicePDF(orderNumber, clientCode);
+  }
+  
+  // Vider le panier après paiement
+  localStorage.removeItem(clientCode);
+  toggleCart();
+  window.location.reload();
+}
+
+// --- FONCTIONS UTILITAIRES ---
 function callOrder(){window.location.href='tel:5141234567';}
 
-// --- INIT ---
-renderProducts();
-</script>
-<script>
-// --- PATCH: remplacer le lien facture.html par "Afficher le panier" et améliorer les fonctions facture/paiment/pdf --- 
-(function () {
-  // s'assurer que fonctions existantes (toggleCart, updateCart etc.) restent accessibles
-  document.addEventListener('DOMContentLoaded', () => {
-    // 1) Remplacer tout lien vers facture.html par un bouton "Afficher le panier"
-    const factLinks = Array.from(document.querySelectorAll('a[href*="facture"]'));
-    factLinks.forEach(a => {
-      // changer libellé et comportement
-      a.textContent = 'Afficher le panier';
-      a.removeAttribute('href');
-      a.style.cursor = 'pointer';
-      a.onclick = (e) => { e.preventDefault(); if (typeof toggleCart === 'function') toggleCart(); };
-    });
+function downloadInvoicePDF(orderNumber, clientCode) {
+  alert("Fonction PDF: Téléchargement de la facture " + orderNumber);
+  // Implémentation PDF simplifiée
+  const invoiceContent = document.querySelector('.invoice-details').innerHTML;
+  const win = window.open('', '_blank');
+  win.document.write(`
+    <html><head><title>Facture ${orderNumber}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head><body>${invoiceContent}</body></html>
+  `);
+  win.document.close();
+  win.print();
+}
 
-    // 2) Charger libs jsPDF + autotable si besoin (retourne Promise)
-    function loadScriptOnce(src) {
-      return new Promise((resolve, reject) => {
-        if (document.querySelector('script[src="' + src + '"]')) return resolve();
-        const s = document.createElement('script');
-        s.src = src;
-        s.onload = () => resolve();
-        s.onerror = () => reject(new Error('Erreur chargement ' + src));
-        document.head.appendChild(s);
-      });
-    }
-
-    // 3) Nouvelle implémentation de download PDF (utilise jsPDF + autotable)
-    async function downloadInvoicePDF(orderNumber, clientCode, cartItems) {
-      try {
-        await loadScriptOnce('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
-        await loadScriptOnce('https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js');
-
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({ unit: 'pt', format: 'a4' });
-
-        // Header
-        doc.setFontSize(14);
-        doc.text('Carrefour des Initiatives - Épicerie Sociale', 40, 40);
-        doc.setFontSize(11);
-        doc.text(`Facture N°: ${orderNumber}`, 40, 60);
-        doc.text(`Code client: ${clientCode}`, 40, 76);
-        doc.text(`Date: ${new Date().toLocaleString('fr-FR')}`, 40, 92);
-
-        // Table body
-        const body = cartItems.map(i => {
-          const total = (i.qty || i.quantity || i.qty === 0 ? i.qty : i.quantity) * i.price;
-          return [i.name || i.title || '', (i.qty || i.quantity || 0).toString(), i.price.toFixed(2) + ' $', total.toFixed(2) + ' $'];
-        });
-
-        doc.autoTable({
-          head: [['Article', 'Quantité', 'Prix unitaire', 'Total']],
-          body,
-          startY: 120,
-          margin: { left: 40, right: 40 }
-        });
-
-        // Totals
-        const subtotal = cartItems.reduce((s,i) => s + ( (i.qty||i.quantity||0) * i.price ), 0);
-        const shipping = subtotal > 20 ? 0 : 5;
-        const total = subtotal + shipping;
-        const finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 20 : 200;
-
-        doc.text(`Sous-total: ${subtotal.toFixed(2)} $`, 350, finalY);
-        doc.text(`Frais livraison: ${shipping.toFixed(2)} $`, 350, finalY + 16);
-        doc.setFontSize(12);
-        doc.text(`TOTAL: ${total.toFixed(2)} $`, 350, finalY + 36);
-
-        // Footer / Instructions
-        doc.setFontSize(10);
-        doc.text("Modes de paiement: En ligne (Visa/Mastercard) ou paiement au magasin/à la livraison (liquide ou débit).", 40, finalY + 70);
-        doc.save(`facture_${orderNumber}.pdf`);
-      } catch (err) {
-        alert('Erreur génération PDF: ' + (err.message || err));
-        console.error(err);
-      }
-    }
-
-    // 4) Nouvelle viewDetailedInvoice() : remplace/complète l'ancienne
-    window.viewDetailedInvoice = function () {
-      const clientCode = (document.getElementById('clientCode') || {}).value || localStorage.getItem('clientCode') || '';
-      if (!clientCode) { alert('Veuillez entrer votre code client.'); return; }
-      const cart = JSON.parse(localStorage.getItem(clientCode) || '[]');
-      if (!cart || cart.length === 0) { alert('Votre panier est vide.'); return; }
-
-      const orderNumber = 'CMD-' + Date.now();
-      const orderDate = new Date().toLocaleString('fr-FR');
-
-      // calculs
-      const subtotal = cart.reduce((s,i) => s + ((i.qty||i.quantity||0) * i.price), 0);
-      const shipping = subtotal > 20 ? 0 : 5;
-      const total = subtotal + shipping;
-
-      // construire HTML facture (injectée dans #cart-items)
-      let html = `<div class="invoice-details mb-3 p-3 border rounded">
-        <h4>📋 Facture Détaillée</h4>
-        <p><strong>N° Commande:</strong> ${orderNumber}</p>
-        <p><strong>Code Client:</strong> ${clientCode}</p>
-        <p><strong>Date:</strong> ${orderDate}</p>
-
-        <div class="table-responsive"><table class="table table-sm">
-          <thead><tr><th>Article</th><th>Qté</th><th>Prix</th><th>Total</th></tr></thead><tbody>`;
-
-      cart.forEach(i => {
-        const qty = i.qty || i.quantity || 0;
-        const lineTotal = (qty * i.price).toFixed(2);
-        html += `<tr><td>${i.name}</td><td>${qty}</td><td class="text-end">${i.price.toFixed(2)} $</td><td class="text-end">${lineTotal} $</td></tr>`;
-      });
-
-      html += `</tbody>
-        <tfoot>
-          <tr><td colspan="3" class="text-end"><strong>Sous-total:</strong></td><td class="text-end">${subtotal.toFixed(2)} $</td></tr>
-          <tr><td colspan="3" class="text-end"><strong>Frais livraison:</strong></td><td class="text-end">${shipping.toFixed(2)} $</td></tr>
-          <tr class="table-active"><td colspan="3" class="text-end"><strong>Total:</strong></td><td class="text-end"><strong>${total.toFixed(2)} $</strong></td></tr>
-        </tfoot>
-        </table></div>`;
-
-      // payment method selection
-      const stripeEnabled = (typeof stripeAvailable !== 'undefined') ? !!stripeAvailable : false;
-      html += `<div class="mb-2"><label><strong>Mode de paiement :</strong></label>
-        <select id="invoice-payment-method" class="form-control">
-          <option value="pickup">Paiement au magasin</option>
-          <option value="delivery">Paiement à la livraison</option>`;
-      if (stripeEnabled) html += `<option value="online">Paiement en ligne (carte)</option>`;
-      html += `</select></div>`;
-
-      // action buttons: payer, télécharger, fermer/retour
-      html += `<div class="d-grid gap-2">
-        <button class="btn btn-success" id="invoice-pay-btn">💳 Payer / Finaliser</button>
-        <button class="btn btn-secondary" id="invoice-download-btn">📄 Télécharger en PDF</button>
-        <button class="btn btn-outline-dark" id="invoice-close-btn">✖️ Fermer</button>
-        <button class="btn btn-outline-primary" id="invoice-return-shop">↩️ Retour au magasin</button>
-      </div>
-      </div>`;
-
-      document.getElementById('cart-items').innerHTML = html;
-
-      // lier événements
-      document.getElementById('invoice-download-btn').onclick = () => {
-        downloadInvoicePDF(orderNumber, clientCode, cart);
-      };
-      document.getElementById('invoice-close-btn').onclick = () => {
-        // fermer le modal panier (si toggleCart disponible)
-        if (typeof toggleCart === 'function') toggleCart();
-        // sinon vider l'affichage
-        else document.getElementById('cart-items').innerHTML = '';
-      };
-      document.getElementById('invoice-return-shop').onclick = () => {
-        // simplement recharger la page pour continuer les achats
-        window.location.reload();
-      };
-      document.getElementById('invoice-pay-btn').onclick = async () => {
-        const method = (document.getElementById('invoice-payment-method') || {}).value || 'pickup';
-        // si en ligne demandé mais non disponible
-        if (method === 'online' && !stripeEnabled) {
-          alert('Paiement en ligne temporairement indisponible. Choisissez paiement au magasin ou à la livraison.');
-          return;
-        }
-        // si paiement en ligne et stripeAvailable: tenter redirection (serveur requis)
-        if (method === 'online') {
-          // essayer de rediriger vers endpoint create-checkout-session
-          try {
-            const res = await fetch('/create-checkout-session', {
-              method: 'POST',
-              headers: {'Content-Type': 'application/json'},
-              body: JSON.stringify({clientCode, cart, orderNumber})
-            });
-            const data = await res.json();
-            if (data && data.url) {
-              window.location = data.url;
-              return;
-            } else {
-              alert('Impossible de démarrer Stripe Checkout (réponse serveur manquante).');
-            }
-          } catch (err) {
-            console.error(err);
-            alert('Erreur de connexion au serveur Stripe. Essayez plus tard ou choisissez paiement au magasin.');
-            return;
-          }
-        }
-
-        // Pour paiement hors-ligne: générer PDF et fermer modal
-        await downloadInvoicePDF(orderNumber, clientCode, cart);
-        alert('Facture générée. Merci — présentez la facture au magasin ou payez à la livraison.');
-        // vider panier local pour marquer commande terminée (optionnel) : commenter si on veut conserver
-        // localStorage.removeItem(clientCode);
-        if (typeof toggleCart === 'function') toggleCart();
-      };
-    };
-
-    // 5) Remplacer la vieille proceedPayment() si appelée ailleurs : 
-    window.proceedPayment = function () {
-      // si la facture est affichée, simuler clic sur payer, sinon ouvrir la facture
-      const paySelect = document.getElementById('invoice-payment-method');
-      if (paySelect && document.getElementById('invoice-pay-btn')) {
-        document.getElementById('invoice-pay-btn').click();
-        return;
-      }
-      // sinon afficher la facture détaillée
-      if (typeof viewDetailedInvoice === 'function') viewDetailedInvoice();
-      else alert('Affichage facture indisponible.');
-    };
-
-    // 6) Si un bouton existant (secondaire) "Voir la facture" est mal configuré, on remplace son action par "Afficher panier" :
-    const secondaryBtns = Array.from(document.querySelectorAll('button, a'));
-    secondaryBtns.forEach(el => {
-      const text = (el.textContent || '').trim().toLowerCase();
-      if (text === 'voir facture' || text === 'voir la facture' || text === 'voir la facture détaillée') {
-        // remplace action pour afficher le panier/facture
-        el.onclick = (e) => { e.preventDefault(); if (typeof toggleCart === 'function') toggleCart(); };
-      }
-    });
-
-    // 7) Mettre à jour compteur/cart display (si updateCartUI existe)
-    if (typeof updateCartUI === 'function') updateCartUI();
-  });
-})();
+// --- INITIALISATION ---
+document.addEventListener('DOMContentLoaded', function() {
+  renderProducts();
+  updatePaymentInterface();
+  // Masquer l'alerte admin au démarrage
+  document.getElementById('admin-alert').style.display = stripeAvailable ? 'none' : 'block';
+});
 </script>
 </body>
 </html>
