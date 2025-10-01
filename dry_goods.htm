@@ -1,1 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Grocery - Dry Goods</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body { background: #f9f9f9; font-family: 'Arial', sans-serif; }
+    header { background: linear-gradient(90deg, #007bff, #ffc107); color: white; padding: 15px; text-align: center; }
+    .logo { height: 60px; margin-right: 10px; }
+    .product-card { background: white; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
+    .product-card:hover { transform: translateY(-5px); }
+    .cart { position: fixed; top: 20px; right: 20px; background: #007bff; color: white; padding: 10px 15px; border-radius: 50px; cursor: pointer; z-index: 999; }
+    .cart-count { background: red; color: white; font-size: 12px; padding: 2px 6px; border-radius: 50%; position: absolute; top: -5px; right: -5px; }
+    .cart-modal { display: none; position: fixed; top: 80px; right: 20px; width: 380px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); padding: 15px; z-index: 1000; }
+    .btn-animate { transition: transform 0.2s; }
+    .btn-animate:active { transform: scale(0.95); }
+    .alert-admin { background: #ffdddd; border: 1px solid #ff8888; color: #990000; padding: 10px; text-align: center; font-weight: bold; display: none; }
+    .admin-only { display: none; }
+    .category-badge { background: #ffc107; color: #000; padding: 5px 10px; border-radius: 15px; font-size: 0.8em; }
+  </style>
+</head>
+<body>
+<header>
+  <img src="assets/logo_en.png" class="logo" alt="Logo">
+  <h1>Solidarity Dry Goods</h1>
+  <p>Basic products at solidarity prices – Free delivery from $20</p>
+</header>
 
+<!-- Admin online payment banner -->
+<div id="admin-alert" class="alert-admin">⚠️ Online payment temporarily unavailable. Payment available in-store or at delivery.</div>
+
+<!-- Admin section (hidden by default) -->
+<div class="admin-only text-center my-2">
+  <button class="btn btn-sm btn-outline-danger" onclick="togglePayment()">⚙️ Enable/Disable Online Payment</button>
+</div>
+
+<!-- Admin login button -->
+<div class="text-center my-2">
+  <button class="btn btn-sm btn-outline-secondary" onclick="adminLogin()">🔑 Admin Login</button>
+</div>
+
+<div class="container my-3">
+  <a href="hygiene_products.html">→ Next Page</a> | <a href="fruits_vegetables.html">← Previous Page</a>
+  <nav class="text-center my-3">
+    <a href="fruits_vegetables.html" class="btn btn-outline-success mx-1">Fruits & Vegetables</a>
+    <a href="dry_goods.html" class="btn btn-outline-warning mx-1">Dry Goods</a>
+    <a href="hygiene_products.html" class="btn btn-outline-danger mx-1">Hygiene</a>
+    <button class="btn btn-dark mx-1" onclick="toggleCart()">🛒 View Cart</button>
+  </nav>
+  <div class="row">
+    <div class="col-md-6">
+      <label for="clientCode"><strong>Client Code:</strong></label>
+      <input type="text" id="clientCode" class="form-control" placeholder="Enter your client code" onchange="updateCartDisplay()">
+    </div>
+    <div class="col-md-6">
+      <label for="filter"><strong>Sort by:</strong></label>
+      <select id="filter" class="form-control" onchange="filterProducts()">
+        <option value="all">All Products</option>
+        <option value="pasta">Pasta & Rice</option>
+        <option value="canned">Canned Goods</option>
+        <option value="cereals">Cereals</option>
+        <option value="grocery">Grocery Items</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="container my-4">
+  <div class="row" id="product-list"></div>
+</div>
+
+<!-- Cart Icon -->
+<div class="cart" onclick="toggleCart()">
+  <i class="fa fa-shopping-cart"></i>
+  <span class="cart-count" id="cart-count">0</span>
+</div>
+
+<!-- Cart -->
+<div class="cart-modal" id="cart-modal">
+  <h5>Your Cart</h5>
+  <div id="cart-items"></div>
+  <hr>
+  <p>Subtotal: <span id="subtotal">0.00</span>$</p>
+  <p>Delivery Fee: <span id="shipping">0.00</span>$</p>
+  <p><strong>Total: <span id="total">0.00</span>$</strong></p>
+  <p id="free-shipping-msg" style="color:green; display:none;">Free delivery!</p>
+  <button class="btn btn-warning w-100 mb-2" onclick="clearCart()">🗑️ Empty Cart</button>
+  <button class="btn btn-success w-100 mb-2" onclick="proceedPayment()">Online Payment</button>
+  <button class="btn btn-primary w-100 mb-2" onclick="viewDetailedInvoice()">📋 View Detailed Invoice</button>
+  <button class="btn btn-secondary w-100" onclick="callOrder()">📞 Call: 514-123-4567</button>
+</div>
+
+<script>
+// --- CONFIGURATION ---
+const ADMIN_PASSWORD = "admin123";
+let stripeAvailable = false;
+let adminLoggedIn = false;
+
+// --- DRY GOODS ---
+let products = [
+  {id:101, name:'Basmati Rice (1 kg)', price:3.5, img:'assets/dry/basmati_rice.jpg', category:'pasta', tag:'featured', stock:15},
+  {id:102, name:'Spaghetti Pasta (500g)', price:1.8, img:'assets/dry/spaghetti_pasta.jpg', category:'pasta', tag:'top', stock:20},
+  {id:103, name:'Green Lentils (500g)', price:2.2, img:'assets/dry/green_lentils.jpg', category:'cereals', tag:'new', stock:12},
+  {id:104, name:'Red Beans (400g)', price:1.9, img:'assets/dry/red_beans.jpg', category:'canned', tag:'featured', stock:18},
+  {id:105, name:'Canned Tuna (150g)', price:2.5, img:'assets/dry/canned_tuna.jpg', category:'canned', tag:'top', stock:25},
+  {id:106, name:'Oat Flakes (500g)', price:2.8, img:'assets/dry/oat_flakes.jpg', category:'cereals', tag:'new', stock:10},
+  {id:107, name:'White Sugar (1 kg)', price:2.0, img:'assets/dry/white_sugar.jpg', category:'grocery', tag:'featured', stock:22},
+  {id:108, name:'Wheat Flour (1 kg)', price:1.5, img:'assets/dry/wheat_flour.jpg', category:'grocery', tag:'top', stock:16},
+  {id:109, name:'Ground Coffee (250g)', price:4.5, img:'assets/dry/ground_coffee.jpg', category:'grocery', tag:'featured', stock:8},
+  {id:110, name:'Green Tea (20 bags)', price:3.2, img:'assets/dry/green_tea.jpg', category:'grocery', tag:'new', stock:14},
+  {id:111, name:'Tomato Sauce (400g)', price:1.6, img:'assets/dry/tomato_sauce.jpg', category:'canned', tag:'top', stock:20},
+  {id:112, name:'Shortbread Cookies (300g)', price:2.3, img:'assets/dry/shortbread_cookies.jpg', category:'grocery', tag:'featured', stock:30}
+];
+
+// --- COMMON FUNCTIONS ---
+function getCart() {
+  const clientCode = document.getElementById('clientCode').value;
+  return clientCode ? JSON.parse(localStorage.getItem(clientCode) || '[]') : [];
+}
+
+function saveCart(cart) {
+  const clientCode = document.getElementById('clientCode').value;
+  if (clientCode) {
+    localStorage.setItem(clientCode, JSON.stringify(cart));
+  }
+}
+
+function updateCartDisplay() {
+  const cart = getCart();
+  document.getElementById('cart-count').innerText = cart.reduce((s,i) => s + i.qty, 0);
+  
+  // Update displayed stocks based on cart
+  updateProductStocks(cart);
+  renderProducts();
+}
+
+function updateProductStocks(cart) {
+  // Reset all stocks to default values
+  const defaultStocks = {
+    101:15, 102:20, 103:12, 104:18, 105:25, 106:10, 
+    107:22, 108:16, 109:8, 110:14, 111:20, 112:30
+  };
+  
+  // Apply default stocks
+  products.forEach(p => {
+    p.stock = defaultStocks[p.id];
+  });
+  
+  // Subtract quantities already in cart
+  cart.forEach(item => {
+    const product = products.find(p => p.id === item.id);
+    if (product) {
+      product.stock -= item.qty;
+      if (product.stock < 0) product.stock = 0;
+    }
+  });
+}
+
+// --- SECURE ADMIN ---
+function adminLogin() {
+  const password = prompt("🔑 Enter administrator password:");
+  
+  if (password === ADMIN_PASSWORD) {
+    adminLoggedIn = true;
+    document.querySelector('.admin-only').style.display = 'block';
+    alert("✅ Administrator mode activated");
+    
+    setTimeout(() => {
+      adminLoggedIn = false;
+      document.querySelector('.admin-only').style.display = 'none';
+      alert("🔒 Admin session expired");
+    }, 600000);
+    
+  } else {
+    alert("❌ Incorrect password");
+  }
+}
+
+function togglePayment() {
+  if (!adminLoggedIn) {
+    adminLogin();
+    return;
+  }
+  
+  stripeAvailable = !stripeAvailable;
+  document.getElementById('admin-alert').style.display = stripeAvailable ? 'none' : 'block';
+  alert("Online payment " + (stripeAvailable ? "ENABLED ✅" : "DISABLED ❌"));
+  updatePaymentInterface();
+}
+
+function updatePaymentInterface() {
+  const onlinePaymentBtn = document.querySelector('button[onclick="proceedPayment()"]');
+  if (onlinePaymentBtn) {
+    if (stripeAvailable) {
+      onlinePaymentBtn.disabled = false;
+      onlinePaymentBtn.style.opacity = "1";
+    } else {
+      onlinePaymentBtn.disabled = true;
+      onlinePaymentBtn.style.opacity = "0.6";
+    }
+  }
+}
+
+// --- PRODUCT DISPLAY ---
+function renderProducts(list=products){
+  const container=document.getElementById('product-list');
+  container.innerHTML='';
+  list.forEach(p=>{
+    const categoryName = getCategoryName(p.category);
+    const cart = getCart();
+    const cartItem = cart.find(item => item.id === p.id);
+    const currentQty = cartItem ? cartItem.qty : 0;
+    
+    container.innerHTML+=`
+      <div class="col-md-4 mb-4">
+        <div class="product-card p-3">
+          <img src="${p.img}" class="img-fluid rounded mb-2" alt="${p.name}">
+          <span class="category-badge">${categoryName}</span>
+          <h5 class="mt-2">${p.name}</h5>
+          <p><strong>${p.price.toFixed(2)} $</strong></p>
+          <p><em>Remaining stock: ${p.stock}</em></p>
+          ${currentQty > 0 ? `<p class="text-success">Already in cart: ${currentQty}</p>` : ''}
+          <input type="number" min="1" max="${p.stock}" value="1" id="qty-${p.id}" class="form-control mb-2">
+          <button class="btn btn-warning w-100 btn-animate" onclick="addToCart(${p.id})" ${p.stock<=0 ? 'disabled' : ''}>
+            <i class="fa fa-cart-plus"></i> ${currentQty > 0 ? 'Add More' : 'Add to Cart'}
+          </button>
+        </div>
+      </div>`;
+  });
+}
+
+function getCategoryName(category) {
+  const categories = {
+    'pasta': 'Pasta & Rice',
+    'canned': 'Canned Goods',
+    'cereals': 'Cereals',
+    'grocery': 'Grocery Items'
+  };
+  return categories[category] || 'Other';
+}
+
+function filterProducts(){
+  const val=document.getElementById('filter').value;
+  let filtered=products;
+  if(val!=='all') filtered=products.filter(p=>p.category===val);
+  renderProducts(filtered);
+}
+
+// --- CART ---
+function addToCart(id){
+  const clientCode=document.getElementById('clientCode').value;
+  if(!clientCode){alert("Please enter your client code");return;}
+  
+  let cart = getCart();
+  const qty=parseInt(document.getElementById('qty-'+id).value);
+  const product=products.find(p=>p.id===id);
+
+  if(product.stock<qty){ alert("Insufficient stock."); return; }
+  product.stock-=qty;
+
+  const item=cart.find(i=>i.id===id);
+  if(item){ 
+    item.qty+=qty; 
+  } else { 
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      img: product.img,
+      qty: qty
+    }); 
+  }
+
+  saveCart(cart);
+  renderProducts();
+  updateCartDisplay();
+}
+
+function removeItem(id){
+  const cart = getCart();
+  const item=cart.find(i=>i.id===id);
+  if(item){
+    const product=products.find(p=>p.id===id);
+    product.stock+=item.qty;
+  }
+  const newCart = cart.filter(i=>i.id!==id);
+  saveCart(newCart);
+  renderProducts();
+  updateCartDisplay();
+}
+
+function clearCart(){
+  const clientCode=document.getElementById('clientCode').value;
+  if(!clientCode){alert("Please enter your client code");return;}
+  
+  localStorage.removeItem(clientCode);
+  renderProducts();
+  updateCartDisplay();
+  alert("Cart emptied!");
+}
+
+function updateCartDisplay() {
+  const cart = getCart();
+  document.getElementById('cart-count').innerText = cart.reduce((s,i) => s + i.qty, 0);
+  
+  let subtotal=0;
+  const cartItems=document.getElementById('cart-items');
+  cartItems.innerHTML='';
+  
+  cart.forEach(item=>{
+    subtotal+=item.price*item.qty;
+    cartItems.innerHTML+=`<p>${item.name} x${item.qty} = ${(item.price*item.qty).toFixed(2)}$ 
+      <button onclick="removeItem(${item.id})" class="btn btn-sm btn-danger">❌</button></p>`;
+  });
+  
+  let shipping=subtotal>20?0:5;
+  document.getElementById('free-shipping-msg').style.display=shipping===0?'block':'none';
+  document.getElementById('subtotal').innerText=subtotal.toFixed(2);
+  document.getElementById('shipping').innerText=shipping.toFixed(2);
+  document.getElementById('total').innerText=(subtotal+shipping).toFixed(2);
+}
+
+function toggleCart(){
+  const modal=document.getElementById('cart-modal');
+  modal.style.display=modal.style.display==='block'?'none':'block';
+  updateCartDisplay();
+}
+
+// --- PAYMENT ---
+function proceedPayment() {
+  if (!stripeAvailable) {
+    alert("⚠️ Online payment temporarily unavailable. Use 'View Detailed Invoice' for other options.");
+    return;
+  }
+  viewDetailedInvoice();
+}
+
+// --- DETAILED INVOICE ---
+function viewDetailedInvoice(){
+  const clientCode=document.getElementById('clientCode').value;
+  if(!clientCode){alert("Please enter your client code");return;}
+  
+  let cart = getCart();
+  if(cart.length===0){alert("Your cart is empty.");return;}
+  
+  const orderNumber = 'ORD-' + Math.floor(Math.random() * 100000);
+  const orderDate = new Date().toLocaleString('en-US');
+  
+  let subtotal=cart.reduce((s,i)=>s+(i.price*i.qty),0);
+  let shipping=subtotal>20?0:5;
+  let total=subtotal+shipping;
+
+  let invoiceHTML = `
+    <div class="invoice-details mb-3 p-3 border rounded">
+      <h4>📋 Detailed Invoice - Dry Goods</h4>
+      <p><strong>Order #:</strong> ${orderNumber}</p>
+      <p><strong>Client Code:</strong> ${clientCode}</p>
+      <p><strong>Date:</strong> ${orderDate}</p>
+      <table class="table table-sm mt-3">
+        <thead class="table-light">
+          <tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+        </thead><tbody>`;
+  
+  cart.forEach(item=>{
+    const itemTotal=item.price*item.qty;
+    invoiceHTML+=`<tr><td>${item.name}</td><td>${item.qty}</td>
+    <td>${item.price.toFixed(2)} $</td><td>${itemTotal.toFixed(2)} $</td></tr>`;
+  });
+  
+  invoiceHTML+=`</tbody><tfoot>
+    <tr><td colspan="3">Subtotal</td><td>${subtotal.toFixed(2)} $</td></tr>
+    <tr><td colspan="3">Delivery</td><td>${shipping.toFixed(2)} $</td></tr>
+    <tr><td colspan="3"><strong>Total</strong></td><td><strong>${total.toFixed(2)} $</strong></td></tr>
+  </tfoot></table>`;
+
+  // Payment options
+  invoiceHTML += `<div class="mb-2"><label><strong>Payment Method:</strong></label>
+    <select id="invoice-payment-method" class="form-control">
+      <option value="pickup">Payment in-store</option>
+      <option value="delivery">Payment at delivery</option>`;
+  
+  if (stripeAvailable) {
+    invoiceHTML += `<option value="online">Online payment (card)</option>`;
+  }
+  
+  invoiceHTML += `</select></div>`;
+
+  // Action buttons
+  invoiceHTML += `<div class="d-grid gap-2">
+    <button class="btn btn-success" onclick="processPayment('${orderNumber}', '${clientCode}')">💳 Pay / Finalize</button>
+    <button class="btn btn-secondary" onclick="downloadInvoicePDF('${orderNumber}', '${clientCode}')">📄 Download PDF</button>
+    <button class="btn btn-outline-dark" onclick="toggleCart()">✖️ Close</button>
+    <button class="btn btn-outline-primary" onclick="window.location.reload()">↩️ Back to Store</button>
+  </div></div>`;
+
+  document.getElementById('cart-items').innerHTML=invoiceHTML;
+}
+
+function processPayment(orderNumber, clientCode) {
+  const method = document.getElementById('invoice-payment-method').value;
+  
+  if (method === 'online' && !stripeAvailable) {
+    alert('Online payment temporarily unavailable. Choose payment in-store or at delivery.');
+    return;
+  }
+  
+  if (method === 'online') {
+    alert('Redirecting to secure payment...');
+  } else {
+    alert('Order confirmed! Present this invoice in-store or at delivery.');
+    downloadInvoicePDF(orderNumber, clientCode);
+  }
+  
+  // Empty cart after payment
+  localStorage.removeItem(clientCode);
+  toggleCart();
+  window.location.reload();
+}
+
+// --- UTILITY FUNCTIONS ---
+function callOrder(){window.location.href='tel:5141234567';}
+
+function downloadInvoicePDF(orderNumber, clientCode) {
+  const invoiceContent = document.querySelector('.invoice-details').innerHTML;
+  const win = window.open('', '_blank');
+  win.document.write(`
+    <html><head><title>Invoice ${orderNumber}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head><body>${invoiceContent}</body></html>
+  `);
+  win.document.close();
+  win.print();
+}
+
+// --- INITIALIZATION ---
+document.addEventListener('DOMContentLoaded', function() {
+  // Update cart display on load
+  updateCartDisplay();
+  renderProducts();
+  updatePaymentInterface();
+  document.getElementById('admin-alert').style.display = stripeAvailable ? 'none' : 'block';
+});
+</script>
+</body>
+</html>
