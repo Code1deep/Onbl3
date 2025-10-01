@@ -1,78 +1,190 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Facture - Onbl3 Multiservices</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="utf-8">
+  <title>Facture - ONBL</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
-    body { font-family: Arial, sans-serif; margin: 30px; background: #f9f9f9; color: #333; }
-    .facture-container { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 0 12px rgba(0,0,0,0.1); max-width: 850px; margin: auto; }
-    h1 { text-align: center; color: #2c3e50; }
-    .logo { text-align: center; margin-bottom: 20px; }
-    .logo img { max-width: 120px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    table, th, td { border: 1px solid #ddd; }
-    th, td { padding: 12px; text-align: center; }
-    th { background: #2c3e50; color: #fff; }
-    .total { text-align: right; margin-top: 15px; font-size: 18px; font-weight: bold; }
-    .info { margin-top: 25px; font-size: 14px; line-height: 1.6; }
-    .social-icons { margin-top: 20px; text-align: center; }
-    .social-icons a { margin: 0 10px; font-size: 22px; color: #2c3e50; text-decoration: none; transition: color 0.3s; }
-    .social-icons a:hover { color: #27ae60; }
-    .actions { margin-top: 25px; text-align: center; }
-    .actions button { padding: 10px 18px; margin: 5px; border: none; border-radius: 6px; cursor: pointer; font-size: 15px; }
-    .btn-pdf { background: #27ae60; color: #fff; }
-    .btn-pdf:hover { background: #219150; }
+    body { background:#f9f9f9; font-family: Arial, sans-serif; }
+    .container { max-width:900px; margin-top:30px; }
+    .invoice-box { background:#fff; padding:20px; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.06); }
   </style>
 </head>
 <body>
-  <div class="facture-container" id="facture">
-    <div class="logo"><img src="assets/logo.png" alt="Logo"></div>
-    <h1>Facture</h1>
-    <p><strong>Numéro de commande :</strong> <span id="order-id"></span></p>
-    <p><strong>Date :</strong> <span id="order-date"></span></p>
+<div class="container">
+  <div class="invoice-box">
+    <div class="text-center mb-3">
+      <img src="assets/logo_fr.png" alt="logo" style="height:60px;"><h2>Facture</h2>
+    </div>
 
-    <table id="facture-table">
-      <thead>
-        <tr><th>Article</th><th>Quantité</th><th>Prix unitaire</th><th>Total</th></tr>
+    <div class="row mb-2">
+      <div class="col-md-6">
+        <label>Code client (si non rempli automatiquement) :</label>
+        <input id="clientCodeInput" class="form-control" placeholder="Entrez code client">
+      </div>
+      <div class="col-md-6 text-end">
+        <p><strong>Numéro de commande :</strong> <span id="order-id">—</span></p>
+        <p><strong>Date :</strong> <span id="order-date">—</span></p>
+      </div>
+    </div>
+
+    <table class="table table-striped" id="invoice-table">
+      <thead class="table-dark">
+        <tr><th>Article</th><th class="text-center">Quantité</th><th class="text-end">Prix unitaire</th><th class="text-end">Total</th></tr>
       </thead>
       <tbody></tbody>
+      <tfoot>
+        <tr><td colspan="3" class="text-end">Sous-total</td><td class="text-end"><span id="subtotal-val">0.00</span> $</td></tr>
+        <tr><td colspan="3" class="text-end">Livraison</td><td class="text-end"><span id="delivery-val">0.00</span> $</td></tr>
+        <tr class="table-active"><td colspan="3" class="text-end"><strong>Total</strong></td><td class="text-end"><strong><span id="total-val">0.00</span> $</strong></td></tr>
+      </tfoot>
     </table>
 
-    <div class="total">Total : <span id="facture-total">0.00</span> $</div>
-    <label><strong>Mode de paiement :</strong></label>
-    <select id="payment-method" class="form-control">
-      <option value="magasin">Au magasin</option>
-      <option value="livraison">À la livraison</option>
-      <option value="enligne">En ligne (si disponible)</option>
-    </select>
+    <div class="mb-3">
+      <label for="payment-method"><strong>Mode de paiement :</strong></label>
+      <select id="payment-method" class="form-select" style="max-width:320px;">
+        <option value="magasin">Au magasin</option>
+        <option value="livraison">À la livraison</option>
+        <option value="enligne">En ligne (si disponible)</option>
+      </select>
+      <small class="form-text text-muted" id="payment-note">Vérification disponibilité paiement en ligne...</small>
+    </div>
 
-    <div class="info">
-      <p><i class="fa-solid fa-circle-info"></i> Instructions de paiement :</p>
+    <div class="mb-3">
+      <button id="btn-download" class="btn btn-success"><i class="fa fa-file-pdf"></i> Télécharger en PDF</button>
+      <button id="btn-clear" class="btn btn-warning">Vider le panier</button>
+      <button id="btn-call" class="btn btn-info">Appeler: 514-123-4567</button>
+    </div>
+
+    <div class="mt-4 text-muted">
+      <p><strong>Instructions de paiement :</strong></p>
       <ul>
-        <li>Paiement en ligne disponible (Visa, Mastercard, Débit).</li>
-        <li>En cas d’indisponibilité de paiement en ligne, veuillez confirmer au <strong>514 123 4567</strong>.</li>
-        <li>Livraison gratuite pour toute commande supérieure à 20$.</li>
+        <li>Paiement en ligne: Visa, Mastercard, Débit (si activé).</li>
+        <li>Si pas de paiement en ligne, paierez au magasin ou à la livraison.</li>
+        <li>Livraison gratuite pour commande > 20$.</li>
       </ul>
     </div>
-
-    <div class="actions">
-      <button class="btn-pdf" onclick="downloadPDF()"><i class="fa-solid fa-file-pdf"></i> Télécharger en PDF</button>
-    </div>
-
-    <div class="social-icons">
-      <a href="#"><i class="fab fa-facebook"></i></a>
-      <a href="#"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-whatsapp"></i></a>
-    </div>
   </div>
+</div>
 
-  <!-- jsPDF + AutoTable -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<!-- jsPDF + autoTable -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
-  <!-- Modules -->
-  <script src="cart.js"></script>
-  <script src="invoice.js"></script>
+<!-- central cart logic -->
+<script src="cart.js"></script>
+
+<script>
+  // Helper: get active client code (input overrides stored)
+  function getActiveClientCode() {
+    const input = document.getElementById('clientCodeInput');
+    const stored = localStorage.getItem('clientCode_current') || '';
+    const val = (input && input.value.trim()) ? input.value.trim() : stored;
+    if (input && !input.value && stored) input.value = stored;
+    return val || '';
+  }
+
+  function renderInvoice() {
+    const client = getActiveClientCode();
+    if (!client) {
+      // clear table
+      document.querySelector('#invoice-table tbody').innerHTML = '';
+      document.getElementById('subtotal-val').textContent = '0.00';
+      document.getElementById('delivery-val').textContent = '0.00';
+      document.getElementById('total-val').textContent = '0.00';
+      return;
+    }
+    // use CartAPI to build invoice
+    const invoiceData = window.CartAPI.generateInvoiceHTML(client, document.getElementById('payment-method').value);
+    if (!invoiceData) {
+      renderEmpty();
+      return;
+    }
+    // we have invoiceData.html (full HTML); but to populate fields we re-calc quickly
+    const cart = window.CartAPI.loadCart(client);
+    const tbody = document.querySelector('#invoice-table tbody');
+    tbody.innerHTML = '';
+    let subtotal = 0;
+    cart.forEach(it => {
+      const tr = document.createElement('tr');
+      const line = it.price * it.quantity;
+      subtotal += line;
+      tr.innerHTML = `<td>${it.name}</td><td class="text-center">${it.quantity}</td><td class="text-end">${it.price.toFixed(2)} $</td><td class="text-end">${line.toFixed(2)} $</td>`;
+      tbody.appendChild(tr);
+    });
+    const delivery = subtotal > 20 ? 0 : 5;
+    const total = subtotal + delivery;
+    document.getElementById('subtotal-val').textContent = subtotal.toFixed(2);
+    document.getElementById('delivery-val').textContent = delivery.toFixed(2);
+    document.getElementById('total-val').textContent = total.toFixed(2);
+
+    // fill order id + date
+    const orderId = 'CMD-' + Date.now();
+    document.getElementById('order-id').textContent = orderId;
+    document.getElementById('order-date').textContent = new Date().toLocaleString('fr-FR');
+  }
+
+  function renderEmpty() {
+    document.querySelector('#invoice-table tbody').innerHTML = '<tr><td colspan="4" class="text-center">Panier vide</td></tr>';
+    document.getElementById('subtotal-val').textContent = '0.00';
+    document.getElementById('delivery-val').textContent = '0.00';
+    document.getElementById('total-val').textContent = '0.00';
+    document.getElementById('order-id').textContent = '—';
+    document.getElementById('order-date').textContent = '—';
+  }
+
+  // When page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    // if admin toggled online payment in localStorage, enable/disable option
+    const onlineEnabled = window.CartAPI.isOnlinePaymentEnabled();
+    if (!onlineEnabled) {
+      const opt = document.querySelector('#payment-method option[value="enligne"]');
+      if (opt) { opt.disabled = true; opt.textContent = opt.textContent + ' (indisponible)'; }
+      document.getElementById('payment-note').textContent = 'Paiement en ligne : indisponible (admin).';
+    } else {
+      document.getElementById('payment-note').textContent = 'Paiement en ligne : disponible.';
+    }
+
+    // pre-fill client code input with last value
+    const stored = localStorage.getItem('clientCode_current');
+    if (stored) document.getElementById('clientCodeInput').value = stored;
+
+    // initial render
+    renderInvoice();
+    // also ensure cart UI and stock UI updated on this page
+    window.CartAPI.updateCartUI();
+    window.CartAPI.updateStockUI();
+  });
+
+  // events
+  document.getElementById('btn-download').addEventListener('click', () => {
+    const client = getActiveClientCode();
+    if (!client) { alert('Entrez votre code client avant de télécharger la facture.'); return; }
+    const paymentMethod = document.getElementById('payment-method').value;
+    window.CartAPI.downloadInvoicePDF(client, paymentMethod);
+  });
+
+  document.getElementById('btn-clear').addEventListener('click', () => {
+    const client = getActiveClientCode();
+    if (!client) { alert('Entrez votre code client.'); return; }
+    if (confirm('Vider le panier et rendre le stock ?')) {
+      window.CartAPI.clearCartForClient(client);
+      renderInvoice();
+    }
+  });
+
+  document.getElementById('btn-call').addEventListener('click', () => { window.location.href = 'tel:5141234567'; });
+
+  // Re-render invoice when payment method or client field changes
+  document.getElementById('payment-method').addEventListener('change', renderInvoice);
+  document.getElementById('clientCodeInput').addEventListener('input', (e) => {
+    localStorage.setItem('clientCode_current', e.target.value.trim());
+    renderInvoice();
+    window.CartAPI.updateCartUI();
+  });
+
+</script>
 </body>
 </html>
