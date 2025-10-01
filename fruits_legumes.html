@@ -18,10 +18,6 @@
     .btn-animate { transition: transform 0.2s; }
     .btn-animate:active { transform: scale(0.95); }
     .alert-admin { background: #ffdddd; border: 1px solid #ff8888; color: #990000; padding: 10px; text-align: center; font-weight: bold; display: none; }
-    .admin-only { 
-      display: none; 
-      /* Rendez-le visible via un raccourci clavier ou page séparée */
-    }
   </style>
 </head>
 <body>
@@ -114,41 +110,6 @@ let stripeAvailable = true;
 function togglePayment() {
   stripeAvailable = !stripeAvailable;
   document.getElementById('admin-alert').style.display = stripeAvailable ? 'none' : 'block';
-}
-
-// --- CONFIG ADMIN ---
-const ADMIN_PASSWORD = "admin123"; // même mot de passe que dans cart.js
-let stripeAvailable = false; // désactivé par défaut
-
-// --- ADMIN SÉCURISÉ : activer/désactiver paiement en ligne ---
-function togglePayment() {
-  const password = prompt("🔑 Entrez le mot de passe administrateur :");
-  
-  if (password === ADMIN_PASSWORD) {
-    stripeAvailable = !stripeAvailable;
-    document.getElementById('admin-alert').style.display = stripeAvailable ? 'none' : 'block';
-    alert("Paiement en ligne " + (stripeAvailable ? "ACTIVÉ ✅" : "DÉSACTIVÉ ❌"));
-    
-    // Mettre à jour l'interface utilisateur
-    updatePaymentInterface();
-  } else {
-    alert("❌ Mot de passe incorrect");
-  }
-}
-
-// Mettre à jour l'interface en fonction de l'état
-function updatePaymentInterface() {
-  const onlinePaymentBtns = document.querySelectorAll('button[onclick*="proceedPayment"], .btn-success');
-  
-  onlinePaymentBtns.forEach(btn => {
-    if (stripeAvailable) {
-      btn.disabled = false;
-      btn.style.opacity = "1";
-    } else {
-      btn.disabled = true;
-      btn.style.opacity = "0.6";
-    }
-  });
 }
 
 // --- AFFICHAGE PRODUITS ---
