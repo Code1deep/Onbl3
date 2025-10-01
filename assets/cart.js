@@ -145,3 +145,15 @@ function updatePaymentOptions() {
 
     paymentOptionsDiv.innerHTML = options;
 }
+
+// -------------------- LOGIN ADMIN --------------------
+function adminLogin() {
+    const pwd = prompt("🔑 Entrez le mot de passe administrateur :");
+    if (pwd === ADMIN_PASSWORD) {
+        document.getElementById("admin-controls").style.display = "block";
+        alert("✅ Mode administrateur activé");
+    } else {
+        alert("❌ Mot de passe incorrect");
+    }
+}
+
