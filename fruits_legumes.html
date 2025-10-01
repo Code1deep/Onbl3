@@ -19,13 +19,15 @@
     .btn-animate:active { transform: scale(0.95); }
     .alert-admin { background: #ffdddd; border: 1px solid #ff8888; color: #990000; padding: 10px; text-align: center; font-weight: bold; display: none; }
     .admin-only { display: none; }
+    .category-badge { background: #28a745; color: white; padding: 5px 10px; border-radius: 15px; font-size: 0.8em; }
+    .fresh-badge { background: #20c997; color: white; padding: 3px 8px; border-radius: 10px; font-size: 0.7em; margin-left: 5px; }
   </style>
 </head>
 <body>
 <header>
   <img src="assets/logo_fr.png" class="logo" alt="Logo">
   <h1>Fruits et Légumes Solidaires</h1>
-  <p>Produis frais à prix solidaires – Livraison gratuite dès 20$</p>
+  <p>Produits frais à prix solidaires – Livraison gratuite dès 20$</p>
 </header>
 
 <!-- Bandeau admin paiement en ligne -->
@@ -42,25 +44,28 @@
 </div>
 
 <div class="container my-3">
-  <a href="page2.html">→ Page suivante</a> | <a href="page1.html">← Page précédente</a>
+  <a href="produits_sec.html">→ Page suivante</a> | <a href="index.html">← Page d'accueil</a>
   <nav class="text-center my-3">
     <a href="fruits_legumes.html" class="btn btn-outline-success mx-1">Fruits & Légumes</a>
-    <a href="produits_sec.html" class="btn btn-outline-primary mx-1">Produits Secs</a>
+    <a href="produits_sec.html" class="btn btn-outline-warning mx-1">Produits Secs</a>
+    <a href="produits_congeles.html" class="btn btn-outline-info mx-1">Surgelés</a>
     <a href="produits_hygiene.html" class="btn btn-outline-danger mx-1">Hygiène</a>
+    <a href="vetements.html" class="btn btn-outline-success mx-1">Vetements</a>
     <button class="btn btn-dark mx-1" onclick="toggleCart()">🛒 Voir Panier</button>
   </nav>
   <div class="row">
     <div class="col-md-6">
       <label for="clientCode"><strong>Code client :</strong></label>
-      <input type="text" id="clientCode" class="form-control" placeholder="Entrez votre code client">
+      <input type="text" id="clientCode" class="form-control" placeholder="Entrez votre code client" onchange="updateCartDisplay()">
     </div>
     <div class="col-md-6">
       <label for="filter"><strong>Trier par :</strong></label>
       <select id="filter" class="form-control" onchange="filterProducts()">
         <option value="all">Tous les produits</option>
-        <option value="vedette">Produits vedettes</option>
-        <option value="nouveau">Nouveaux</option>
-        <option value="top">Les plus vendus</option>
+        <option value="fruits">Fruits</option>
+        <option value="legumes">Légumes</option>
+        <option value="bio">Produits Bio</option>
+        <option value="promo">Promotions</option>
       </select>
     </div>
   </div>
@@ -97,13 +102,69 @@ const ADMIN_PASSWORD = "admin123";
 let stripeAvailable = false;
 let adminLoggedIn = false;
 
-// --- PRODUITS ---
+// --- FRUITS ET LÉGUMES ---
 let products = [
-  {id:1, name:'Pommes (1 kg)', price:2.5, img:'assets/fruits/pommes.jpg', tag:'vedette', stock:10},
-  {id:2, name:'Carottes (1 kg)', price:1.8, img:'assets/fruits/carottes.jpg', tag:'nouveau', stock:15},
-  {id:3, name:'Oranges (1 kg)', price:3.0, img:'assets/fruits/oranges.jpg', tag:'top', stock:12}
+  {id:1, name:'Pommes Golden (1 kg)', price:2.5, img:'assets/fruits/pommes_golden.jpg', category:'fruits', tag:'vedette', stock:15},
+  {id:2, name:'Carottes (1 kg)', price:1.8, img:'assets/fruits/carottes.jpg', category:'legumes', tag:'essentiel', stock:20},
+  {id:3, name:'Oranges Navel (1 kg)', price:3.0, img:'assets/fruits/oranges.jpg', category:'fruits', tag:'top', stock:12},
+  {id:4, name:'Bananes (1 kg)', price:2.2, img:'assets/fruits/bananes.jpg', category:'fruits', tag:'vedette', stock:18},
+  {id:5, name:'Tomates (1 kg)', price:2.8, img:'assets/fruits/tomates.jpg', category:'legumes', tag:'nouveau', stock:14},
+  {id:6, name:'Pommes de terre (1 kg)', price:1.5, img:'assets/fruits/pommes_de_terre.jpg', category:'legumes', tag:'essentiel', stock:25},
+  {id:7, name:'Salade Laitue', price:1.2, img:'assets/fruits/salade_laitue.jpg', category:'legumes', tag:'promo', stock:10},
+  {id:8, name:'Oignons (1 kg)', price:1.6, img:'assets/fruits/oignons.jpg', category:'legumes', tag:'essentiel', stock:16},
+  {id:9, name:'Poivrons (500g)', price:3.5, img:'assets/fruits/poivrons.jpg', category:'legumes', tag:'nouveau', stock:8},
+  {id:10, name:'Concombres', price:1.8, img:'assets/fruits/concombres.jpg', category:'legumes', tag:'vedette', stock:12},
+  {id:11, name:'Fraises (500g)', price:4.2, img:'assets/fruits/fraises.jpg', category:'fruits', tag:'bio', stock:6},
+  {id:12, name:'Raisin (500g)', price:3.8, img:'assets/fruits/raisin.jpg', category:'fruits', tag:'top', stock:9},
+  {id:13, name:'Brocolis', price:2.5, img:'assets/fruits/brocolis.jpg', category:'legumes', tag:'bio', stock:7},
+  {id:14, name:'Citrons (500g)', price:2.9, img:'assets/fruits/citrons.jpg', category:'fruits', tag:'essentiel', stock:11},
+  {id:15, name:'Avocats (2 unités)', price:3.2, img:'assets/fruits/avocats.jpg', category:'fruits', tag:'nouveau', stock:8}
 ];
-let cart = [];
+
+// --- FONCTIONS COMMUNES ---
+function getCart() {
+  const clientCode = document.getElementById('clientCode').value;
+  return clientCode ? JSON.parse(localStorage.getItem(clientCode) || '[]') : [];
+}
+
+function saveCart(cart) {
+  const clientCode = document.getElementById('clientCode').value;
+  if (clientCode) {
+    localStorage.setItem(clientCode, JSON.stringify(cart));
+  }
+}
+
+function updateCartDisplay() {
+  const cart = getCart();
+  document.getElementById('cart-count').innerText = cart.reduce((s,i) => s + i.qty, 0);
+  
+  // Mettre à jour les stocks affichés en fonction du panier
+  updateProductStocks(cart);
+  renderProducts();
+}
+
+function updateProductStocks(cart) {
+  // Réinitialiser tous les stocks aux valeurs par défaut
+  const defaultStocks = {
+    1:15, 2:20, 3:12, 4:18, 5:14, 6:25, 
+    7:10, 8:16, 9:8, 10:12, 11:6, 12:9,
+    13:7, 14:11, 15:8
+  };
+  
+  // Appliquer les stocks par défaut
+  products.forEach(p => {
+    p.stock = defaultStocks[p.id];
+  });
+  
+  // Soustraire les quantités déjà dans le panier
+  cart.forEach(item => {
+    const product = products.find(p => p.id === item.id);
+    if (product) {
+      product.stock -= item.qty;
+      if (product.stock < 0) product.stock = 0;
+    }
+  });
+}
 
 // --- ADMIN SÉCURISÉ ---
 function adminLogin() {
@@ -114,7 +175,6 @@ function adminLogin() {
     document.querySelector('.admin-only').style.display = 'block';
     alert("✅ Mode administrateur activé");
     
-    // Auto-logout après 10 minutes
     setTimeout(() => {
       adminLoggedIn = false;
       document.querySelector('.admin-only').style.display = 'none';
@@ -156,26 +216,62 @@ function renderProducts(list=products){
   const container=document.getElementById('product-list');
   container.innerHTML='';
   list.forEach(p=>{
+    const categoryName = getCategoryName(p.category);
+    const cart = getCart();
+    const cartItem = cart.find(item => item.id === p.id);
+    const currentQty = cartItem ? cartItem.qty : 0;
+    const isBio = p.tag === 'bio';
+    const isPromo = p.tag === 'promo';
+    
     container.innerHTML+=`
       <div class="col-md-4 mb-4">
         <div class="product-card p-3">
-          <img src="${p.img}" class="img-fluid rounded mb-2" alt="${p.name}">
-          <h5>${p.name}</h5>
+          <div class="position-relative">
+            <img src="${p.img}" class="img-fluid rounded mb-2" alt="${p.name}">
+            ${isBio ? '<span class="fresh-badge position-absolute top-0 end-0 m-2">🌱 BIO</span>' : ''}
+            ${isPromo ? '<span class="fresh-badge position-absolute top-0 end-0 m-2" style="background:#dc3545;">🔥 PROMO</span>' : ''}
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="category-badge">${categoryName}</span>
+            ${p.tag === 'essentiel' ? '<span class="fresh-badge">ESSENTIEL</span>' : ''}
+          </div>
+          <h5 class="mt-2">${p.name}</h5>
           <p><strong>${p.price.toFixed(2)} $</strong></p>
           <p><em>Stock restant: ${p.stock}</em></p>
+          ${currentQty > 0 ? `<p class="text-success">Déjà dans le panier: ${currentQty}</p>` : ''}
           <input type="number" min="1" max="${p.stock}" value="1" id="qty-${p.id}" class="form-control mb-2">
-          <button class="btn btn-primary w-100 btn-animate" onclick="addToCart(${p.id})" ${p.stock<=0 ? 'disabled' : ''}>
-            <i class="fa fa-cart-plus"></i> Ajouter au panier
+          <button class="btn btn-success w-100 btn-animate" onclick="addToCart(${p.id})" ${p.stock<=0 ? 'disabled' : ''}>
+            <i class="fa fa-leaf"></i> ${currentQty > 0 ? 'Ajouter plus' : 'Ajouter au panier'}
           </button>
         </div>
       </div>`;
   });
 }
 
+function getCategoryName(category) {
+  const categories = {
+    'fruits': 'Fruits Frais',
+    'legumes': 'Légumes Frais',
+    'bio': 'Produits Bio',
+    'promo': 'Promotions'
+  };
+  return categories[category] || 'Autre';
+}
+
 function filterProducts(){
   const val=document.getElementById('filter').value;
   let filtered=products;
-  if(val!=='all') filtered=products.filter(p=>p.tag===val);
+  
+  if(val!=='all') {
+    if(val === 'bio') {
+      filtered=products.filter(p=>p.tag==='bio');
+    } else if(val === 'promo') {
+      filtered=products.filter(p=>p.tag==='promo');
+    } else {
+      filtered=products.filter(p=>p.category===val);
+    }
+  }
+  
   renderProducts(filtered);
 }
 
@@ -184,7 +280,7 @@ function addToCart(id){
   const clientCode=document.getElementById('clientCode').value;
   if(!clientCode){alert("Veuillez entrer votre code client");return;}
   
-  let cart = JSON.parse(localStorage.getItem(clientCode)||'[]');
+  let cart = getCart();
   const qty=parseInt(document.getElementById('qty-'+id).value);
   const product=products.find(p=>p.id===id);
 
@@ -192,47 +288,50 @@ function addToCart(id){
   product.stock-=qty;
 
   const item=cart.find(i=>i.id===id);
-  if(item){ item.qty+=qty; }
-  else { cart.push({...product, qty:qty}); }
+  if(item){ 
+    item.qty+=qty; 
+  } else { 
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      img: product.img,
+      qty: qty
+    }); 
+  }
 
-  localStorage.setItem(clientCode,JSON.stringify(cart));
+  saveCart(cart);
   renderProducts();
-  updateCart();
+  updateCartDisplay();
 }
 
 function removeItem(id){
-  const clientCode=document.getElementById('clientCode').value;
-  let cart = JSON.parse(localStorage.getItem(clientCode)||'[]');
+  const cart = getCart();
   const item=cart.find(i=>i.id===id);
   if(item){
     const product=products.find(p=>p.id===id);
     product.stock+=item.qty;
   }
-  cart=cart.filter(i=>i.id!==id);
-  localStorage.setItem(clientCode,JSON.stringify(cart));
+  const newCart = cart.filter(i=>i.id!==id);
+  saveCart(newCart);
   renderProducts();
-  updateCart();
+  updateCartDisplay();
 }
 
 function clearCart(){
   const clientCode=document.getElementById('clientCode').value;
-  let cart = JSON.parse(localStorage.getItem(clientCode)||'[]');
-  
-  cart.forEach(item=>{
-    const product=products.find(p=>p.id===item.id);
-    product.stock+=item.qty;
-  });
+  if(!clientCode){alert("Veuillez entrer votre code client");return;}
   
   localStorage.removeItem(clientCode);
   renderProducts();
-  updateCart();
+  updateCartDisplay();
+  alert("Panier vidé !");
 }
 
-function updateCart(){
-  const clientCode=document.getElementById('clientCode').value;
-  let cart = JSON.parse(localStorage.getItem(clientCode)||'[]');
+function updateCartDisplay() {
+  const cart = getCart();
+  document.getElementById('cart-count').innerText = cart.reduce((s,i) => s + i.qty, 0);
   
-  document.getElementById('cart-count').innerText=cart.reduce((s,i)=>s+i.qty,0);
   let subtotal=0;
   const cartItems=document.getElementById('cart-items');
   cartItems.innerHTML='';
@@ -253,7 +352,7 @@ function updateCart(){
 function toggleCart(){
   const modal=document.getElementById('cart-modal');
   modal.style.display=modal.style.display==='block'?'none':'block';
-  updateCart();
+  updateCartDisplay();
 }
 
 // --- PAIEMENT ---
@@ -270,7 +369,7 @@ function viewDetailedInvoice(){
   const clientCode=document.getElementById('clientCode').value;
   if(!clientCode){alert("Veuillez entrer votre code client");return;}
   
-  let cart = JSON.parse(localStorage.getItem(clientCode)||'[]');
+  let cart = getCart();
   if(cart.length===0){alert("Votre panier est vide.");return;}
   
   const orderNumber = 'CMD-' + Math.floor(Math.random() * 100000);
@@ -282,10 +381,13 @@ function viewDetailedInvoice(){
 
   let invoiceHTML = `
     <div class="invoice-details mb-3 p-3 border rounded">
-      <h4>📋 Facture Détaillée</h4>
+      <h4>📋 Facture Détaillée - Fruits & Légumes</h4>
       <p><strong>N° Commande:</strong> ${orderNumber}</p>
       <p><strong>Code Client:</strong> ${clientCode}</p>
       <p><strong>Date:</strong> ${orderDate}</p>
+      <div class="alert alert-success">
+        <i class="fa fa-leaf"></i> <strong>Produits frais :</strong> Livraison rapide pour préserver la fraîcheur de vos fruits et légumes.
+      </div>
       <table class="table table-sm mt-3">
         <thead class="table-light">
           <tr><th>Article</th><th>Qté</th><th>Prix</th><th>Total</th></tr>
@@ -336,7 +438,6 @@ function processPayment(orderNumber, clientCode) {
   
   if (method === 'online') {
     alert('Redirection vers le paiement sécurisé...');
-    // Ici vous intégreriez Stripe
   } else {
     alert('Commande confirmée ! Présentez cette facture au magasin ou à la livraison.');
     downloadInvoicePDF(orderNumber, clientCode);
@@ -352,8 +453,6 @@ function processPayment(orderNumber, clientCode) {
 function callOrder(){window.location.href='tel:5141234567';}
 
 function downloadInvoicePDF(orderNumber, clientCode) {
-  alert("Fonction PDF: Téléchargement de la facture " + orderNumber);
-  // Implémentation PDF simplifiée
   const invoiceContent = document.querySelector('.invoice-details').innerHTML;
   const win = window.open('', '_blank');
   win.document.write(`
@@ -367,9 +466,10 @@ function downloadInvoicePDF(orderNumber, clientCode) {
 
 // --- INITIALISATION ---
 document.addEventListener('DOMContentLoaded', function() {
+  // Mettre à jour l'affichage du panier au chargement
+  updateCartDisplay();
   renderProducts();
   updatePaymentInterface();
-  // Masquer l'alerte admin au démarrage
   document.getElementById('admin-alert').style.display = stripeAvailable ? 'none' : 'block';
 });
 </script>
