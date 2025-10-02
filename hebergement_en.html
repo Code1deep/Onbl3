@@ -11,7 +11,7 @@
       --dark-blue: #003d73;
       --orange: #ff6b35;
       --green: #28a745;
-      --light-gray: #f8f9fa;
+      --very-light-green: #f0fff0;
     }
     
     * {
@@ -32,29 +32,43 @@
       padding: 0 20px;
     }
     
-    /* Header Styles */
+    /* Header Styles MODIFIÉ */
     .main-header {
       background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
       color: white;
-      padding: 40px 0;
-      text-align: center;
+      padding: 20px 0;
+    }
+    
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
     
     .logo-container {
-      margin-bottom: 20px;
+      flex: 0 0 auto;
     }
     
     .logo {
-      height: 80px;
+      height: 60px;
+    }
+    
+    .header-content {
+      flex: 1;
+      text-align: center;
+      padding: 0 20px;
     }
     
     .page-title {
-      font-size: 2.5em;
-      margin-bottom: 10px;
+      font-size: 2.2em;
+      margin-bottom: 5px;
     }
     
     .page-subtitle {
-      font-size: 1.3em;
+      font-size: 1.1em;
       opacity: 0.9;
     }
     
@@ -88,7 +102,7 @@
       background: linear-gradient(rgba(232, 245, 233, 0.7), rgba(232, 245, 233, 0.7)), url('assets/housing-hero.jpg');
       background-size: cover;
       background-position: center;
-      color: dark-blue;
+      color: var(--dark-blue);
       padding: 80px 20px;
       text-align: center;
     }
@@ -109,7 +123,7 @@
     }
     
     .section-alt {
-      background: var(--light-gray);
+      background: var(--very-light-green); /* Changé de light-gray à very-light-green */
     }
     
     .section-title {
@@ -289,7 +303,7 @@
     .testimonial-card::before {
       content: '"';
       font-size: 4em;
-      color: var(--light-gray);
+      color: #f0f0f0;
       position: absolute;
       top: 10px;
       right: 20px;
@@ -341,6 +355,15 @@
     }
     
     @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .header-content {
+        padding: 20px 0 0;
+      }
+      
       .nav-container {
         flex-direction: column;
       }
@@ -357,13 +380,17 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
+  <!-- Header MODIFIÉ -->
   <header class="main-header">
-    <div class="logo-container">
-      <img src="assets/logo_en.png" alt="Carrefour Logo" class="logo">
+    <div class="header-container">
+      <div class="logo-container">
+        <img src="assets/logo_en.png" alt="Carrefour Logo" class="logo">
+      </div>
+      <div class="header-content">
+        <h1 class="page-title">Social Housing</h1>
+        <p class="page-subtitle">A safe temporary space with personalized social support</p>
+      </div>
     </div>
-    <h1 class="page-title">Social Housing</h1>
-    <p class="page-subtitle">A safe temporary space with personalized social support</p>
   </header>
 
   <!-- Navigation -->
