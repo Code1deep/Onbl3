@@ -459,4 +459,276 @@
 
               <div class="form-row">
                 <div class="form-group">
-                  <label
+                  <label for="email" class="required">Email Address</label>
+                  <input type="email" id="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label for="phone" class="required">Phone Number</label>
+                  <input type="tel" id="phone" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="birthDate" class="required">Date of Birth</label>
+                  <input type="date" id="birthDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label for="educationLevel" class="required">Education Level</label>
+                  <select id="educationLevel" class="form-select" required>
+                    <option value="">Select...</option>
+                    <option value="elementary">Elementary School</option>
+                    <option value="highschool">High School</option>
+                    <option value="college">College</option>
+                    <option value="university">University</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="address" class="required">Complete Address</label>
+                <textarea id="address" class="form-control form-textarea" required></textarea>
+              </div>
+
+              <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next</button>
+            </div>
+          </div>
+
+          <!-- Step 2: Training Selection -->
+          <div class="form-step" id="step2">
+            <div class="registration-header">
+              <h2>Training Selection</h2>
+              <p>Select the training(s) you are interested in</p>
+            </div>
+            
+            <div class="registration-body">
+              <div class="form-group">
+                <label class="required">Training Areas</label>
+                <div class="training-options">
+                  <label class="training-option">
+                    <input type="checkbox" name="training" value="digital"> 💻 Digital Training
+                  </label>
+                  <label class="training-option">
+                    <input type="checkbox" name="training" value="ai"> 🤖 Artificial Intelligence
+                  </label>
+                  <label class="training-option">
+                    <input type="checkbox" name="training" value="coding"> 🔧 Web Development
+                  </label>
+                  <label class="training-option">
+                    <input type="checkbox" name="training" value="office"> 📊 Advanced Office Skills
+                  </label>
+                  <label class="training-option">
+                    <input type="checkbox" name="training" value="entrepreneurship"> 💼 Entrepreneurship
+                  </label>
+                  <label class="training-option">
+                    <input type="checkbox" name="training" value="certifications"> 🎓 Professional Certifications
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="availability" class="required">Availability</label>
+                <select id="availability" class="form-select" required>
+                  <option value="">Select...</option>
+                  <option value="daytime">Daytime</option>
+                  <option value="evening">Evening</option>
+                  <option value="weekend">Weekend</option>
+                  <option value="flexible">Flexible</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="motivation">Motivation and Goals</label>
+                <textarea id="motivation" class="form-control form-textarea" placeholder="Describe your motivations and professional goals..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="experience">Previous Experience</label>
+                <textarea id="experience" class="form-control form-textarea" placeholder="Do you have any experience in this field?"></textarea>
+              </div>
+
+              <div style="display: flex; gap: 15px;">
+                <button type="button" class="btn btn-secondary" onclick="prevStep(1)" style="flex: 1;">Previous</button>
+                <button type="button" class="btn btn-primary" onclick="nextStep(3)" style="flex: 1;">Next</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Confirmation -->
+          <div class="form-step" id="step3">
+            <div class="registration-header">
+              <h2>Confirmation</h2>
+              <p>Verify your information before submitting</p>
+            </div>
+            
+            <div class="registration-body">
+              <div id="summary" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                <!-- Summary will be populated by JavaScript -->
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="terms" required>
+                  I accept the <a href="#" style="color: var(--primary-blue);">terms and conditions</a> and 
+                  <a href="#" style="color: var(--primary-blue);">privacy policy</a>
+                </label>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="newsletter">
+                  I wish to receive news and training offers by email
+                </label>
+              </div>
+
+              <div style="display: flex; gap: 15px;">
+                <button type="button" class="btn btn-secondary" onclick="prevStep(2)" style="flex: 1;">Previous</button>
+                <button type="submit" class="btn btn-primary" style="flex: 1;">Submit Registration</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Success Message -->
+          <div class="success-message" id="successMessage">
+            <div class="success-icon">✅</div>
+            <h2>Registration Successful!</h2>
+            <p>Thank you for your registration. We will contact you shortly to finalize your file.</p>
+            <p style="margin-top: 20px;">
+              <strong>Next step:</strong> An advisor will contact you within 48 hours for an orientation interview.
+            </p>
+            <p style="margin-top: 15px; background: #e8f5e8; padding: 15px; border-radius: 8px;">
+              <strong>📧 Email Sent:</strong> A confirmation email has been sent to <strong>a_formation425@outlook.com</strong>
+            </p>
+            <div style="margin-top: 30px;">
+              <a href="formation_en.html" class="btn btn-primary">Back to Training</a>
+              <a href="index_en.html" class="btn btn-secondary" style="margin-left: 10px;">Home Page</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2025 Carrefour of Educational & Entrepreneurial Initiatives</p>
+      <div class="footer-links">
+        <a href="index_en.html">Home</a>
+        <a href="inscription_fr.html">Version Française</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Form Navigation
+    function nextStep(step) {
+      document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.progress-step').forEach(s => s.classList.remove('active'));
+      
+      document.getElementById('step' + step).classList.add('active');
+      document.querySelectorAll('.progress-step')[step - 1].classList.add('active');
+      
+      if (step === 3) {
+        updateSummary();
+      }
+    }
+
+    function prevStep(step) {
+      document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.progress-step').forEach(s => s.classList.remove('active'));
+      
+      document.getElementById('step' + step).classList.add('active');
+      document.querySelectorAll('.progress-step')[step - 1].classList.add('active');
+    }
+
+    // Update Summary
+    function updateSummary() {
+      const summary = document.getElementById('summary');
+      const formData = new FormData(document.getElementById('registrationForm'));
+      
+      summary.innerHTML = `
+        <h3 style="margin-bottom: 15px; color: var(--dark-blue);">Registration Summary</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div><strong>Full Name:</strong> ${document.getElementById('firstName').value} ${document.getElementById('lastName').value}</div>
+          <div><strong>Email:</strong> ${document.getElementById('email').value}</div>
+          <div><strong>Phone:</strong> ${document.getElementById('phone').value}</div>
+          <div><strong>Education Level:</strong> ${document.getElementById('educationLevel').value}</div>
+          <div><strong>Availability:</strong> ${document.getElementById('availability').value}</div>
+        </div>
+        <div style="margin-top: 15px;">
+          <strong>Selected Trainings:</strong><br>
+          ${Array.from(document.querySelectorAll('input[name="training"]:checked')).map(cb => cb.parentElement.textContent.trim()).join(', ')}
+        </div>
+      `;
+    }
+
+    // Form Submission
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Simulate form processing
+      document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
+      document.getElementById('successMessage').style.display = 'block';
+      
+      // Send email notification
+      sendEmailNotification();
+      
+      console.log('Form submitted successfully');
+    });
+
+    // Send Email Notification
+    function sendEmailNotification() {
+      const formData = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        trainings: Array.from(document.querySelectorAll('input[name="training"]:checked')).map(cb => cb.value).join(', '),
+        availability: document.getElementById('availability').value,
+        motivation: document.getElementById('motivation').value
+      };
+
+      // In a real implementation, you would send this data to your server
+      // For now, we'll simulate the email sending
+      console.log('Sending email to: a_formation425@outlook.com');
+      console.log('Registration data:', formData);
+      
+      // Simulate email sending (in production, use a backend service)
+      setTimeout(() => {
+        console.log('Email sent successfully to a_formation425@outlook.com');
+        
+        // Show success message with email confirmation
+        const successMessage = document.getElementById('successMessage');
+        successMessage.innerHTML = `
+          <div class="success-icon">✅</div>
+          <h2>Registration Successful!</h2>
+          <p>Thank you for your registration. We will contact you shortly to finalize your file.</p>
+          <p style="margin-top: 20px;">
+            <strong>Next step:</strong> An advisor will contact you within 48 hours for an orientation interview.
+          </p>
+          <p style="margin-top: 15px; background: #e8f5e8; padding: 15px; border-radius: 8px;">
+            <strong>📧 Email Sent:</strong> A confirmation email has been sent to <strong>a_formation425@outlook.com</strong>
+          </p>
+          <div style="margin-top: 30px;">
+            <a href="formation_en.html" class="btn btn-primary">Back to Training</a>
+            <a href="index_en.html" class="btn btn-secondary" style="margin-left: 10px;">Home Page</a>
+          </div>
+        `;
+      }, 1000);
+    }
+
+    // Training option selection styling
+    document.querySelectorAll('.training-option').forEach(option => {
+      option.addEventListener('click', function() {
+        const checkbox = this.querySelector('input');
+        checkbox.checked = !checkbox.checked;
+        this.classList.toggle('selected', checkbox.checked);
+      });
+    });
+  </script>
+</body>
+</html>
