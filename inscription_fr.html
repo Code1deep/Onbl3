@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscription aux Formations - Carrefour des Initiatives</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root {
+      --primary-blue: #0056a3;
+      --dark-blue: #003d73;
+      --orange: #ff6b35;
+      --green: #28a745;
+      --purple: #6f42c1;
+      --light-gray: #f8f9fa;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: var(--light-gray);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Styles */
+    .main-header {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      color: white;
+      padding: 20px 0;
+    }
+    
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .logo-container {
+      flex: 0 0 auto;
+    }
+    
+    .logo {
+      height: 60px;
+    }
+    
+    .header-content {
+      flex: 1;
+      text-align: center;
+      padding: 0 20px;
+    }
+    
+    .page-title {
+      font-size: 2.2em;
+      margin-bottom: 5px;
+    }
+    
+    .page-subtitle {
+      font-size: 1.1em;
+      opacity: 0.9;
+    }
+    
+    /* Navigation */
+    .main-nav {
+      background: var(--dark-blue);
+      padding: 0;
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      transition: background 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    /* Main Content */
+    .main-content {
+      padding: 40px 0;
+    }
+    
+    .registration-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    
+    .registration-header {
+      background: linear-gradient(135deg, var(--purple) 0%, #5a2d9c 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+    
+    .registration-header h2 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+    
+    .registration-body {
+      padding: 40px;
+    }
+    
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 25px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--dark-blue);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(0, 86, 163, 0.1);
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    .form-select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      background: white;
+      cursor: pointer;
+    }
+    
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    
+    /* Training Selection */
+    .training-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 10px;
+    }
+    
+    .training-option {
+      background: #f8f9fa;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .training-option:hover {
+      border-color: var(--primary-blue);
+      background: #e3f2fd;
+    }
+    
+    .training-option.selected {
+      border-color: var(--green);
+      background: #e8f5e8;
+    }
+    
+    .training-option input {
+      margin-right: 10px;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 15px 30px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+      width: 100%;
+    }
+    
+    .btn-primary:hover {
+      background: #e55a2b;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary-blue);
+      border: 2px solid var(--primary-blue);
+    }
+    
+    .btn-secondary:hover {
+      background: var(--primary-blue);
+      color: white;
+    }
+    
+    /* Progress Bar */
+    .progress-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      position: relative;
+    }
+    
+    .progress-bar::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #e0e0e0;
+      z-index: 1;
+    }
+    
+    .progress-step {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .step-number {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background: #e0e0e0;
+      color: #666;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    
+    .progress-step.active .step-number {
+      background: var(--green);
+      color: white;
+    }
+    
+    .step-label {
+      font-size: 0.9em;
+      color: #666;
+    }
+    
+    .progress-step.active .step-label {
+      color: var(--green);
+      font-weight: 600;
+    }
+    
+    /* Form Steps */
+    .form-step {
+      display: none;
+    }
+    
+    .form-step.active {
+      display: block;
+    }
+    
+    /* Success Message */
+    .success-message {
+      text-align: center;
+      padding: 50px 30px;
+      display: none;
+    }
+    
+    .success-icon {
+      font-size: 4em;
+      color: var(--green);
+      margin-bottom: 20px;
+    }
+    
+    /* Required Field */
+    .required::after {
+      content: ' *';
+      color: #dc3545;
+    }
+    
+    /* Footer */
+    .main-footer {
+      background: #333;
+      color: white;
+      padding: 40px 0 20px;
+      text-align: center;
+      margin-top: 60px;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .header-content {
+        padding: 20px 0 0;
+      }
+      
+      .nav-container {
+        flex-direction: column;
+      }
+      
+      .nav-link {
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .registration-body {
+        padding: 20px;
+      }
+      
+      .training-options {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-container">
+        <img src="assets/logo_fr.png" alt="Logo Carrefour" class="logo">
+      </div>
+      <div class="header-content">
+        <h1 class="page-title">Inscription aux Formations</h1>
+        <p class="page-subtitle">Votre avenir professionnel commence ici</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-link">Accueil</a>
+      <a href="hebergement_fr.html" class="nav-link">Hébergement Social</a>
+      <a href="epicerie_fr.html" class="nav-link">Épicerie Sociale</a>
+      <a href="formation_fr.html" class="nav-link">Formation & Éducation</a>
+      <a href="microcredit_fr.html" class="nav-link">Microcrédit Responsable</a>
+      <a href="services_fr.html" class="nav-link">Services Transverses</a>
+      <a href="recherche_fr.html" class="nav-link">Recherche & Partenariat</a>
+      <a href="nos_besoins_fr.html" class="nav-link">Nos Besoins</a>
+      <a href="inscription_en.html" class="nav-link">English</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <div class="registration-container">
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+          <div class="progress-step active">
+            <div class="step-number">1</div>
+            <div class="step-label">Informations Personnelles</div>
+          </div>
+          <div class="progress-step">
+            <div class="step-number">2</div>
+            <div class="step-label">Choix de Formation</div>
+          </div>
+          <div class="progress-step">
+            <div class="step-number">3</div>
+            <div class="step-label">Confirmation</div>
+          </div>
+        </div>
+
+        <!-- Registration Form -->
+        <form id="registrationForm">
+          <!-- Step 1: Personal Information -->
+          <div class="form-step active" id="step1">
+            <div class="registration-header">
+              <h2>Informations Personnelles</h2>
+              <p>Remplissez vos informations de base pour commencer</p>
+            </div>
+            
+            <div class="registration-body">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="firstName" class="required">Prénom</label>
+                  <input type="text" id="firstName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label for="lastName" class="required">Nom</label>
+                  <input type="text" id="lastName" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="email" class="required">Adresse Email</label>
+                  <input type="email" id="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label for="phone" class="required">Téléphone</label>
+                  <input type="tel" id="phone" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="birthDate" class="required">Date de Naissance</label>
+                  <input type="date" id="birthDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label for="educationLevel" class="required">Niveau d'Étude</label>
+                  <select id="educationLevel" class="form-select" required>
+                    <option value="">Sélectionnez...</option>
+                    <option value="primaire">Primaire</option>
+                    <option value="secondaire">Secondaire</option>
+                    <option value="collegial">Collégial</option>
+                    <option value="universitaire">Universitaire</option>
+                    <option value="autre">Autre</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="address" class="required">Adresse Complète</label>
+                <textarea id="address" class="form-control form-textarea" required></textarea>
+              </div>
+
+              <button type="button" class="btn btn-primary" onclick="nextStep(2)">Suivant</button>
+            </div>
+          </div>
+
+          <!-- Step 2: Training Selection -->
+          <div class="form-step" id="step2">
+            <div class="registration-header">
+              <h2>Choix de Formation</h2>
+              <p>Sélectionnez la ou les formations qui vous intéressent</p>
+            </div>
+            
+            <div class="registration-body">
+              <div class="form-group">
+                <label class="required">Domaines de Formation</label>
+                <div class="training-options">
+                  <label class="training-option">
+                    <input type="checkbox" name="training" value="digital"> 💻 Formation Numérique
+                  </label>
+                  <label class="training-option">
+                    <input type="checkbox" name="training" value="ai"> 🤖 Intelligence Artificielle
+                  </label>
+                  <label class="training-option">
+                    <input type="checkbox" name="training" value="coding"> 🔧 Développement Web
+                  </label>
+                  <label class="training-option">
+                    <input type="checkbox" name="training" value="office"> 📊 Bureautique Avancée
+                  </label>
+                  <label class="training-option">
+                    <input type="checkbox" name="training" value="entrepreneurship"> 💼 Entrepreneuriat
+                  </label>
+                  <label class="training-option">
+                    <input type="checkbox" name="training" value="certifications"> 🎓 Certifications Professionnelles
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="availability" class="required">Disponibilité</label>
+                <select id="availability" class="form-select" required>
+                  <option value="">Sélectionnez...</option>
+                  <option value="journee">Journée</option>
+                  <option value="soiree">Soirée</option>
+                  <option value="weekend">Weekend</option>
+                  <option value="flexible">Flexible</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="motivation">Motivation et Objectifs</label>
+                <textarea id="motivation" class="form-control form-textarea" placeholder="Décrivez vos motivations et objectifs professionnels..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="experience">Expérience Préalable</label>
+                <textarea id="experience" class="form-control form-textarea" placeholder="Avez-vous une expérience dans ce domaine ?"></textarea>
+              </div>
+
+              <div style="display: flex; gap: 15px;">
+                <button type="button" class="btn btn-secondary" onclick="prevStep(1)" style="flex: 1;">Précédent</button>
+                <button type="button" class="btn btn-primary" onclick="nextStep(3)" style="flex: 1;">Suivant</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Confirmation -->
+          <div class="form-step" id="step3">
+            <div class="registration-header">
+              <h2>Confirmation</h2>
+              <p>Vérifiez vos informations avant de soumettre</p>
+            </div>
+            
+            <div class="registration-body">
+              <div id="summary" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                <!-- Summary will be populated by JavaScript -->
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="terms" required>
+                  J'accepte les <a href="#" style="color: var(--primary-blue);">conditions générales</a> et la 
+                  <a href="#" style="color: var(--primary-blue);">politique de confidentialité</a>
+                </label>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="newsletter">
+                  Je souhaite recevoir les actualités et offres de formation par email
+                </label>
+              </div>
+
+              <div style="display: flex; gap: 15px;">
+                <button type="button" class="btn btn-secondary" onclick="prevStep(2)" style="flex: 1;">Précédent</button>
+                <button type="submit" class="btn btn-primary" style="flex: 1;">Soumettre l'Inscription</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Success Message -->
+          <div class="success-message" id="successMessage">
+            <div class="success-icon">✅</div>
+            <h2>Inscription Réussie !</h2>
+            <p>Merci pour votre inscription. Nous vous contacterons dans les plus brefs délais pour finaliser votre dossier.</p>
+            <p style="margin-top: 20px;">
+              <strong>Prochaine étape :</strong> Un conseiller vous contactera sous 48 heures pour un entretien d'orientation.
+            </p>
+            <div style="margin-top: 30px;">
+              <a href="formation_fr.html" class="btn btn-primary">Retour aux Formations</a>
+              <a href="index.html" class="btn btn-secondary" style="margin-left: 10px;">Page d'Accueil</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2025 Carrefour des Initiatives Éducatives et Entrepreneuriales</p>
+      <div class="footer-links">
+        <a href="index.html">Accueil</a>
+        <a href="formation_en.html">English Version</a>
+        <a href="contact.html">Contact</a>
+        <a href="confidentialite.html">Confidentialité</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Form Navigation
+    function nextStep(step) {
+      document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.progress-step').forEach(s => s.classList.remove('active'));
+      
+      document.getElementById('step' + step).classList.add('active');
+      document.querySelectorAll('.progress-step')[step - 1].classList.add('active');
+      
+      if (step === 3) {
+        updateSummary();
+      }
+    }
+
+    function prevStep(step) {
+      document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.progress-step').forEach(s => s.classList.remove('active'));
+      
+      document.getElementById('step' + step).classList.add('active');
+      document.querySelectorAll('.progress-step')[step - 1].classList.add('active');
+    }
+
+    // Update Summary
+    function updateSummary() {
+      const summary = document.getElementById('summary');
+      const formData = new FormData(document.getElementById('registrationForm'));
+      
+      summary.innerHTML = `
+        <h3 style="margin-bottom: 15px; color: var(--dark-blue);">Récapitulatif de votre inscription</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div><strong>Nom complet:</strong> ${document.getElementById('firstName').value} ${document.getElementById('lastName').value}</div>
+          <div><strong>Email:</strong> ${document.getElementById('email').value}</div>
+          <div><strong>Téléphone:</strong> ${document.getElementById('phone').value}</div>
+          <div><strong>Niveau d'étude:</strong> ${document.getElementById('educationLevel').value}</div>
+          <div><strong>Disponibilité:</strong> ${document.getElementById('availability').value}</div>
+        </div>
+        <div style="margin-top: 15px;">
+          <strong>Formations sélectionnées:</strong><br>
+          ${Array.from(document.querySelectorAll('input[name="training"]:checked')).map(cb => cb.parentElement.textContent.trim()).join(', ')}
+        </div>
+      `;
+    }
+
+    // Form Submission
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Simulate form processing
+      document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
+      document.getElementById('successMessage').style.display = 'block';
+      
+      // Here you would typically send the data to a server
+      console.log('Form submitted successfully');
+    });
+
+    // Training option selection styling
+    document.querySelectorAll('.training-option').forEach(option => {
+      option.addEventListener('click', function() {
+        const checkbox = this.querySelector('input');
+        checkbox.checked = !checkbox.checked;
+        this.classList.toggle('selected', checkbox.checked);
+      });
+    });
+  </script>
+</body>
+</html>
