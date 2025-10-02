@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Training Registration - Carrefour of Initiatives</title>
   <link rel="stylesheet" href="css/style.css">
+  <!-- Ajoutez EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function() {
+      emailjs.init("YOUR_PUBLIC_KEY"); // Remplacez par votre clé publique EmailJS
+    })();
+  </script>
   <style>
     :root {
       --primary-blue: #0056a3;
@@ -914,6 +921,93 @@
         }
       });
     });
+    // MODIFIER la fonction sendEmailNotifications pour utiliser EmailJS
+    async function sendEmailNotifications() {
+      const formData = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        birthDate: document.getElementById('birthDate').value,
+        educationLevel: document.getElementById('educationLevel').value,
+        address: document.getElementById('address').value,
+        trainings: Array.from(document.querySelectorAll('input[name="training"]:checked')).map(cb => cb.value).join(', '),
+        training_names: Array.from(document.querySelectorAll('input[name="training"]:checked')).map(cb => cb.parentElement.textContent.trim()).join(', '),
+        availability: document.getElementById('availability').value,
+        motivation: document.getElementById('motivation').value,
+        experience: document.getElementById('experience').value,
+        newsletter: document.getElementById('newsletter').checked,
+        submission_date: new Date().toLocaleString()
+      };
+
+      try {
+        // Email à l'administrateur
+        await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
+          to_email: 'a_formation425@outlook.com',
+          to_name: 'Training Department',
+          from_name: `${formData.firstName} ${formData.lastName}`,
+          from_email: formData.email,
+          phone: formData.phone,
+          trainings: formData.training_names,
+          availability: formData.availability,
+          motivation: formData.motivation,
+          experience: formData.experience,
+          submission_date: formData.submission_date,
+          message: `New training registration received from ${formData.firstName} ${formData.lastName}`
+        });
+
+        // Email de confirmation au client
+        await emailjs.send('YOUR_SERVICE_ID', 'CLIENT_TEMPLATE_ID', {
+          to_email: formData.email,
+          to_name: `${formData.firstName} ${formData.lastName}`,
+          from_name: 'Carrefour Training Center',
+          trainings: formData.training_names,
+          availability: formData.availability,
+          submission_date: formData.submission_date,
+          contact_email: 'a_formation425@outlook.com',
+          contact_phone: '+1 (514) 123-4567'
+        });
+
+        console.log('✅ Emails sent successfully!');
+        return true;
+      } catch (error) {
+        console.error('❌ Email sending failed:', error);
+        return false;
+      }
+    }
+
+    // MODIFIER la fonction submitForm
+    async function submitForm() {
+      const terms = document.getElementById('terms');
+      const termsError = document.getElementById('termsError');
+      
+      if (!terms.checked) {
+        termsError.classList.add('show');
+        showAlert('error', 'You must accept the terms and conditions.');
+        return;
+      }
+
+      const submitBtn = document.querySelector('button[onclick="submitForm()"]');
+      submitBtn.innerHTML = '📧 Sending...';
+      submitBtn.disabled = true;
+
+      try {
+        const emailSent = await sendEmailNotifications();
+        
+        if (emailSent) {
+          document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
+          document.getElementById('successMessage').style.display = 'block';
+          showAlert('success', 'Your registration has been submitted successfully! Emails have been sent.');
+        } else {
+          showAlert('error', 'Registration submitted but email notification failed. We will contact you shortly.');
+        }
+      } catch (error) {
+        showAlert('error', 'There was an error submitting your registration. Please try again or contact us directly.');
+      } finally {
+        submitBtn.innerHTML = 'Submit Registration';
+        submitBtn.disabled = false;
+      }
+    }
   </script>
 </body>
 </html>
