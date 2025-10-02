@@ -11,6 +11,7 @@
       --dark-blue: #003d73;
       --orange: #ff6b35;
       --green: #28a745;
+      --red: #dc3545;
       --purple: #6f42c1;
       --light-gray: #f8f9fa;
     }
@@ -156,6 +157,21 @@
       box-shadow: 0 0 0 3px rgba(0, 86, 163, 0.1);
     }
     
+    .form-control.error {
+      border-color: var(--red);
+    }
+    
+    .error-message {
+      color: var(--red);
+      font-size: 0.9em;
+      margin-top: 5px;
+      display: none;
+    }
+    
+    .error-message.show {
+      display: block;
+    }
+    
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -170,6 +186,10 @@
       font-size: 16px;
       background: white;
       cursor: pointer;
+    }
+    
+    .form-select.error {
+      border-color: var(--red);
     }
     
     .form-textarea {
@@ -202,6 +222,11 @@
     .training-option.selected {
       border-color: var(--green);
       background: #e8f5e8;
+    }
+    
+    .training-option.error {
+      border-color: var(--red);
+      background: #fde8e8;
     }
     
     .training-option input {
@@ -324,7 +349,27 @@
     /* Required Field */
     .required::after {
       content: ' *';
-      color: #dc3545;
+      color: var(--red);
+    }
+    
+    /* Alert Styles */
+    .alert {
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    
+    .alert-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .alert-error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
     }
     
     /* Footer */
@@ -419,6 +464,14 @@
   <!-- Main Content -->
   <main class="main-content">
     <div class="container">
+      <div class="alert alert-success" id="successAlert">
+        ✅ <strong>Success!</strong> Your registration has been submitted successfully. We will contact you shortly.
+      </div>
+      
+      <div class="alert alert-error" id="errorAlert">
+        ❌ <strong>Error!</strong> Please fill in all required fields correctly.
+      </div>
+
       <div class="registration-container">
         <!-- Progress Bar -->
         <div class="progress-bar">
@@ -450,10 +503,12 @@
                 <div class="form-group">
                   <label for="firstName" class="required">First Name</label>
                   <input type="text" id="firstName" class="form-control" required>
+                  <div class="error-message" id="firstNameError">Please enter your first name</div>
                 </div>
                 <div class="form-group">
                   <label for="lastName" class="required">Last Name</label>
                   <input type="text" id="lastName" class="form-control" required>
+                  <div class="error-message" id="lastNameError">Please enter your last name</div>
                 </div>
               </div>
 
@@ -461,10 +516,12 @@
                 <div class="form-group">
                   <label for="email" class="required">Email Address</label>
                   <input type="email" id="email" class="form-control" required>
+                  <div class="error-message" id="emailError">Please enter a valid email address</div>
                 </div>
                 <div class="form-group">
                   <label for="phone" class="required">Phone Number</label>
                   <input type="tel" id="phone" class="form-control" required>
+                  <div class="error-message" id="phoneError">Please enter a valid phone number</div>
                 </div>
               </div>
 
@@ -472,6 +529,7 @@
                 <div class="form-group">
                   <label for="birthDate" class="required">Date of Birth</label>
                   <input type="date" id="birthDate" class="form-control" required>
+                  <div class="error-message" id="birthDateError">Please enter your date of birth</div>
                 </div>
                 <div class="form-group">
                   <label for="educationLevel" class="required">Education Level</label>
@@ -483,15 +541,17 @@
                     <option value="university">University</option>
                     <option value="other">Other</option>
                   </select>
+                  <div class="error-message" id="educationLevelError">Please select your education level</div>
                 </div>
               </div>
 
               <div class="form-group">
                 <label for="address" class="required">Complete Address</label>
                 <textarea id="address" class="form-control form-textarea" required></textarea>
+                <div class="error-message" id="addressError">Please enter your complete address</div>
               </div>
 
-              <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next</button>
+              <button type="button" class="btn btn-primary" onclick="validateStep1()">Next</button>
             </div>
           </div>
 
@@ -505,7 +565,7 @@
             <div class="registration-body">
               <div class="form-group">
                 <label class="required">Training Areas</label>
-                <div class="training-options">
+                <div class="training-options" id="trainingOptions">
                   <label class="training-option">
                     <input type="checkbox" name="training" value="digital"> 💻 Digital Training
                   </label>
@@ -525,6 +585,7 @@
                     <input type="checkbox" name="training" value="certifications"> 🎓 Professional Certifications
                   </label>
                 </div>
+                <div class="error-message" id="trainingError">Please select at least one training</div>
               </div>
 
               <div class="form-group">
@@ -536,6 +597,7 @@
                   <option value="weekend">Weekend</option>
                   <option value="flexible">Flexible</option>
                 </select>
+                <div class="error-message" id="availabilityError">Please select your availability</div>
               </div>
 
               <div class="form-group">
@@ -550,7 +612,7 @@
 
               <div style="display: flex; gap: 15px;">
                 <button type="button" class="btn btn-secondary" onclick="prevStep(1)" style="flex: 1;">Previous</button>
-                <button type="button" class="btn btn-primary" onclick="nextStep(3)" style="flex: 1;">Next</button>
+                <button type="button" class="btn btn-primary" onclick="validateStep2()" style="flex: 1;">Next</button>
               </div>
             </div>
           </div>
@@ -573,6 +635,7 @@
                   I accept the <a href="#" style="color: var(--primary-blue);">terms and conditions</a> and 
                   <a href="#" style="color: var(--primary-blue);">privacy policy</a>
                 </label>
+                <div class="error-message" id="termsError">You must accept the terms and conditions</div>
               </div>
 
               <div class="form-group">
@@ -584,7 +647,7 @@
 
               <div style="display: flex; gap: 15px;">
                 <button type="button" class="btn btn-secondary" onclick="prevStep(2)" style="flex: 1;">Previous</button>
-                <button type="submit" class="btn btn-primary" style="flex: 1;">Submit Registration</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm()" style="flex: 1;">Submit Registration</button>
               </div>
             </div>
           </div>
@@ -645,10 +708,131 @@
       document.querySelectorAll('.progress-step')[step - 1].classList.add('active');
     }
 
+    // Validation Functions
+    function validateStep1() {
+      let isValid = true;
+      
+      // Reset errors
+      document.querySelectorAll('.error-message').forEach(msg => {
+        msg.classList.remove('show');
+      });
+      document.querySelectorAll('.form-control, .form-select').forEach(input => {
+        input.classList.remove('error');
+      });
+
+      // Validate required fields
+      const fields = [
+        { id: 'firstName', errorId: 'firstNameError' },
+        { id: 'lastName', errorId: 'lastNameError' },
+        { id: 'email', errorId: 'emailError' },
+        { id: 'phone', errorId: 'phoneError' },
+        { id: 'birthDate', errorId: 'birthDateError' },
+        { id: 'educationLevel', errorId: 'educationLevelError' },
+        { id: 'address', errorId: 'addressError' }
+      ];
+
+      fields.forEach(field => {
+        const element = document.getElementById(field.id);
+        const errorElement = document.getElementById(field.errorId);
+        
+        if (!element.value.trim()) {
+          element.classList.add('error');
+          errorElement.classList.add('show');
+          isValid = false;
+        }
+      });
+
+      // Validate email format
+      const email = document.getElementById('email');
+      const emailError = document.getElementById('emailError');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (email.value && !emailRegex.test(email.value)) {
+        email.classList.add('error');
+        emailError.textContent = 'Please enter a valid email address';
+        emailError.classList.add('show');
+        isValid = false;
+      }
+
+      if (isValid) {
+        nextStep(2);
+      } else {
+        showAlert('error', 'Please fill in all required fields correctly.');
+      }
+    }
+
+    function validateStep2() {
+      let isValid = true;
+      
+      // Reset errors
+      document.getElementById('trainingError').classList.remove('show');
+      document.getElementById('availabilityError').classList.remove('show');
+      document.getElementById('availability').classList.remove('error');
+      document.querySelectorAll('.training-option').forEach(option => {
+        option.classList.remove('error');
+      });
+
+      // Validate training selection
+      const trainingSelected = document.querySelectorAll('input[name="training"]:checked').length > 0;
+      if (!trainingSelected) {
+        document.getElementById('trainingError').classList.add('show');
+        document.querySelectorAll('.training-option').forEach(option => {
+          option.classList.add('error');
+        });
+        isValid = false;
+      }
+
+      // Validate availability
+      const availability = document.getElementById('availability');
+      if (!availability.value) {
+        availability.classList.add('error');
+        document.getElementById('availabilityError').classList.add('show');
+        isValid = false;
+      }
+
+      if (isValid) {
+        nextStep(3);
+      } else {
+        showAlert('error', 'Please select at least one training and your availability.');
+      }
+    }
+
+    function submitForm() {
+      // Validate terms acceptance
+      const terms = document.getElementById('terms');
+      const termsError = document.getElementById('termsError');
+      
+      if (!terms.checked) {
+        termsError.classList.add('show');
+        showAlert('error', 'You must accept the terms and conditions.');
+        return;
+      }
+
+      // Show loading state
+      const submitBtn = document.querySelector('button[onclick="submitForm()"]');
+      submitBtn.innerHTML = 'Submitting...';
+      submitBtn.disabled = true;
+
+      // Simulate form submission
+      setTimeout(() => {
+        // Hide form and show success message
+        document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
+        document.getElementById('successMessage').style.display = 'block';
+        
+        // Send email notifications
+        sendEmailNotifications();
+        
+        // Show success alert
+        showAlert('success', 'Your registration has been submitted successfully!');
+        
+        // Reset button
+        submitBtn.innerHTML = 'Submit Registration';
+        submitBtn.disabled = false;
+      }, 2000);
+    }
+
     // Update Summary
     function updateSummary() {
       const summary = document.getElementById('summary');
-      const formData = new FormData(document.getElementById('registrationForm'));
       
       summary.innerHTML = `
         <h3 style="margin-bottom: 15px; color: var(--dark-blue);">Registration Summary</h3>
@@ -656,69 +840,57 @@
           <div><strong>Full Name:</strong> ${document.getElementById('firstName').value} ${document.getElementById('lastName').value}</div>
           <div><strong>Email:</strong> ${document.getElementById('email').value}</div>
           <div><strong>Phone:</strong> ${document.getElementById('phone').value}</div>
-          <div><strong>Education Level:</strong> ${document.getElementById('educationLevel').value}</div>
-          <div><strong>Availability:</strong> ${document.getElementById('availability').value}</div>
+          <div><strong>Date of Birth:</strong> ${document.getElementById('birthDate').value}</div>
+          <div><strong>Education Level:</strong> ${document.getElementById('educationLevel').options[document.getElementById('educationLevel').selectedIndex].text}</div>
+          <div><strong>Availability:</strong> ${document.getElementById('availability').options[document.getElementById('availability').selectedIndex].text}</div>
         </div>
         <div style="margin-top: 15px;">
           <strong>Selected Trainings:</strong><br>
           ${Array.from(document.querySelectorAll('input[name="training"]:checked')).map(cb => cb.parentElement.textContent.trim()).join(', ')}
         </div>
+        ${document.getElementById('motivation').value ? `<div style="margin-top: 15px;"><strong>Motivation:</strong><br>${document.getElementById('motivation').value}</div>` : ''}
       `;
     }
 
-    // Form Submission
-    document.getElementById('registrationForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      // Simulate form processing
-      document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
-      document.getElementById('successMessage').style.display = 'block';
-      
-      // Send email notification
-      sendEmailNotification();
-      
-      console.log('Form submitted successfully');
-    });
-
-    // Send Email Notification
-    function sendEmailNotification() {
+    // Send Email Notifications
+    function sendEmailNotifications() {
       const formData = {
         firstName: document.getElementById('firstName').value,
         lastName: document.getElementById('lastName').value,
         email: document.getElementById('email').value,
         phone: document.getElementById('phone').value,
+        birthDate: document.getElementById('birthDate').value,
+        educationLevel: document.getElementById('educationLevel').value,
+        address: document.getElementById('address').value,
         trainings: Array.from(document.querySelectorAll('input[name="training"]:checked')).map(cb => cb.value).join(', '),
         availability: document.getElementById('availability').value,
-        motivation: document.getElementById('motivation').value
+        motivation: document.getElementById('motivation').value,
+        experience: document.getElementById('experience').value,
+        newsletter: document.getElementById('newsletter').checked
       };
 
-      // In a real implementation, you would send this data to your server
-      // For now, we'll simulate the email sending
-      console.log('Sending email to: a_formation425@outlook.com');
-      console.log('Registration data:', formData);
+      // Send to admin email
+      console.log('📧 Sending registration to: a_formation425@outlook.com');
+      console.log('Registration Data:', formData);
       
-      // Simulate email sending (in production, use a backend service)
+      // Send confirmation to user
+      console.log('📧 Sending confirmation to user:', formData.email);
+      
+      // In production, you would use:
+      // fetch('/api/send-email', { method: 'POST', body: JSON.stringify(formData) })
+    }
+
+    // Alert System
+    function showAlert(type, message) {
+      const alertElement = type === 'success' ? document.getElementById('successAlert') : document.getElementById('errorAlert');
+      alertElement.style.display = 'block';
+      alertElement.innerHTML = type === 'success' ? 
+        `✅ <strong>Success!</strong> ${message}` : 
+        `❌ <strong>Error!</strong> ${message}`;
+      
       setTimeout(() => {
-        console.log('Email sent successfully to a_formation425@outlook.com');
-        
-        // Show success message with email confirmation
-        const successMessage = document.getElementById('successMessage');
-        successMessage.innerHTML = `
-          <div class="success-icon">✅</div>
-          <h2>Registration Successful!</h2>
-          <p>Thank you for your registration. We will contact you shortly to finalize your file.</p>
-          <p style="margin-top: 20px;">
-            <strong>Next step:</strong> An advisor will contact you within 48 hours for an orientation interview.
-          </p>
-          <p style="margin-top: 15px; background: #e8f5e8; padding: 15px; border-radius: 8px;">
-            <strong>📧 Email Sent:</strong> A confirmation email has been sent to <strong>a_formation425@outlook.com</strong>
-          </p>
-          <div style="margin-top: 30px;">
-            <a href="formation_en.html" class="btn btn-primary">Back to Training</a>
-            <a href="index_en.html" class="btn btn-secondary" style="margin-left: 10px;">Home Page</a>
-          </div>
-        `;
-      }, 1000);
+        alertElement.style.display = 'none';
+      }, 5000);
     }
 
     // Training option selection styling
@@ -727,6 +899,19 @@
         const checkbox = this.querySelector('input');
         checkbox.checked = !checkbox.checked;
         this.classList.toggle('selected', checkbox.checked);
+        this.classList.remove('error');
+      });
+    });
+
+    // Real-time validation
+    document.querySelectorAll('.form-control, .form-select').forEach(input => {
+      input.addEventListener('input', function() {
+        this.classList.remove('error');
+        const errorId = this.id + 'Error';
+        const errorElement = document.getElementById(errorId);
+        if (errorElement) {
+          errorElement.classList.remove('show');
+        }
       });
     });
   </script>
