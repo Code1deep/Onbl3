@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fresh Frozen Meats - Social Grocery</title>
+  <style>
+    :root {
+      --primary-blue: #0056a3;
+      --dark-blue: #003d73;
+      --orange: #ff6b35;
+      --green: #28a745;
+      --red: #dc3545;
+      --light-gray: #f8f9fa;
+      --very-light-green: #f0fff0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f9f9f9;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Styles */
+    .main-header {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      color: white;
+      padding: 20px 0;
+    }
+    
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .logo-container {
+      flex: 0 0 auto;
+    }
+    
+    .logo {
+      height: 60px;
+    }
+    
+    .header-content {
+      flex: 1;
+      text-align: center;
+      padding: 0 20px;
+    }
+    
+    .page-title {
+      font-size: 2.2em;
+      margin-bottom: 5px;
+    }
+    
+    .page-subtitle {
+      font-size: 1.1em;
+      opacity: 0.9;
+    }
+    
+    /* Navigation */
+    .main-nav {
+      background: var(--dark-blue);
+      padding: 0;
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      transition: background 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(rgba(232, 245, 233, 0.7), rgba(232, 245, 233, 0.7)), url('assets/meats-hero.jpg');
+      background-size: cover;
+      background-position: center;
+      color: var(--dark-blue);
+      padding: 80px 20px;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+    
+    .hero-text {
+      font-size: 1.2em;
+      max-width: 800px;
+      margin: 0 auto 30px;
+    }
+    
+    .section {
+      padding: 60px 0;
+    }
+    
+    .section-alt {
+      background: var(--very-light-green);
+    }
+    
+    .section-title {
+      font-size: 2em;
+      margin-bottom: 30px;
+      color: var(--dark-blue);
+      text-align: center;
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 1.1em;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Products Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+    
+    .product-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    
+    .product-image {
+      height: 200px;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3em;
+    }
+    
+    .product-content {
+      padding: 20px;
+    }
+    
+    .product-title {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      color: var(--dark-blue);
+    }
+    
+    .product-description {
+      color: #666;
+      margin-bottom: 15px;
+      font-size: 0.9em;
+    }
+    
+    .product-price {
+      font-size: 1.3em;
+      font-weight: bold;
+      color: var(--red);
+      margin-bottom: 15px;
+    }
+    
+    .product-original-price {
+      text-decoration: line-through;
+      color: #999;
+      font-size: 0.9em;
+      margin-left: 8px;
+    }
+    
+    .product-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .quantity-btn {
+      background: #f5f5f5;
+      border: none;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .quantity-input {
+      width: 40px;
+      height: 30px;
+      border: none;
+      text-align: center;
+      font-size: 1em;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary-blue);
+      border: 2px solid var(--primary-blue);
+    }
+    
+    .btn-small {
+      padding: 8px 15px;
+      font-size: 0.9em;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    /* Categories */
+    .categories {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+    
+    .category-btn {
+      padding: 10px 20px;
+      background: white;
+      border: 2px solid var(--primary-blue);
+      border-radius: 25px;
+      color: var(--primary-blue);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .category-btn.active {
+      background: var(--primary-blue);
+      color: white;
+    }
+    
+    .category-btn:hover {
+      background: var(--primary-blue);
+      color: white;
+    }
+    
+    /* Info Cards */
+    .info-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+    
+    .info-card {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .info-icon {
+      font-size: 2.5em;
+      margin-bottom: 15px;
+    }
+    
+    /* Footer */
+    .main-footer {
+      background: #333;
+      color: white;
+      padding: 40px 0 20px;
+      text-align: center;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    /* Cart */
+    .cart {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--orange);
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+    
+    .cart-count {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: var(--red);
+      color: white;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8em;
+      font-weight: bold;
+    }
+    
+    .cart-modal {
+      display: none;
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 350px;
+      max-height: 500px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      padding: 20px;
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .header-content {
+        padding: 20px 0 0;
+      }
+      
+      .nav-container {
+        flex-direction: column;
+      }
+      
+      .nav-link {
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .cart-modal {
+        width: 300px;
+        right: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-container">
+        <img src="assets/logo_en.png" alt="Community Hub Logo" class="logo">
+      </div>
+      <div class="header-content">
+        <h1 class="page-title">Fresh Frozen Meats</h1>
+        <p class="page-subtitle">Quality and freshness at solidarity prices</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <a href="index_en.html" class="nav-link">Home</a>
+      <a href="epicerie_en.html" class="nav-link">Social Grocery</a>
+      <a href="fruits_legumes_en.html" class="nav-link">Fruits & Vegetables</a>
+      <a href="produits_sec_en.html" class="nav-link">Dry Goods</a>
+      <a href="produits_congeles_en.html" class="nav-link">Frozen Products</a>
+      <a href="hygiene_products_en.html" class="nav-link">Hygiene</a>
+      <a href="viandes_en.html" class="nav-link active">Frozen Meats</a>
+      <a href="viandes_fr.html" class="nav-link">Français</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h2 class="hero-title">Quality Frozen Meats</h2>
+      <p class="hero-text">Discover our selection of frozen meats at solidarity prices. Guaranteed quality, responsible sourcing.</p>
+      <a href="#products" class="btn btn-primary">View Our Products</a>
+      <a href="epicerie_en.html" class="btn btn-secondary">Back to Grocery</a>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Our Meat Categories</h2>
+      
+      <div class="categories">
+        <button class="category-btn active" data-category="all">All Meats</button>
+        <button class="category-btn" data-category="chicken">Chicken</button>
+        <button class="category-btn" data-category="beef">Beef</button>
+        <button class="category-btn" data-category="fish">Fish</button>
+        <button class="category-btn" data-category="preparations">Preparations</button>
+      </div>
+      
+      <div class="products-grid" id="products-container">
+        <!-- Product 1 -->
+        <div class="product-card" data-category="chicken">
+          <div class="product-image" style="background-color: #fff5f5;">🍗</div>
+          <div class="product-content">
+            <h3 class="product-title">Chicken Breast Fillets (500g)</h3>
+            <p class="product-description">Skinless chicken breast fillets, individually frozen for convenience.</p>
+            <div class="product-price">
+              $4.99 <span class="product-original-price">$9.99</span>
+            </div>
+            <div class="product-actions">
+              <div class="quantity-selector">
+                <button class="quantity-btn minus" data-id="1">-</button>
+                <input type="text" class="quantity-input" value="1" data-id="1" readonly>
+                <button class="quantity-btn plus" data-id="1">+</button>
+              </div>
+              <button class="btn btn-primary btn-small add-to-cart" data-id="1" data-name="Chicken Breast Fillets (500g)" data-price="4.99">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Product 2 -->
+        <div class="product-card" data-category="beef">
+          <div class="product-image" style="background-color: #fff0f0;">🥩</div>
+          <div class="product-content">
+            <h3 class="product-title">Ground Beef 15% Fat (400g)</h3>
+            <p class="product-description">Ground beef, 15% fat content, perfect for burgers and sauces.</p>
+            <div class="product-price">
+              $5.49 <span class="product-original-price">$10.99</span>
+            </div>
+            <div class="product-actions">
+              <div class="quantity-selector">
+                <button class="quantity-btn minus" data-id="2">-</button>
+                <input type="text" class="quantity-input" value="1" data-id="2" readonly>
+                <button class="quantity-btn plus" data-id="2">+</button>
+              </div>
+              <button class="btn btn-primary btn-small add-to-cart" data-id="2" data-name="Ground Beef 15% Fat (400g)" data-price="5.49">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Product 4 -->
+        <div class="product-card" data-category="fish">
+          <div class="product-image" style="background-color: #f0f8ff;">🐟</div>
+          <div class="product-content">
+            <h3 class="product-title">Salmon Fillets (400g)</h3>
+            <p class="product-description">Atlantic salmon fillets, frozen, rich in omega-3.</p>
+            <div class="product-price">
+              $8.99 <span class="product-original-price">$17.99</span>
+            </div>
+            <div class="product-actions">
+              <div class="quantity-selector">
+                <button class="quantity-btn minus" data-id="4">-</button>
+                <input type="text" class="quantity-input" value="1" data-id="4" readonly>
+                <button class="quantity-btn plus" data-id="4">+</button>
+              </div>
+              <button class="btn btn-primary btn-small add-to-cart" data-id="4" data-name="Salmon Fillets (400g)" data-price="8.99">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Product 5 -->
+        <div class="product-card" data-category="chicken">
+          <div class="product-image" style="background-color: #fff5f5;">🍗</div>
+          <div class="product-content">
+            <h3 class="product-title">Chicken Wings (1kg)</h3>
+            <p class="product-description">Frozen chicken wings, perfect for buffets and appetizers.</p>
+            <div class="product-price">
+              $5.99 <span class="product-original-price">$11.99</span>
+            </div>
+            <div class="product-actions">
+              <div class="quantity-selector">
+                <button class="quantity-btn minus" data-id="5">-</button>
+                <input type="text" class="quantity-input" value="1" data-id="5" readonly>
+                <button class="quantity-btn plus" data-id="5">+</button>
+              </div>
+              <button class="btn btn-primary btn-small add-to-cart" data-id="5" data-name="Chicken Wings (1kg)" data-price="5.99">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Product 6 -->
+        <div class="product-card" data-category="preparations">
+          <div class="product-image" style="background-color: #f0fff0;">🍔</div>
+          <div class="product-content">
+            <h3 class="product-title">Beef Burgers (4 units)</h3>
+            <p class="product-description">Pre-cooked beef burgers, ready to heat for a quick meal.</p>
+            <div class="product-price">
+              $4.49 <span class="product-original-price">$8.99</span>
+            </div>
+            <div class="product-actions">
+              <div class="quantity-selector">
+                <button class="quantity-btn minus" data-id="6">-</button>
+                <input type="text" class="quantity-input" value="1" data-id="6" readonly>
+                <button class="quantity-btn plus" data-id="6">+</button>
+              </div>
+              <button class="btn btn-primary btn-small add-to-cart" data-id="6" data-name="Beef Burgers (4 units)" data-price="4.49">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Product 7 -->
+        <div class="product-card" data-category="fish">
+          <div class="product-image" style="background-color: #f0f8ff;">🍤</div>
+          <div class="product-content">
+            <h3 class="product-title">Frozen Shrimp (300g)</h3>
+            <p class="product-description">Peeled frozen shrimp, ideal for Asian dishes and salads.</p>
+            <div class="product-price">
+              $6.49 <span class="product-original-price">$12.99</span>
+            </div>
+            <div class="product-actions">
+              <div class="quantity-selector">
+                <button class="quantity-btn minus" data-id="7">-</button>
+                <input type="text" class="quantity-input" value="1" data-id="7" readonly>
+                <button class="quantity-btn plus" data-id="7">+</button>
+              </div>
+              <button class="btn btn-primary btn-small add-to-cart" data-id="7" data-name="Frozen Shrimp (300g)" data-price="6.49">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Product 8 -->
+        <div class="product-card" data-category="preparations">
+          <div class="product-image" style="background-color: #f0fff0;">🌯</div>
+          <div class="product-content">
+            <h3 class="product-title">Chicken Nuggets (20 pieces)</h3>
+            <p class="product-description">Breaded chicken nuggets, perfect for kids and quick meals.</p>
+            <div class="product-price">
+              $3.99 <span class="product-original-price">$7.99</span>
+            </div>
+            <div class="product-actions">
+              <div class="quantity-selector">
+                <button class="quantity-btn minus" data-id="8">-</button>
+                <input type="text" class="quantity-input" value="1" data-id="8" readonly>
+                <button class="quantity-btn plus" data-id="8">+</button>
+              </div>
+              <button class="btn btn-primary btn-small add-to-cart" data-id="8" data-name="Chicken Nuggets (20 pieces)" data-price="3.99">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Information Section -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Why Choose Our Frozen Meats?</h2>
+      
+      <div class="info-cards">
+        <div class="info-card">
+          <div class="info-icon">❄️</div>
+          <h4>Preserved Freshness</h4>
+          <p>Freezing preserves all nutritional qualities and taste of the meats.</p>
+        </div>
+        
+        <div class="info-card">
+          <div class="info-icon">💰</div>
+          <h4>Solidarity Prices</h4>
+          <p>Up to 50% savings compared to market prices, without compromising quality.</p>
+        </div>
+        
+        <div class="info-card">
+          <div class="info-icon">⏱️</div>
+          <h4>Convenient</h4>
+          <p>Long shelf life and individual portions for easy stock management.</p>
+        </div>
+        
+        <div class="info-card">
+          <div class="info-icon">🌱</div>
+          <h4>Responsible Sourcing</h4>
+          <p>We select products from suppliers committed to sustainable practices.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Conservation Tips -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Storage and Thawing Tips</h2>
+      
+      <div class="info-cards">
+        <div class="info-card">
+          <div class="info-icon">🏠</div>
+          <h4>Freezer Storage</h4>
+          <p>Maintain a temperature of -18°C. Meats keep for 3 to 12 months depending on type.</p>
+        </div>
+        
+        <div class="info-card">
+          <div class="info-icon">🧊</div>
+          <h4>Safe Thawing</h4>
+          <p>Thaw in the refrigerator, never at room temperature. Allow 24 hours for 500g.</p>
+        </div>
+        
+        <div class="info-card">
+          <div class="info-icon">🚫</div>
+          <h4>Do Not Refreeze</h4>
+          <p>Thawed meat should never be refrozen to avoid health risks.</p>
+        </div>
+        
+        <div class="info-card">
+          <div class="info-icon">🍳</div>
+          <h4>Direct Cooking</h4>
+          <p>Some meats can be cooked directly without thawing (longer cooking time).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Need Help With Your Order?</h2>
+      <p class="section-subtitle">Our team is here to help you with your choices and answer your questions.</p>
+      
+      <div style="text-align: center; margin-top: 30px;">
+        <a href="epicerie_en.html" class="btn btn-primary">Back to Grocery</a>
+        <a href="contact_en.html" class="btn btn-secondary">Contact Us</a>
+        <a href="nos_besoins_en.html" class="btn btn-secondary">Make a Donation</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cart -->
+  <div class="cart" onclick="toggleCart()">
+    🛒
+    <span class="cart-count" id="cart-count">0</span>
+  </div>
+
+  <!-- Cart Modal -->
+  <div class="cart-modal" id="cart-modal">
+    <h3>Your Cart</h3>
+    <div id="cart-items"></div>
+    <hr>
+    <p>Subtotal: <span id="subtotal">0.00</span>$</p>
+    <p>Shipping: <span id="shipping">0.00</span>$</p>
+    <p><strong>Total: <span id="total">0.00</span>$</strong></p>
+    <p id="free-shipping-msg" style="color:green; display:none;">Free shipping!</p>
+    <button class="btn btn-primary w-100 mb-2" onclick="clearCart()">Empty Cart</button>
+    <button class="btn btn-secondary w-100" onclick="proceedToCheckout()">Proceed to Checkout</button>
+  </div>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2025 Community Hub for Education and Entrepreneurship</p>
+      <div class="footer-links">
+        <a href="index_en.html">Home</a>
+        <a href="epicerie_en.html">Social Grocery</a>
+        <a href="viandes_fr.html">French Version</a>
+        <a href="contact_en.html">Contact</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Cart management
+    let cart = JSON.parse(localStorage.getItem('meatsCart')) || [];
+    
+    // Update cart display
+    function updateCartDisplay() {
+      document.getElementById('cart-count').innerText = cart.reduce((sum, item) => sum + item.quantity, 0);
+      
+      const cartItems = document.getElementById('cart-items');
+      if (cartItems) {
+        cartItems.innerHTML = '';
+        
+        if (cart.length === 0) {
+          cartItems.innerHTML = '<p>Your cart is empty</p>';
+          return;
+        }
+        
+        cart.forEach(item => {
+          const itemTotal = item.price * item.quantity;
+          cartItems.innerHTML += `
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+              <div>
+                <strong>${item.name}</strong><br>
+                <small>${item.quantity} x ${item.price.toFixed(2)}$</small>
+              </div>
+              <div>
+                <strong>${itemTotal.toFixed(2)}$</strong>
+                <button onclick="removeFromCart(${item.id})" style="background: none; border: none; color: red; cursor: pointer; margin-left: 10px;">❌</button>
+              </div>
+            </div>
+          `;
+        });
+        
+        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const shipping = subtotal > 30 ? 0 : 5;
+        
+        document.getElementById('subtotal').innerText = subtotal.toFixed(2);
+        document.getElementById('shipping').innerText = shipping.toFixed(2);
+        document.getElementById('total').innerText = (subtotal + shipping).toFixed(2);
+        document.getElementById('free-shipping-msg').style.display = shipping === 0 ? 'block' : 'none';
+      }
+    }
+    
+    // Add to cart
+    function addToCart(id, name, price, quantity) {
+      const existingItem = cart.find(item => item.id === id);
+      
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        cart.push({
+          id: id,
+          name: name,
+          price: price,
+          quantity: quantity
+        });
+      }
+      
+      localStorage.setItem('meatsCart', JSON.stringify(cart));
+      updateCartDisplay();
+      
+      // Confirmation animation
+      const button = document.querySelector(`.add-to-cart[data-id="${id}"]`);
+      const originalText = button.innerText;
+      button.innerText = '✓ Added';
+      button.style.background = 'var(--green)';
+      
+      setTimeout(() => {
+        button.innerText = originalText;
+        button.style.background = '';
+      }, 2000);
+    }
+    
+    // Remove from cart
+    function removeFromCart(id) {
+      cart = cart.filter(item => item.id !== id);
+      localStorage.setItem('meatsCart', JSON.stringify(cart));
+      updateCartDisplay();
+    }
+    
+    // Empty cart
+    function clearCart() {
+      cart = [];
+      localStorage.setItem('meatsCart', JSON.stringify(cart));
+      updateCartDisplay();
+      alert('Cart emptied!');
+    }
+    
+    // Show/hide cart
+    function toggleCart() {
+      const modal = document.getElementById('cart-modal');
+      modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+      updateCartDisplay();
+    }
+    
+    // Proceed to checkout
+    function proceedToCheckout() {
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+      
+      alert('Redirecting to payment page...');
+      // Here you would redirect to your payment system
+    }
+    
+    // Category filtering
+    function filterProducts(category) {
+      const products = document.querySelectorAll('.product-card');
+      const buttons = document.querySelectorAll('.category-btn');
+      
+      buttons.forEach(btn => {
+        if (btn.dataset.category === category) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      
+      products.forEach(product => {
+        if (category === 'all' || product.dataset.category === category) {
+          product.style.display = 'block';
+        } else {
+          product.style.display = 'none';
+        }
+      });
+    }
+    
+    // Initialization
+    document.addEventListener('DOMContentLoaded', function() {
+      updateCartDisplay();
+      
+      // Quantity buttons management
+      document.querySelectorAll('.quantity-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const id = this.dataset.id;
+          const input = document.querySelector(`.quantity-input[data-id="${id}"]`);
+          let value = parseInt(input.value);
+          
+          if (this.classList.contains('plus')) {
+            value++;
+          } else if (this.classList.contains('minus') && value > 1) {
+            value--;
+          }
+          
+          input.value = value;
+        });
+      });
+      
+      // "Add to cart" buttons management
+      document.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const id = parseInt(this.dataset.id);
+          const name = this.dataset.name;
+          const price = parseFloat(this.dataset.price);
+          const quantity = parseInt(document.querySelector(`.quantity-input[data-id="${id}"]`).value);
+          
+          addToCart(id, name, price, quantity);
+        });
+      });
+      
+      // Category filter management
+      document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          filterProducts(this.dataset.category);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
