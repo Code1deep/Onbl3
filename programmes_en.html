@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Training Programs - Carrefour of Initiatives</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root {
+      --primary-blue: #0056a3;
+      --dark-blue: #003d73;
+      --orange: #ff6b35;
+      --green: #28a745;
+      --purple: #6f42c1;
+      --light-gray: #f8f9fa;
+      --very-light-green: #f0fff0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Styles */
+    .main-header {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      color: white;
+      padding: 20px 0;
+    }
+    
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .logo-container {
+      flex: 0 0 auto;
+    }
+    
+    .logo {
+      height: 60px;
+    }
+    
+    .header-content {
+      flex: 1;
+      text-align: center;
+      padding: 0 20px;
+    }
+    
+    .page-title {
+      font-size: 2.2em;
+      margin-bottom: 5px;
+    }
+    
+    .page-subtitle {
+      font-size: 1.1em;
+      opacity: 0.9;
+    }
+    
+    /* Navigation */
+    .main-nav {
+      background: var(--dark-blue);
+      padding: 0;
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      transition: background 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    /* Content Sections */
+    .hero-section {
+      background: linear-gradient(rgba(102, 51, 153, 0.9), rgba(102, 51, 153, 0.9)), url('assets/programs-hero.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+    
+    .hero-text {
+      font-size: 1.2em;
+      max-width: 800px;
+      margin: 0 auto 30px;
+    }
+    
+    .section {
+      padding: 60px 0;
+    }
+    
+    .section-alt {
+      background: var(--very-light-green);
+    }
+    
+    .section-title {
+      font-size: 2em;
+      margin-bottom: 30px;
+      color: var(--dark-blue);
+      text-align: center;
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 1.1em;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Program Grid */
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .program-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-left: 5px solid var(--purple);
+    }
+    
+    .program-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+    
+    .program-card.digital {
+      border-left-color: #007bff;
+    }
+    
+    .program-card.ai {
+      border-left-color: #ff6b35;
+    }
+    
+    .program-card.coding {
+      border-left-color: #28a745;
+    }
+    
+    .program-card.office {
+      border-left-color: #6f42c1;
+    }
+    
+    .program-card.entrepreneurship {
+      border-left-color: #fd7e14;
+    }
+    
+    .program-card.certifications {
+      border-left-color: #20c997;
+    }
+    
+    .program-icon {
+      font-size: 3em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .program-title {
+      font-size: 1.5em;
+      margin-bottom: 15px;
+      color: var(--dark-blue);
+      text-align: center;
+    }
+    
+    .program-description {
+      margin-bottom: 20px;
+      color: #666;
+    }
+    
+    .program-features {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 25px;
+    }
+    
+    .program-features li {
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .program-features li:before {
+      content: "✓ ";
+      color: var(--green);
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    
+    .program-duration {
+      background: #e8f5e8;
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: var(--dark-blue);
+    }
+    
+    /* Certification Badges */
+    .certifications-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .cert-badge {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .cert-badge:hover {
+      transform: translateY(-3px);
+    }
+    
+    .cert-logo {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    
+    /* Timeline */
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 40px auto;
+    }
+    
+    .timeline-item {
+      background: white;
+      padding: 25px;
+      margin: 20px 0;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-left: 4px solid var(--orange);
+      position: relative;
+    }
+    
+    .timeline-phase {
+      background: var(--orange);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      margin: 10px 5px;
+      text-align: center;
+    }
+    
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary-blue);
+      border: 2px solid var(--primary-blue);
+    }
+    
+    .btn-large {
+      padding: 15px 30px;
+      font-size: 1.1em;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    /* Alternative Registration */
+    .alternative-registration {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+      margin: 40px 0;
+    }
+    
+    .email-alert {
+      background: #fff3cd;
+      border: 2px solid #ffeaa7;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: center;
+    }
+    
+    .email-alert h4 {
+      color: #856404;
+      margin-bottom: 10px;
+    }
+    
+    /* Footer */
+    .main-footer {
+      background: #333;
+      color: white;
+      padding: 40px 0 20px;
+      text-align: center;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .header-content {
+        padding: 20px 0 0;
+      }
+      
+      .nav-container {
+        flex-direction: column;
+      }
+      
+      .nav-link {
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      
+      .programs-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .certifications-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-container">
+        <img src="assets/logo_en.png" alt="Carrefour Logo" class="logo">
+      </div>
+      <div class="header-content">
+        <h1 class="page-title">Our Training Programs</h1>
+        <p class="page-subtitle">Discover our complete catalog of professional training programs</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <a href="index_en.html" class="nav-link">Home</a>
+      <a href="hebergement_en.html" class="nav-link">Social Housing</a>
+      <a href="epicerie_en.html" class="nav-link">Social Grocery</a>
+      <a href="formation_en.html" class="nav-link">Training & Education</a>
+      <a href="programmes_en.html" class="nav-link">Our Programs</a>
+      <a href="microcredit_en.html" class="nav-link">Responsible Microcredit</a>
+      <a href="services_en.html" class="nav-link">Cross-Sectional Services</a>
+      <a href="recherche_en.html" class="nav-link">Research & Partnership</a>
+      <a href="nos_besoins_en.html" class="nav-link">Our Needs</a>
+      <a href="programmes_fr.html" class="nav-link">Français</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h2 class="hero-title">Programs Tailored to Your Future</h2>
+      <p class="hero-text">Choose from our certified training programs and develop the most in-demand skills in the job market.</p>
+      <a href="#programs" class="btn btn-primary">Explore Programs</a>
+      <a href="inscription_en.html" class="btn btn-secondary">Register Now</a>
+    </div>
+  </section>
+
+  <!-- Programs Overview -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Our Training Catalog</h2>
+      <p class="section-subtitle">Practical and intensive programs for fast and effective professional integration</p>
+      
+      <div class="programs-grid">
+        <!-- Program 1 -->
+        <div class="program-card digital">
+          <div class="program-icon">💻</div>
+          <h3 class="program-title">Complete Digital Training</h3>
+          <p class="program-description">Master essential digital skills for the modern professional world.</p>
+          
+          <div class="program-duration">⏱️ 8 weeks - 160 hours</div>
+          
+          <ul class="program-features">
+            <li>Advanced office software (Office 365)</li>
+            <li>Digital project management</li>
+            <li>Digital communication</li>
+            <li>IT security</li>
+            <li>Collaborative tools</li>
+          </ul>
+          
+          <a href="inscription_en.html" class="btn btn-primary" style="width: 100%;">Register for this program</a>
+        </div>
+
+        <!-- Program 2 -->
+        <div class="program-card ai">
+          <div class="program-icon">🤖</div>
+          <h3 class="program-title">Artificial Intelligence</h3>
+          <p class="program-description">Discover AI and its practical applications in various professional fields.</p>
+          
+          <div class="program-duration">⏱️ 6 weeks - 120 hours</div>
+          
+          <ul class="program-features">
+            <li>AI fundamentals</li>
+            <li>Generative AI tools (ChatGPT, Midjourney)</li>
+            <li>Process automation</li>
+            <li>Data analysis with AI</li>
+            <li>AI ethics and responsibility</li>
+          </ul>
+          
+          <a href="inscription_en.html" class="btn btn-primary" style="width: 100%;">Register for this program</a>
+        </div>
+
+        <!-- Program 3 -->
+        <div class="program-card coding">
+          <div class="program-icon">🔧</div>
+          <h3 class="program-title">Web Development</h3>
+          <p class="program-description">Learn to create modern and responsive websites from scratch.</p>
+          
+          <div class="program-duration">⏱️ 12 weeks - 240 hours</div>
+          
+          <ul class="program-features">
+            <li>HTML5, CSS3, JavaScript</li>
+            <li>Modern frameworks (React)</li>
+            <li>Backend development</li>
+            <li>Databases</li>
+            <li>Deployment and hosting</li>
+          </ul>
+          
+          <a href="inscription_en.html" class="btn btn-primary" style="width: 100%;">Register for this program</a>
+        </div>
+
+        <!-- Program 4 -->
+        <div class="program-card office">
+          <div class="program-icon">📊</div>
+          <h3 class="program-title">Expert Office Skills</h3>
+          <p class="program-description">Become an expert in essential office tools for business.</p>
+          
+          <div class="program-duration">⏱️ 4 weeks - 80 hours</div>
+          
+          <ul class="program-features">
+            <li>Advanced Excel (formulas, pivot tables)</li>
+            <li>Professional PowerPoint</li>
+            <li>Expert Word (reports, formatting)</li>
+            <li>Google Workspace tools</li>
+            <li>Productivity and automation</li>
+          </ul>
+          
+          <a href="inscription_en.html" class="btn btn-primary" style="width: 100%;">Register for this program</a>
+        </div>
+
+        <!-- Program 5 -->
+        <div class="program-card entrepreneurship">
+          <div class="program-icon">💼</div>
+          <h3 class="program-title">Entrepreneurship & Business</h3>
+          <p class="program-description">Launch your business with comprehensive support from A to Z.</p>
+          
+          <div class="program-duration">⏱️ 10 weeks - 200 hours</div>
+          
+          <ul class="program-features">
+            <li>Market research and validation</li>
+            <li>Business plan and economic model</li>
+            <li>Marketing and sales strategy</li>
+            <li>Financial and legal management</li>
+            <li>Pitch and funding search</li>
+          </ul>
+          
+          <a href="inscription_en.html" class="btn btn-primary" style="width: 100%;">Register for this program</a>
+        </div>
+
+        <!-- Program 6 -->
+        <div class="program-card certifications">
+          <div class="program-icon">🎓</div>
+          <h3 class="program-title">Professional Certifications</h3>
+          <p class="program-description">Prepare for the most recognized certifications in the industry.</p>
+          
+          <div class="program-duration">⏱️ Duration varies by certification</div>
+          
+          <ul class="program-features">
+            <li>Microsoft Certified Professional</li>
+            <li>Google Career Certificates</li>
+            <li>Cisco Networking</li>
+            <li>CompTIA Security+</li>
+            <li>Salesforce Administrator</li>
+          </ul>
+          
+          <a href="inscription_en.html" class="btn btn-primary" style="width: 100%;">Register for this program</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Certifications Section -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Recognized Certifications</h2>
+      <p class="section-subtitle">Prepare to obtain the most in-demand certifications sought by employers</p>
+      
+      <div class="certifications-grid">
+        <div class="cert-badge">
+          <div class="cert-logo">🔷</div>
+          <h4>Microsoft</h4>
+          <p>Azure, Office 365</p>
+        </div>
+        
+        <div class="cert-badge">
+          <div class="cert-logo">🔶</div>
+          <h4>Cisco</h4>
+          <p>CCNA, CyberOps</p>
+        </div>
+        
+        <div class="cert-badge">
+          <div class="cert-logo">💚</div>
+          <h4>Google</h4>
+          <p>IT Support, Data Analytics</p>
+        </div>
+        
+        <div class="cert-badge">
+          <div class="cert-logo">🌀</div>
+          <h4>Salesforce</h4>
+          <p>Administrator</p>
+        </div>
+        
+        <div class="cert-badge">
+          <div class="cert-logo">📈</div>
+          <h4>CompTIA</h4>
+          <p>A+, Security+</p>
+        </div>
+        
+        <div class="cert-badge">
+          <div class="cert-logo">☁️</div>
+          <h4>AWS</h4>
+          <p>Cloud Practitioner</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Learning Path -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Your Training Journey</h2>
+      <p class="section-subtitle">Personalized support at every step of your learning journey</p>
+      
+      <div class="timeline">
+        <div class="timeline-item">
+          <span class="timeline-phase">Step 1</span>
+          <h4>🎯 Assessment and Orientation</h4>
+          <p>Meeting with an advisor to define your goals and choose the program suited to your profile</p>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="timeline-phase">Step 2</span>
+          <h4>📚 Intensive Training</h4>
+          <p>Practical learning with experienced trainers and concrete projects</p>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="timeline-phase">Step 3</span>
+          <h4>🎓 Certification</h4>
+          <p>Preparation and passing of official certifications recognized by the industry</p>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="timeline-phase">Step 4</span>
+          <h4>💼 Professional Integration</h4>
+          <p>Employment support with our network of employer partners</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Alternative Registration Section -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="alternative-registration">
+        <h2 style="color: white; margin-bottom: 20px;">🚨 Alternative Registration</h2>
+        <p style="font-size: 1.2em; margin-bottom: 20px;">
+          <strong>Registration form not working?</strong><br>
+          Send us your application directly by email!
+        </p>
+        
+        <div class="email-alert">
+          <h4>📧 Registration by Email</h4>
+          <p><strong>Send us your motivation letter to:</strong></p>
+          <p style="font-size: 1.3em; font-weight: bold; color: var(--primary-blue);">
+            a_formation425@outlook.com
+          </p>
+          <p style="margin-top: 15px;">
+            <strong>Include in your email:</strong><br>
+            • Your full name<br>
+            • Your phone number<br>
+            • The program you're interested in<br>
+            • Your motivation letter
+          </p>
+        </div>
+        
+        <div style="margin-top: 30px;">
+          <a href="mailto:a_formation425@outlook.com?subject=Training Registration&body=Hello, I would like to register for your training program. Here is my motivation:" 
+             class="btn btn-primary btn-large">
+            📝 Write My Motivation Email
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Ready to Start Your Future?</h2>
+      <p class="section-subtitle">Join our learners and transform your career today</p>
+      
+      <div style="text-align: center; margin-top: 30px;">
+        <a href="inscription_en.html" class="btn btn-primary btn-large">Register Online</a>
+        <a href="formation_en.html" class="btn btn-secondary btn-large">Learn More</a>
+        <a href="mailto:a_formation425@outlook.com" class="btn btn-secondary btn-large">Contact Us</a>
+      </div>
+      
+      <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; margin-top: 30px; text-align: center;">
+        <h4 style="color: var(--dark-blue); margin-bottom: 10px;">💡 Need Help?</h4>
+        <p>Our team is available to guide you toward the program that best suits your ambitions.</p>
+        <p style="margin-top: 10px;">
+          <strong>📞 Phone:</strong> (514) 123-4567<br>
+          <strong>📧 Email:</strong> a_formation425@outlook.com
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2025 Carrefour of Educational & Entrepreneurial Initiatives</p>
+      <div class="footer-links">
+        <a href="index_en.html">Home</a>
+        <a href="programmes_fr.html">Version Française</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
