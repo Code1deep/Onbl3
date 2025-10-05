@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Devenir Partenaire ou Membre - Carrefour des Initiatives</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root {
+      --primary-blue: #0056a3;
+      --dark-blue: #003d73;
+      --orange: #ff6b35;
+      --green: #28a745;
+      --purple: #6f42c1;
+      --light-gray: #f8f9fa;
+      --very-light-green: #f0fff0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Styles */
+    .main-header {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      color: white;
+      padding: 20px 0;
+    }
+    
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .logo-container {
+      flex: 0 0 auto;
+    }
+    
+    .logo {
+      height: 60px;
+    }
+    
+    .header-content {
+      flex: 1;
+      text-align: center;
+      padding: 0 20px;
+    }
+    
+    .page-title {
+      font-size: 2.2em;
+      margin-bottom: 5px;
+    }
+    
+    .page-subtitle {
+      font-size: 1.1em;
+      opacity: 0.9;
+    }
+    
+    /* Navigation */
+    .main-nav {
+      background: var(--dark-blue);
+      padding: 0;
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      transition: background 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(rgba(0, 86, 163, 0.9), rgba(0, 61, 115, 0.9)), url('assets/partenaires-hero.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+    
+    .hero-text {
+      font-size: 1.2em;
+      max-width: 800px;
+      margin: 0 auto 30px;
+    }
+    
+    .section {
+      padding: 60px 0;
+    }
+    
+    .section-alt {
+      background: var(--very-light-green);
+    }
+    
+    .section-title {
+      font-size: 2em;
+      margin-bottom: 30px;
+      color: var(--dark-blue);
+      text-align: center;
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 1.1em;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Partnership Grid */
+    .partnership-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .partnership-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      text-align: center;
+    }
+    
+    .partnership-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .partnership-icon {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+    
+    .partnership-title {
+      font-size: 1.4em;
+      margin-bottom: 15px;
+      color: var(--dark-blue);
+    }
+    
+    /* Benefits Grid */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .benefit-item {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .benefit-icon {
+      font-size: 2.5em;
+      margin-bottom: 15px;
+      color: var(--primary-blue);
+    }
+    
+    /* Impact Stats */
+    .impact-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+    
+    .stat-card {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .stat-number {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: var(--primary-blue);
+      display: block;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      margin: 10px 5px;
+      text-align: center;
+    }
+    
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary-blue);
+      border: 2px solid var(--primary-blue);
+    }
+    
+    .btn-large {
+      padding: 15px 30px;
+      font-size: 1.1em;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .testimonial-card {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    
+    .testimonial-card::before {
+      content: '"';
+      font-size: 4em;
+      color: var(--light-gray);
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      line-height: 1;
+    }
+    
+    /* Footer */
+    .main-footer {
+      background: #333;
+      color: white;
+      padding: 40px 0 20px;
+      text-align: center;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .header-content {
+        padding: 20px 0 0;
+      }
+      
+      .nav-container {
+        flex-direction: column;
+      }
+      
+      .nav-link {
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      
+      .partnership-grid, .benefits-grid, .impact-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-container">
+        <img src="assets/logo_fr.png" alt="Logo Carrefour" class="logo">
+      </div>
+      <div class="header-content">
+        <h1 class="page-title">Devenir Partenaire ou Membre</h1>
+        <p class="page-subtitle">Plus nous sommes nombreux, plus notre impact grandit</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-link">Accueil</a>
+      <a href="hebergement_fr.html" class="nav-link">Hébergement Social</a>
+      <a href="epicerie_fr.html" class="nav-link">Épicerie Sociale</a>
+      <a href="formation_fr.html" class="nav-link">Formation & Éducation</a>
+      <a href="microcredit_fr.html" class="nav-link">Microcrédit Responsable</a>
+      <a href="services_fr.html" class="nav-link">Services Transverses</a>
+      <a href="recherche_fr.html" class="nav-link">Recherche & Partenariat</a>
+      <a href="nos_besoins_fr.html" class="nav-link">Nos Besoins</a>
+      <a href="partenaire_en.html" class="nav-link">English</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h2 class="hero-title">Rejoignez Notre Communauté Engagée</h2>
+      <p class="hero-text"><strong>Plus nos membres augmentent, plus nos soutiens se multiplient.</strong> Ensemble, nous pouvons créer un impact durable dans notre communauté.</p>
+      <a href="#formulaire" class="btn btn-primary">Devenir Partenaire</a>
+      <a href="#formulaire" class="btn btn-secondary">Devenir Membre</a>
+    </div>
+  </section>
+
+  <!-- Partnership Types -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Choisissez Votre Engagement</h2>
+      <p class="section-subtitle">Différentes façons de nous soutenir selon vos moyens et disponibilités</p>
+      
+      <div class="partnership-grid">
+        <!-- Partenaire Entreprise -->
+        <div class="partnership-card">
+          <div class="partnership-icon">🏢</div>
+          <h3 class="partnership-title">Partenaire Entreprise</h3>
+          <p>Soutien financier, mécénat de compétences, dons en nature ou partenariats stratégiques.</p>
+          <ul style="text-align: left; margin: 20px 0;">
+            <li>Visibilité sur nos supports</li>
+            <li>Engagement RSE valorisé</li>
+            <li>Événements dédiés</li>
+            <li>Rapports d'impact personnalisés</li>
+          </ul>
+          <a href="#formulaire" class="btn btn-primary">Devenir Partenaire Entreprise</a>
+        </div>
+
+        <!-- Membre Individuel -->
+        <div class="partnership-card">
+          <div class="partnership-icon">👤</div>
+          <h3 class="partnership-title">Membre Individuel</h3>
+          <p>Adhésion annuelle avec cotisation symbolique pour soutenir nos actions au quotidien.</p>
+          <ul style="text-align: left; margin: 20px 0;">
+            <li>Droit de vote aux assemblées</li>
+            <li>Newsletter exclusive</li>
+            <li>Invitations aux événements</li>
+            <li>Certificat de membre</li>
+          </ul>
+          <a href="#formulaire" class="btn btn-primary">Devenir Membre</a>
+        </div>
+
+        <!-- Bénévole -->
+        <div class="partnership-card">
+          <div class="partnership-icon">🤝</div>
+          <h3 class="partnership-title">Bénévole Actif</h3>
+          <p>Donnez de votre temps et de vos compétences pour nos différents programmes.</p>
+          <ul style="text-align: left; margin: 20px 0;">
+            <li>Formation offerte</li>
+            <li>Expérience enrichissante</li>
+            <li>Réseau professionnel</li>
+            <li>Reconnaissance officielle</li>
+          </ul>
+          <a href="#formulaire" class="btn btn-primary">Devenir Bénévole</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Les Avantages de Nous Rejoindre</h2>
+      
+      <div class="benefits-grid">
+        <div class="benefit-item">
+          <div class="benefit-icon">📈</div>
+          <h4>Impact Multiplié</h4>
+          <p>Chaque nouveau membre augmente notre capacité d'action et notre rayonnement</p>
+        </div>
+        
+        <div class="benefit-item">
+          <div class="benefit-icon">🌐</div>
+          <h4>Réseau Étendu</h4>
+          <p>Accédez à un réseau de professionnels et d'organisations engagées</p>
+        </div>
+        
+        <div class="benefit-item">
+          <div class="benefit-icon">🎯</div>
+          <h4>Influence Collective</h4>
+          <p>Participez aux décisions et orientez nos actions futures</p>
+        </div>
+        
+        <div class="benefit-item">
+          <div class="benefit-icon">💡</div>
+          <h4>Innovation Partagée</h4>
+          <p>Contribuez à des projets innovants et transformateurs</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact Stats -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Notre Impact Collectif</h2>
+      <p class="section-subtitle">Des résultats concrets grâce à la force de notre communauté</p>
+      
+      <div class="impact-stats">
+        <div class="stat-card">
+          <span class="stat-number">250+</span>
+          <span class="stat-label">Membres Actifs</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">45</span>
+          <span class="stat-label">Partenaires Entreprises</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">150+</span>
+          <span class="stat-label">Bénévoles Réguliers</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">15K+</span>
+          <span class="stat-label">Personnes Aidées</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Témoignages de Nos Membres</h2>
+      
+      <div class="testimonials">
+        <div class="testimonial-card">
+          <p>"Devenir membre du Carrefour m'a permis de m'engager concrètement dans ma communauté. Chaque cotisation, si modeste soit-elle, contribue à de grands projets."</p>
+          <p><strong>- Marie, membre depuis 2 ans</strong></p>
+        </div>
+        
+        <div class="testimonial-card">
+          <p>"Notre entreprise est fière d'être partenaire. Cela donne du sens à notre activité et nous permet de former nos employés au bénévolat de compétences."</p>
+          <p><strong>- Entreprise Tech Solutions</strong></p>
+        </div>
+        
+        <div class="testimonial-card">
+          <p>"Le bénévolat m'a apporté une expérience humaine incroyable. Voir l'impact direct de nos actions est extrêmement gratifiant."</p>
+          <p><strong>- Jean, bénévole formateur</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Prêt à Nous Rejoindre ?</h2>
+      <p class="section-subtitle"><strong>Plus nous sommes nombreux, plus notre impact est grand.</strong> Chaque membre compte, chaque partenaire fait la différence.</p>
+      
+      <div style="text-align: center; margin-top: 30px;">
+        <a href="#formulaire" class="btn btn-primary btn-large">Devenir Partenaire ou Membre</a>
+        <a href="contact.html" class="btn btn-secondary btn-large">Nous Contacter</a>
+        <a href="nos_besoins_fr.html" class="btn btn-secondary btn-large">Voir Nos Besoins</a>
+      </div>
+      
+      <div style="background: #e8f5e8; padding: 25px; border-radius: 10px; margin-top: 30px; text-align: center;">
+        <h4 style="color: var(--dark-blue); margin-bottom: 15px;">💪 La Force du Collectif</h4>
+        <p><strong>Ensemble, nous pouvons :</strong></p>
+        <p>• Soutenir plus de familles en difficulté<br>
+           • Développer de nouveaux programmes<br>
+           • Former davantage de personnes<br>
+           • Créer un impact durable dans notre communauté</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2025 Carrefour des Initiatives Éducatives et Entrepreneuriales</p>
+      <div class="footer-links">
+        <a href="index.html">Accueil</a>
+        <a href="partenaire_en.html">English Version</a>
+        <a href="contact.html">Contact</a>
+        <a href="confidentialite.html">Confidentialité</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
