@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - Community Hub</title>
+  <style>
+    :root {
+      --primary-blue: #0056a3;
+      --dark-blue: #003d73;
+      --orange: #ff6b35;
+      --green: #28a745;
+      --light-gray: #f8f9fa;
+      --very-light-green: #f0fff0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f9f9f9;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Styles */
+    .main-header {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      color: white;
+      padding: 20px 0;
+    }
+    
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .logo-container {
+      flex: 0 0 auto;
+    }
+    
+    .logo {
+      height: 60px;
+    }
+    
+    .header-content {
+      flex: 1;
+      text-align: center;
+      padding: 0 20px;
+    }
+    
+    .page-title {
+      font-size: 2.2em;
+      margin-bottom: 5px;
+    }
+    
+    .page-subtitle {
+      font-size: 1.1em;
+      opacity: 0.9;
+    }
+    
+    /* Navigation */
+    .main-nav {
+      background: var(--dark-blue);
+      padding: 0;
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      transition: background 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(rgba(0, 86, 163, 0.8), rgba(0, 86, 163, 0.8));
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+    
+    .hero-text {
+      font-size: 1.2em;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    /* Content Section */
+    .section {
+      padding: 60px 0;
+    }
+    
+    .section-alt {
+      background: var(--very-light-green);
+    }
+    
+    .section-title {
+      font-size: 2em;
+      margin-bottom: 30px;
+      color: var(--dark-blue);
+      text-align: center;
+    }
+    
+    .privacy-content {
+      background: white;
+      padding: 50px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .privacy-section {
+      margin-bottom: 40px;
+    }
+    
+    .privacy-section h3 {
+      color: var(--dark-blue);
+      margin-bottom: 20px;
+      font-size: 1.5em;
+      border-bottom: 2px solid var(--orange);
+      padding-bottom: 10px;
+    }
+    
+    .privacy-section p {
+      margin-bottom: 15px;
+      text-align: justify;
+    }
+    
+    .privacy-section ul {
+      margin: 15px 0 15px 30px;
+    }
+    
+    .privacy-section li {
+      margin-bottom: 10px;
+    }
+    
+    .highlight-box {
+      background: #e8f5e8;
+      padding: 25px;
+      border-radius: 10px;
+      border-left: 5px solid var(--green);
+      margin: 25px 0;
+    }
+    
+    .warning-box {
+      background: #fff3cd;
+      padding: 25px;
+      border-radius: 10px;
+      border-left: 5px solid #ffc107;
+      margin: 25px 0;
+    }
+    
+    .contact-info {
+      background: var(--light-gray);
+      padding: 30px;
+      border-radius: 10px;
+      margin-top: 30px;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px 5px;
+    }
+    
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary-blue);
+      border: 2px solid var(--primary-blue);
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    /* Footer */
+    .main-footer {
+      background: #333;
+      color: white;
+      padding: 40px 0 20px;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    
+    .footer-section h4 {
+      margin-bottom: 20px;
+      color: white;
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    .footer-bottom {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid #444;
+    }
+    
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .header-content {
+        padding: 20px 0 0;
+      }
+      
+      .nav-container {
+        flex-direction: column;
+      }
+      
+      .nav-link {
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      
+      .privacy-content {
+        padding: 30px 20px;
+      }
+      
+      .hero-title {
+        font-size: 2em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-container">
+        <img src="assets/logo_en.png" alt="Community Hub Logo" class="logo">
+      </div>
+      <div class="header-content">
+        <h1 class="page-title">Privacy Policy</h1>
+        <p class="page-subtitle">Protection of your personal data</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <a href="index_en.html" class="nav-link">Home</a>
+      <a href="epicerie_en.html" class="nav-link">Social Grocery</a>
+      <a href="hebergement_en.html" class="nav-link">Social Housing</a>
+      <a href="formation_en.html" class="nav-link">Training & Education</a>
+      <a href="services_en.html" class="nav-link">Cross-cutting Services</a>
+      <a href="contact_en.html" class="nav-link">Contact</a>
+      <a href="confidentialite.html" class="nav-link">Français</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h2 class="hero-title">Your Privacy Matters to Us</h2>
+      <p class="hero-text">Learn how we protect and use your personal data in the context of our services.</p>
+    </div>
+  </section>
+
+  <!-- Privacy Content -->
+  <section class="section">
+    <div class="container">
+      <div class="privacy-content">
+        <div class="privacy-section">
+          <h3>📋 Introduction</h3>
+          <p>The Community Hub for Education and Entrepreneurship is committed to protecting the privacy of its members, beneficiaries, volunteers, and partners. This privacy policy explains how we collect, use, share, and protect your personal information.</p>
+          
+          <div class="highlight-box">
+            <p><strong>Last updated:</strong> January 1, 2025</p>
+            <p><strong>Effective date:</strong> January 1, 2025</p>
+          </div>
+        </div>
+
+        <div class="privacy-section">
+          <h3>🔍 Information We Collect</h3>
+          <p>We collect different categories of information depending on the services you use:</p>
+          
+          <h4>Basic Personal Information:</h4>
+          <ul>
+            <li>Last name, first name, date of birth</li>
+            <li>Contact details (address, phone, email)</li>
+            <li>Family situation and household composition</li>
+            <li>Socio-economic information necessary for eligibility assessment</li>
+          </ul>
+          
+          <h4>Service-Related Information:</h4>
+          <ul>
+            <li>History of using our services (grocery, housing, training)</li>
+            <li>Preferences and specific needs</li>
+            <li>Participation information in activities and training</li>
+          </ul>
+          
+          <h4>Technical Information:</h4>
+          <ul>
+            <li>IP address, browser type, pages visited</li>
+            <li>Cookies and similar technologies (see dedicated section)</li>
+          </ul>
+        </div>
+
+        <div class="privacy-section">
+          <h3>🎯 How We Use Your Information</h3>
+          <p>We use your personal information to:</p>
+          <ul>
+            <li>Provide and improve our social services</li>
+            <li>Assess your eligibility for different programs</li>
+            <li>Personalize your experience and meet your specific needs</li>
+            <li>Communicate with you about our services and activities</li>
+            <li>Comply with our legal and regulatory obligations</li>
+            <li>Improve security and prevent fraud</li>
+          </ul>
+          
+          <div class="highlight-box">
+            <p><strong>Minimization Principle:</strong> We only collect information strictly necessary for providing our services.</p>
+          </div>
+        </div>
+
+        <div class="privacy-section">
+          <h3>🤝 Information Sharing</h3>
+          <p>We do not sell, rent, or trade your personal information.</p>
+          
+          <p>We may share your information with:</p>
+          <ul>
+            <li><strong>Service Partners:</strong> Organizations we collaborate with to provide complementary services (with your consent)</li>
+            <li><strong>Legal Obligations:</strong> When required by law or to respond to legal procedures</li>
+            <li><strong>Rights Protection:</strong> To protect our rights, your safety, or that of others</li>
+          </ul>
+          
+          <div class="warning-box">
+            <p><strong>Important:</strong> We require all our partners to adhere to confidentiality standards equivalent to ours.</p>
+          </div>
+        </div>
+
+        <div class="privacy-section">
+          <h3>🍪 Cookies and Similar Technologies</h3>
+          <p>We use cookies to:</p>
+          <ul>
+            <li>Improve your browsing experience</li>
+            <li>Understand how our website is used</li>
+            <li>Personalize content</li>
+            <li>Ensure website security</li>
+          </ul>
+          
+          <p>You can control cookies through your browser settings. However, disabling certain cookies may affect the functioning of our website.</p>
+        </div>
+
+        <div class="privacy-section">
+          <h3>🔒 Data Security</h3>
+          <p>We implement appropriate technical and organizational security measures to protect your personal information against:</p>
+          <ul>
+            <li>Unauthorized access</li>
+            <li>Disclosure</li>
+            <li>Alteration</li>
+            <li>Destruction</li>
+          </ul>
+          
+          <p>These measures include:</p>
+          <ul>
+            <li>Encryption of sensitive data</li>
+            <li>Strict access controls</li>
+            <li>Staff training on data protection</li>
+            <li>Regular security audits</li>
+          </ul>
+        </div>
+
+        <div class="privacy-section">
+          <h3>⏱️ Data Retention</h3>
+          <p>We retain your personal information only as long as necessary to:</p>
+          <ul>
+            <li>Provide our services</li>
+            <li>Comply with our legal obligations</li>
+            <li>Resolve disputes</li>
+            <li>Enforce our agreements</li>
+          </ul>
+          
+          <p>Retention periods vary depending on the type of information and legal requirements.</p>
+        </div>
+
+        <div class="privacy-section">
+          <h3>📝 Your Rights</h3>
+          <p>In accordance with data protection legislation, you have the following rights:</p>
+          
+          <ul>
+            <li><strong>Right of Access:</strong> Obtain a copy of your personal information</li>
+            <li><strong>Right to Rectification:</strong> Correct inaccurate information</li>
+            <li><strong>Right to Erasure:</strong> Request deletion of your data</li>
+            <li><strong>Right to Restriction:</strong> Restrict processing of your data</li>
+            <li><strong>Right to Object:</strong> Object to the processing of your data</li>
+            <li><strong>Right to Data Portability:</strong> Receive your data in a structured format</li>
+          </ul>
+          
+          <div class="contact-info">
+            <h4>Exercising Your Rights</h4>
+            <p>To exercise your rights or ask questions regarding this privacy policy, contact our Data Protection Officer:</p>
+            <p><strong>Email:</strong> data-protection@community-hub.org</p>
+            <p><strong>Phone:</strong> (514) 123-4567 ext. 123</p>
+            <p><strong>Mailing Address:</strong> 1234 Solidarity Street, Montreal, QC H4E 4G8</p>
+          </div>
+        </div>
+
+        <div class="privacy-section">
+          <h3>🌐 Third-Party Websites</h3>
+          <p>Our website may contain links to third-party websites. This privacy policy applies only to our website. We encourage you to read the privacy policies of any third-party websites you visit.</p>
+        </div>
+
+        <div class="privacy-section">
+          <h3>🔄 Policy Changes</h3>
+          <p>We may update this privacy policy occasionally. We will inform you of any significant changes by posting the new policy on our website and, if the changes are significant, by sending you a notification.</p>
+          
+          <p>We encourage you to check this page regularly to stay informed about how we protect your information.</p>
+        </div>
+
+        <div class="privacy-section">
+          <h3>📞 Contact and Complaints</h3>
+          <p>If you have questions, concerns, or complaints regarding our privacy policy or data practices, please contact us:</p>
+          
+          <div class="contact-info">
+            <p><strong>Data Protection Officer</strong></p>
+            <p>Community Hub for Education and Entrepreneurship</p>
+            <p>1234 Solidarity Street</p>
+            <p>Montreal, Quebec H4E 4G8</p>
+            <p>data-protection@community-hub.org</p>
+            <p>(514) 123-4567 ext. 123</p>
+          </div>
+          
+          <p>You also have the right to file a complaint with the competent data protection authority.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Questions or Concerns?</h2>
+      <p class="section-subtitle">Our team is available to answer all your questions about protecting your data.</p>
+      
+      <div style="text-align: center; margin-top: 30px;">
+        <a href="contact_en.html" class="btn btn-primary">Contact Us</a>
+        <a href="index_en.html" class="btn btn-secondary">Back to Home</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>CONTACT US</h4>
+          <ul class="footer-links">
+            <li>info@community-hub.org</li>
+            <li>Facebook Page</li>
+            <li>Tel.: (514) 123-4567</li>
+            <li>1234 Solidarity Street<br>Montreal, Quebec H4E 4G8</li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>QUICK LINKS</h4>
+          <ul class="footer-links">
+            <li><a href="index_en.html">Home</a></li>
+            <li><a href="services_en.html">Services</a></li>
+            <li><a href="nos_besoins_en.html">Donations</a></li>
+            <li><a href="partenaire_en.html">Become a member</a></li>
+            <li><a href="contact_en.html">Contact</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>COMMITMENTS</h4>
+          <ul class="footer-links">
+            <li>Data protection</li>
+            <li>Ethics and transparency</li>
+            <li>Confidential services</li>
+            <li>Privacy respect</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 Community Hub for Education and Entrepreneurship</p>
+        <p>Committed to protecting your personal data</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Script for managing cookie preferences
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if user has already made a choice regarding cookies
+      const cookieConsent = localStorage.getItem('cookieConsent');
+      
+      if (!cookieConsent) {
+        // Display cookie consent banner if needed (optional)
+        console.log('Display cookie banner if necessary');
+      }
+      
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
