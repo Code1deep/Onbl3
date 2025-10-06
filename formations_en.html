@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Essential Life Skills Training - Community Hub</title>
+  <style>
+    :root {
+      --primary-blue: #0056a3;
+      --dark-blue: #003d73;
+      --orange: #ff6b35;
+      --green: #28a745;
+      --purple: #6f42c1;
+      --light-gray: #f8f9fa;
+      --very-light-green: #f0fff0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f9f9f9;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Styles */
+    .main-header {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      color: white;
+      padding: 20px 0;
+    }
+    
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .logo-container {
+      flex: 0 0 auto;
+    }
+    
+    .logo {
+      height: 60px;
+    }
+    
+    .header-content {
+      flex: 1;
+      text-align: center;
+      padding: 0 20px;
+    }
+    
+    .page-title {
+      font-size: 2.2em;
+      margin-bottom: 5px;
+    }
+    
+    .page-subtitle {
+      font-size: 1.1em;
+      opacity: 0.9;
+    }
+    
+    /* Navigation */
+    .main-nav {
+      background: var(--dark-blue);
+      padding: 0;
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      transition: background 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(rgba(0, 86, 163, 0.8), rgba(0, 86, 163, 0.8)), url('assets/training-hero.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+    
+    .hero-text {
+      font-size: 1.2em;
+      max-width: 800px;
+      margin: 0 auto 30px;
+    }
+    
+    .section {
+      padding: 60px 0;
+    }
+    
+    .section-alt {
+      background: var(--very-light-green);
+    }
+    
+    .section-title {
+      font-size: 2em;
+      margin-bottom: 30px;
+      color: var(--dark-blue);
+      text-align: center;
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 1.1em;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Training Grid */
+    .training-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .training-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      border-top: 5px solid var(--orange);
+    }
+    
+    .training-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .training-icon {
+      font-size: 3em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .training-title {
+      font-size: 1.4em;
+      margin-bottom: 15px;
+      color: var(--dark-blue);
+      text-align: center;
+    }
+    
+    .training-details {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+    
+    .training-details li {
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+    }
+    
+    .training-details li:before {
+      content: "✓ ";
+      color: var(--green);
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    
+    /* Benefits Grid */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-top: 40px;
+    }
+    
+    .benefit-card {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .benefit-card:hover {
+      transform: translateY(-3px);
+    }
+    
+    .benefit-icon {
+      font-size: 3em;
+      margin-bottom: 20px;
+      color: var(--primary-blue);
+    }
+    
+    /* Process Timeline */
+    .process-timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 40px auto;
+    }
+    
+    .process-step {
+      background: white;
+      padding: 30px;
+      margin: 25px 0;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-left: 4px solid var(--green);
+      position: relative;
+    }
+    
+    .step-number {
+      background: var(--green);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      position: absolute;
+      left: -20px;
+      top: 30px;
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .testimonial-card {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    
+    .testimonial-card::before {
+      content: '"';
+      font-size: 4em;
+      color: var(--light-gray);
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      line-height: 1;
+    }
+    
+    /* Form Styles */
+    .registration-form {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .form-group {
+      margin-bottom: 25px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--dark-blue);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(0, 86, 163, 0.1);
+    }
+    
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      margin: 10px 5px;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary-blue);
+      border: 2px solid var(--primary-blue);
+    }
+    
+    .btn-large {
+      padding: 15px 30px;
+      font-size: 1.1em;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    /* Footer */
+    .main-footer {
+      background: #333;
+      color: white;
+      padding: 40px 0 20px;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    
+    .footer-section h4 {
+      margin-bottom: 20px;
+      color: white;
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    .footer-bottom {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid #444;
+    }
+    
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .header-content {
+        padding: 20px 0 0;
+      }
+      
+      .nav-container {
+        flex-direction: column;
+      }
+      
+      .nav-link {
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      
+      .training-grid, .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .step-number {
+        position: static;
+        margin-bottom: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-container">
+        <img src="assets/logo_en.png" alt="Community Hub Logo" class="logo">
+      </div>
+      <div class="header-content">
+        <h1 class="page-title">Essential Life Skills Training</h1>
+        <p class="page-subtitle">Develop your skills for everyday life</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <a href="index_en.html" class="nav-link">Home</a>
+      <a href="hebergement_en.html" class="nav-link">Social Housing</a>
+      <a href="epicerie_en.html" class="nav-link">Social Grocery</a>
+      <a href="formation_en.html" class="nav-link active">Training & Education</a>
+      <a href="microcredit_en.html" class="nav-link">Responsible Microcredit</a>
+      <a href="services_en.html" class="nav-link">Cross-cutting Services</a>
+      <a href="recherche_en.html" class="nav-link">Research & Partnership</a>
+      <a href="formations_fr.html" class="nav-link">Français</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h2 class="hero-title">Essential Life Skills Training</h2>
+      <p class="hero-text">Develop practical skills to improve your autonomy and quality of life through our free training programs.</p>
+      <a href="#trainings" class="btn btn-primary">Discover Our Training</a>
+      <a href="#registration" class="btn btn-secondary">Register</a>
+    </div>
+  </section>
+
+  <!-- Featured Training -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Hygiene and Food Safety Training</h2>
+      <p class="section-subtitle">Learn proper hygiene practices in the kitchen!</p>
+      
+      <div class="training-card" style="max-width: 800px; margin: 0 auto;">
+        <div class="training-icon">🧼</div>
+        <h3 class="training-title">Hygiene and Food Safety in the Kitchen</h3>
+        <p>The Hygiene and Food Safety training is offered free of charge to our members, volunteers, and partners. It ensures safety in terms of hygiene and food safety both at the Community Hub and at home.</p>
+        
+        <ul class="training-details">
+          <li>Compliance with MAPAQ regulations</li>
+          <li>Explanatory guide provided to each participant</li>
+          <li>Safe food handling practices</li>
+          <li>Cleaning and disinfection techniques</li>
+          <li>Cross-contamination prevention</li>
+        </ul>
+        
+        <div style="background: #e8f5e8; padding: 20px; border-radius: 8px; margin: 20px 0;">
+          <p><strong>📅 Duration:</strong> 3 hours</p>
+          <p><strong>🎯 Audience:</strong> Members, volunteers and partners</p>
+          <p><strong>💵 Cost:</strong> Free</p>
+          <p><strong>📝 Certification:</strong> Participation certificate</p>
+        </div>
+        
+        <a href="#registration" class="btn btn-primary" style="width: 100%;">Register for this training</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- All Trainings -->
+  <section class="section section-alt" id="trainings">
+    <div class="container">
+      <h2 class="section-title">Our Essential Training Programs</h2>
+      <p class="section-subtitle">Practical skills to improve your daily life</p>
+      
+      <div class="training-grid">
+        <!-- Training 1 -->
+        <div class="training-card">
+          <div class="training-icon">💰</div>
+          <h3 class="training-title">Budget Management</h3>
+          <p>Learn to manage your family budget, save money and plan your expenses.</p>
+          
+          <ul class="training-details">
+            <li>Establish a realistic budget</li>
+            <li>Money-saving techniques</li>
+            <li>Debt management</li>
+            <li>Savings planning</li>
+          </ul>
+          
+          <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>📅 Duration:</strong> 4 sessions of 2h</p>
+            <p><strong>🎯 Level:</strong> Beginner</p>
+          </div>
+          
+          <a href="#registration" class="btn btn-primary" style="width: 100%;">Register</a>
+        </div>
+
+        <!-- Training 2 -->
+        <div class="training-card">
+          <div class="training-icon">🍳</div>
+          <h3 class="training-title">Economical Cooking</h3>
+          <p>Master the art of cooking healthy meals on a limited budget.</p>
+          
+          <ul class="training-details">
+            <li>Meal planning</li>
+            <li>Food preservation techniques</li>
+            <li>Budget-friendly recipes</li>
+            <li>Balanced nutrition</li>
+          </ul>
+          
+          <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>📅 Duration:</strong> 5 practical sessions</p>
+            <p><strong>🎯 Level:</strong> All levels</p>
+          </div>
+          
+          <a href="#registration" class="btn btn-primary" style="width: 100%;">Register</a>
+        </div>
+
+        <!-- Training 3 -->
+        <div class="training-card">
+          <div class="training-icon">💻</div>
+          <h3 class="training-title">Essential Digital Skills</h3>
+          <p>Acquire basic digital skills for everyday life.</p>
+          
+          <ul class="training-details">
+            <li>Internet navigation</li>
+            <li>Email and communication</li>
+            <li>Online job search</li>
+            <li>Computer security</li>
+          </ul>
+          
+          <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>📅 Duration:</strong> 6 sessions of 2h</p>
+            <p><strong>🎯 Level:</strong> Complete beginner</p>
+          </div>
+          
+          <a href="#registration" class="btn btn-primary" style="width: 100%;">Register</a>
+        </div>
+        
+        <!-- Training 4 -->
+        <div class="training-card">
+          <div class="training-icon">👨‍👩‍👧‍👦</div>
+          <h3 class="training-title">Positive Parenting</h3>
+          <p>Develop parenting skills for a fulfilling family environment.</p>
+          
+          <ul class="training-details">
+            <li>Family communication</li>
+            <li>Conflict management</li>
+            <li>Child development</li>
+            <li>Positive education</li>
+          </ul>
+          
+          <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>📅 Duration:</strong> 8 sessions of 2h</p>
+            <p><strong>🎯 Audience:</strong> Parents and guardians</p>
+          </div>
+          
+          <a href="#registration" class="btn btn-primary" style="width: 100%;">Register</a>
+        </div>
+        
+        <!-- Training 5 -->
+        <div class="training-card">
+          <div class="training-icon">🛠️</div>
+          <h3 class="training-title">Home Maintenance</h3>
+          <p>Learn the basics of home maintenance and small repairs.</p>
+          
+          <ul class="training-details">
+            <li>Basic repairs</li>
+            <li>Preventive maintenance</li>
+            <li>Energy savings</li>
+            <li>Home safety</li>
+          </ul>
+          
+          <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>📅 Duration:</strong> 4 practical sessions</p>
+            <p><strong>🎯 Level:</strong> Beginner</p>
+          </div>
+          
+          <a href="#registration" class="btn btn-primary" style="width: 100%;">Register</a>
+        </div>
+        
+        <!-- Training 6 -->
+        <div class="training-card">
+          <div class="training-icon">💼</div>
+          <h3 class="training-title">Job Search</h3>
+          <p>Optimize your job search with effective techniques.</p>
+          
+          <ul class="training-details">
+            <li>CV and cover letter writing</li>
+            <li>Interview preparation</li>
+            <li>Professional networking</li>
+            <li>Skills development</li>
+          </ul>
+          
+          <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>📅 Duration:</strong> 5 sessions of 2h</p>
+            <p><strong>🎯 Audience:</strong> Job seekers</p>
+          </div>
+          
+          <a href="#registration" class="btn btn-primary" style="width: 100%;">Register</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Why Participate in Our Training?</h2>
+      
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon">🎓</div>
+          <h4>Free Training</h4>
+          <p>All our training is offered free of charge to our members and beneficiaries</p>
+        </div>
+        
+        <div class="benefit-card">
+          <div class="benefit-icon">🤝</div>
+          <h4>Practical Approach</h4>
+          <p>Learning based on real situations and hands-on practice</p>
+        </div>
+        
+        <div class="benefit-card">
+          <div class="benefit-icon">📜</div>
+          <h4>Certification</h4>
+          <p>Official recognition of your participation and achievements</p>
+        </div>
+        
+        <div class="benefit-card">
+          <div class="benefit-icon">🌐</div>
+          <h4>Social Network</h4>
+          <p>Opportunity to meet other participants and expand your network</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Registration Process -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">How to Register?</h2>
+      <p class="section-subtitle">A simple and supported process</p>
+      
+      <div class="process-timeline">
+        <div class="process-step">
+          <div class="step-number">1</div>
+          <h4>📝 Become a Member</h4>
+          <p>Join the Community Hub to access all our training for free</p>
+        </div>
+        
+        <div class="process-step">
+          <div class="step-number">2</div>
+          <h4>📋 Choose Your Training</h4>
+          <p>Select the training that matches your needs and availability</p>
+        </div>
+        
+        <div class="process-step">
+          <div class="step-number">3</div>
+          <h4>📞 Orientation Interview</h4>
+          <p>Meeting with our training coordinator to validate your project</p>
+        </div>
+        
+        <div class="process-step">
+          <div class="step-number">4</div>
+          <h4>🚀 Training Start</h4>
+          <p>Integration into the group and start of your learning journey</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Participant Testimonials</h2>
+      
+      <div class="testimonials">
+        <div class="testimonial-card">
+          <p>"The budget management training helped me break the cycle of debt. Now I can anticipate my expenses and even save!"</p>
+          <p><strong>- Sophie, participant for 6 months</strong></p>
+        </div>
+        
+        <div class="testimonial-card">
+          <p>"Thanks to the digital training, I was able to apply online and get my first job. A real life-changer!"</p>
+          <p><strong>- Mark, former participant now employed</strong></p>
+        </div>
+        
+        <div class="testimonial-card">
+          <p>"The cooking workshops taught me how to eat better on a small budget. My children love the new recipes!"</p>
+          <p><strong>- Lopez family, participants together</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Registration Form -->
+  <section class="section section-alt" id="registration">
+    <div class="container">
+      <h2 class="section-title">Training Registration</h2>
+      <p class="section-subtitle">Fill out the form to register for our training</p>
+      
+      <div class="registration-form">
+        <form id="trainingForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">First Name *</label>
+              <input type="text" id="firstName" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="lastName">Last Name *</label>
+              <input type="text" id="lastName" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="phone">Phone *</label>
+              <input type="tel" id="phone" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="training">Training you're interested in *</label>
+            <select id="training" class="form-control" required>
+              <option value="">Select a training...</option>
+              <option value="hygiene">Hygiene and Food Safety</option>
+              <option value="budget">Budget Management</option>
+              <option value="cooking">Economical Cooking</option>
+              <option value="digital">Essential Digital Skills</option>
+              <option value="parenting">Positive Parenting</option>
+              <option value="maintenance">Home Maintenance</option>
+              <option value="employment">Job Search</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="availability">Availability *</label>
+            <select id="availability" class="form-control" required>
+              <option value="">Select...</option>
+              <option value="weekday">Weekdays</option>
+              <option value="weekend">Weekend</option>
+              <option value="evening">Evenings</option>
+              <option value="flexible">Flexible</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="experience">Previous experience (optional)</label>
+            <textarea id="experience" class="form-control form-textarea" placeholder="Have you already taken similar training?"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="motivation">Motivation *</label>
+            <textarea id="motivation" class="form-control form-textarea" required placeholder="Why do you want to participate in this training?"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">Submit My Registration Request</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Our Mission</h2>
+      <div style="background: white; padding: 40px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center;">
+        <p style="font-size: 1.2em; font-style: italic; line-height: 1.8;">
+          "Promote the well-being of low-income citizens by primarily improving their food security, while fostering autonomy, community building, solidarity, mutual aid, and personal and social involvement."
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Ready to Develop Your Skills?</h2>
+      <p class="section-subtitle">Join our learning community and give new momentum to your life</p>
+      
+      <div style="text-align: center; margin-top: 30px;">
+        <a href="#registration" class="btn btn-primary btn-large">Register for Training</a>
+        <a href="contact_en.html" class="btn btn-secondary btn-large">Contact Us</a>
+        <a href="partenaire_en.html" class="btn btn-secondary btn-large">Become a Member</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>CONTACT US</h4>
+          <ul class="footer-links">
+            <li>info@community-hub.org</li>
+            <li>Facebook Page</li>
+            <li>Tel.: (514) 123-4567</li>
+            <li>1234 Solidarity Street<br>Montreal, Quebec H4E 4G8</li>
+            <li>2 min from Jolicoeur Metro</li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>QUICK LINKS</h4>
+          <ul class="footer-links">
+            <li><a href="index_en.html">Home</a></li>
+            <li><a href="services_en.html">Services</a></li>
+            <li><a href="nos_besoins_en.html">Donations</a></li>
+            <li><a href="partenaire_en.html">Become a member</a></li>
+            <li><a href="contact_en.html">Contact</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="resources.html">Additional Resources</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>HOURS</h4>
+          <ul class="footer-links">
+            <li><strong>Monday - Friday:</strong> 9am - 6pm</li>
+            <li><strong>Saturday:</strong> 10am - 4pm</li>
+            <li><strong>Sunday:</strong> Closed</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 Community Hub for Education and Entrepreneurship</p>
+        <p>This site is a creation of the Community Hub team. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Form Submission
+    document.getElementById('trainingForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const submitBtn = this.querySelector('button[type="submit"]');
+      submitBtn.innerHTML = 'Sending...';
+      submitBtn.disabled = true;
+      
+      setTimeout(() => {
+        alert('Thank you! Your registration request has been sent. Our training coordinator will contact you within 48 hours.');
+        this.reset();
+        submitBtn.innerHTML = 'Submit My Registration Request';
+        submitBtn.disabled = false;
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
