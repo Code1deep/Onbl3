@@ -6,6 +6,114 @@
   <title>Cross-Sectional Services – Carrefour of Educational & Entrepreneurial Initiatives</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+  }
+  
+  .service-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    border-top: 5px solid var(--orange);
+  }
+  
+  .service-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .service-icon {
+    font-size: 3em;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .service-title {
+    font-size: 1.4em;
+    margin-bottom: 15px;
+    color: var(--dark-blue);
+    text-align: center;
+  }
+  
+  .service-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  .service-card li {
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .service-card li:before {
+    content: "✓ ";
+    color: var(--green);
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .btn {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 15px;
+    width: 100%;
+  }
+  
+  .btn-primary {
+    background: var(--orange);
+    color: white;
+  }
+  
+  .btn-success {
+    background: var(--green);
+    color: white;
+  }
+  
+  .btn-warning {
+    background: #ffc107;
+    color: #212529;
+  }
+  
+  .btn-info {
+    background: #17a2b8;
+    color: white;
+  }
+  
+  .btn-secondary {
+    background: transparent;
+    color: var(--primary-blue);
+    border: 2px solid var(--primary-blue);
+  }
+  
+  .btn-outline {
+    background: transparent;
+    color: var(--dark-blue);
+    border: 2px solid var(--dark-blue);
+  }
+  
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+  
+  .section-alt {
+    background: var(--very-light-green);
+  }
     :root {
       --primary-blue: #0056a3;
       --dark-blue: #003d73;
@@ -400,62 +508,130 @@
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section class="hero-section">
-    <div class="container">
-      <h1 class="hero-title">A One-Stop Shop for Your Essential Needs</h1>
-      <p class="hero-text">Integrated services that address all your needs: legal, psychosocial, community, and administrative support.</p>
-      <a href="#appointment" class="btn btn-primary">Schedule an Appointment</a>
-      <a href="#schedule" class="btn btn-secondary">View Our Schedule</a>
-    </div>
-  </section>
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="container">
+    <h1 class="hero-title">A One-Stop Shop for Your Essential Needs</h1>
+    <p class="hero-text">Integrated services that address all your needs: legal, psychosocial, community, and administrative.</p>
+    <a href="#book-appointment" class="btn btn-primary">Book an Appointment</a>
+    <a href="#hours" class="btn btn-secondary">View Our Hours</a>
+  </div>
+</section>
 
-  <!-- Legal and Tax Services -->
-  <section class="section">
-    <div class="container">
-      <h2 class="section-title">Legal and Tax Services</h2>
-      <p class="section-subtitle">Professional support accessible to everyone</p>
+<!-- Cross-Cutting Services - Main Section -->
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">Our Cross-Cutting Services</h2>
+    <p class="section-subtitle">Access all our support and training services</p>
+    
+    <div class="services-grid">
+      <!-- Service 1 -->
+      <div class="service-card">
+        <div class="service-icon">⚖️</div>
+        <h3 class="service-title">Legal and Tax Services</h3>
+        <p>Professional support in law, taxation, and administrative procedures</p>
+        <ul>
+          <li>Legal clinic with volunteer lawyers</li>
+          <li>Tax declaration assistance</li>
+          <li>Notarization services</li>
+          <li>Support for administrative procedures</li>
+        </ul>
+        <a href="#legal" class="btn btn-primary">Discover this service</a>
+      </div>
       
-      <div class="services-grid">
-        <div class="service-card">
-          <div class="service-icon">⚖️</div>
-          <h3 class="service-title">Legal Clinic</h3>
-          <p>Consultations with volunteer lawyers for basic legal advice</p>
-          <ul>
-            <li>Housing law and tenant disputes</li>
-            <li>Family law and youth protection</li>
-            <li>Immigration law and refugee status</li>
-            <li>Consumer rights</li>
-          </ul>
-        </div>
-        
-        <div class="service-card">
-          <div class="service-icon">📊</div>
-          <h3 class="service-title">Tax Assistance</h3>
-          <p>Income tax declaration for individuals and self-employed workers</p>
-          <ul>
-            <li>T1 tax return preparation</li>
-            <li>Tax credit optimization</li>
-            <li>Business startup and taxes</li>
-            <li>Correction of previous declarations</li>
-          </ul>
-        </div>
-        
-        <div class="service-card">
-          <div class="service-icon">📑</div>
-          <h3 class="service-title">Administrative Services</h3>
-          <p>Document notarization and administrative support</p>
-          <ul>
-            <li>Notarization of official documents</li>
-            <li>Form filling assistance</li>
-            <li>Translation of essential documents</li>
-            <li>Certified true copies</li>
-          </ul>
-        </div>
+      <!-- Service 2 -->
+      <div class="service-card">
+        <div class="service-icon">🎓</div>
+        <h3 class="service-title">Essential Life Skills Training</h3>
+        <p>Develop practical skills to improve your daily autonomy</p>
+        <ul>
+          <li>Hygiene and food safety in the kitchen</li>
+          <li>Family budget management</li>
+          <li>Basic digital skills</li>
+          <li>Economical cooking and nutrition</li>
+        </ul>
+        <a href="formations_en.html" class="btn btn-success">View training programs</a>
+      </div>
+      
+      <!-- Service 3 -->
+      <div class="service-card">
+        <div class="service-icon">💼</div>
+        <h3 class="service-title">Professional Support</h3>
+        <p>Employment support services and professional skills development</p>
+        <ul>
+          <li>Job search assistance</li>
+          <li>CV and cover letter writing</li>
+          <li>Interview preparation</li>
+          <li>Career guidance</li>
+        </ul>
+        <a href="#employment" class="btn btn-warning">Learn more</a>
+      </div>
+      
+      <!-- Service 4 -->
+      <div class="service-card">
+        <div class="service-icon">👨‍👩‍👧‍👦</div>
+        <h3 class="service-title">Psychosocial Support</h3>
+        <p>Individual and family support for well-being and personal development</p>
+        <ul>
+          <li>Active listening and moral support</li>
+          <li>Family mediation</li>
+          <li>Support groups</li>
+          <li>Referrals to specialists</li>
+        </ul>
+        <a href="#psychosocial" class="btn btn-info">Discover</a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
+<!-- Legal and Tax Services - Detailed Section -->
+<section class="section" id="legal">
+  <div class="container">
+    <h2 class="section-title">Legal and Tax Services</h2>
+    <p class="section-subtitle">Professional support accessible to everyone</p>
+    
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">⚖️</div>
+        <h3 class="service-title">Legal Clinic</h3>
+        <p>Consultations with volunteer lawyers for basic legal advice</p>
+        <ul>
+          <li>Housing law and tenant disputes</li>
+          <li>Family law and youth protection</li>
+          <li>Immigration law and refugee status</li>
+          <li>Consumer rights</li>
+        </ul>
+        <a href="#book-appointment" class="btn btn-outline">Book an Appointment</a>
+      </div>
+      
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <h3 class="service-title">Tax Assistance</h3>
+        <p>Income tax declaration for individuals and self-employed workers</p>
+        <ul>
+          <li>T1 tax return preparation</li>
+          <li>Tax credit optimization</li>
+          <li>Business startup and taxes</li>
+          <li>Correction of previous declarations</li>
+        </ul>
+        <a href="#book-appointment" class="btn btn-outline">Book an Appointment</a>
+      </div>
+      
+      <div class="service-card">
+        <div class="service-icon">📑</div>
+        <h3 class="service-title">Administrative Services</h3>
+        <p>Notarization and support for administrative procedures</p>
+        <ul>
+          <li>Notarization of official documents</li>
+          <li>Form filling assistance</li>
+          <li>Translation of essential documents</li>
+          <li>Certification of true copies</li>
+        </ul>
+        <a href="#book-appointment" class="btn btn-outline">Book an Appointment</a>
+      </div>
+    </div>
+  </div>
+</section>
   <!-- Pricing Section -->
   <section class="section section-alt">
     <div class="container">
@@ -723,5 +899,6 @@
   </footer>
 </body>
 </html>
+
 
 
