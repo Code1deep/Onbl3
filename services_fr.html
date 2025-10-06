@@ -6,6 +6,114 @@
   <title>Services Transverses – Carrefour des Initiatives Éducatives et Entrepreneuriales</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+  }
+  
+  .service-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    border-top: 5px solid var(--orange);
+  }
+  
+  .service-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .service-icon {
+    font-size: 3em;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .service-title {
+    font-size: 1.4em;
+    margin-bottom: 15px;
+    color: var(--dark-blue);
+    text-align: center;
+  }
+  
+  .service-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  .service-card li {
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .service-card li:before {
+    content: "✓ ";
+    color: var(--green);
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .btn {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 15px;
+    width: 100%;
+  }
+  
+  .btn-primary {
+    background: var(--orange);
+    color: white;
+  }
+  
+  .btn-success {
+    background: var(--green);
+    color: white;
+  }
+  
+  .btn-warning {
+    background: #ffc107;
+    color: #212529;
+  }
+  
+  .btn-info {
+    background: #17a2b8;
+    color: white;
+  }
+  
+  .btn-secondary {
+    background: transparent;
+    color: var(--primary-blue);
+    border: 2px solid var(--primary-blue);
+  }
+  
+  .btn-outline {
+    background: transparent;
+    color: var(--dark-blue);
+    border: 2px solid var(--dark-blue);
+  }
+  
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+  
+  .section-alt {
+    background: var(--very-light-green);
+  }
     :root {
       --primary-blue: #0056a3;
       --dark-blue: #003d73;
@@ -400,61 +508,130 @@
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section class="hero-section">
-    <div class="container">
-      <h1 class="hero-title">Un Guichet Unique pour Vos Besoins Essentiels</h1>
-      <p class="hero-text">Des services intégrés qui répondent à l'ensemble de vos besoins : juridique, psychosocial, communautaire et administratif.</p>
-      <a href="#prendre-rendezvous" class="btn btn-primary">Prendre Rendez-vous</a>
-      <a href="#horaires" class="btn btn-secondary">Voir nos Horaires</a>
-    </div>
-  </section>
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="container">
+    <h1 class="hero-title">Un Guichet Unique pour Vos Besoins Essentiels</h1>
+    <p class="hero-text">Des services intégrés qui répondent à l'ensemble de vos besoins : juridique, psychosocial, communautaire et administratif.</p>
+    <a href="#prendre-rendezvous" class="btn btn-primary">Prendre Rendez-vous</a>
+    <a href="#horaires" class="btn btn-secondary">Voir nos Horaires</a>
+  </div>
+</section>
 
-  <!-- Services Juridiques et Fiscaux -->
-  <section class="section">
-    <div class="container">
-      <h2 class="section-title">Services Juridiques et Fiscaux</h2>
-      <p class="section-subtitle">Un accompagnement professionnel accessible à tous</p>
+<!-- Services Transversaux - Section Principale -->
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">Nos Services Transversaux</h2>
+    <p class="section-subtitle">Accédez à l'ensemble de nos services d'accompagnement et de formation</p>
+    
+    <div class="services-grid">
+      <!-- Service 1 -->
+      <div class="service-card">
+        <div class="service-icon">⚖️</div>
+        <h3 class="service-title">Services Juridiques et Fiscaux</h3>
+        <p>Accompagnement professionnel en droit, fiscalité et démarches administratives</p>
+        <ul>
+          <li>Clinique juridique avec avocats bénévoles</li>
+          <li>Aide aux déclarations d'impôts</li>
+          <li>Services d'assermentation</li>
+          <li>Soutien aux démarches administratives</li>
+        </ul>
+        <a href="#juridique" class="btn btn-primary">Découvrir ce service</a>
+      </div>
       
-      <div class="services-grid">
-        <div class="service-card">
-          <div class="service-icon">⚖️</div>
-          <h3 class="service-title">Clinique Juridique</h3>
-          <p>Consultations avec avocats bénévoles pour conseils juridiques de base</p>
-          <ul>
-            <li>Droit du logement et conflits locatifs</li>
-            <li>Droit familial et protection de la jeunesse</li>
-            <li>Droit de l'immigration et statut de réfugié</li>
-            <li>Droits des consommateurs</li>
-          </ul>
-        </div>
-        
-        <div class="service-card">
-          <div class="service-icon">📊</div>
-          <h3 class="service-title">Aide aux Impôts</h3>
-          <p>Déclaration de revenus pour particuliers et travailleurs autonomes</p>
-          <ul>
-            <li>Préparation des déclarations T1</li>
-            <li>Optimisation des crédits d'impôt</li>
-            <li>Démarrage d'entreprise et taxes</li>
-            <li>Rectification de déclarations antérieures</li>
-          </ul>
-        </div>
-        
-        <div class="service-card">
-          <div class="service-icon">📑</div>
-          <h3 class="service-title">Services Administratifs</h3>
-          <p>Assermentation et soutien aux démarches administratives</p>
-          <ul>
-            <li>Assermentation de documents officiels</li>
-            <li>Aide au remplissage de formulaires</li>
-            <li>Traduction de documents essentiels</li>
-            <li>Certification de copies conformes</li>
-          </ul>
-        </div>
+      <!-- Service 2 -->
+      <div class="service-card">
+        <div class="service-icon">🎓</div>
+        <h3 class="service-title">Formations Essentielles</h3>
+        <p>Développez vos compétences pratiques pour améliorer votre autonomie au quotidien</p>
+        <ul>
+          <li>Hygiène et salubrité en cuisine</li>
+          <li>Gestion budgétaire familiale</li>
+          <li>Compétences numériques de base</li>
+          <li>Cuisine économique et nutrition</li>
+        </ul>
+        <a href="formations_fr.html" class="btn btn-success">Voir les formations</a>
+      </div>
+      
+      <!-- Service 3 -->
+      <div class="service-card">
+        <div class="service-icon">💼</div>
+        <h3 class="service-title">Accompagnement Professionnel</h3>
+        <p>Services de soutien à l'emploi et développement de compétences professionnelles</p>
+        <ul>
+          <li>Aide à la recherche d'emploi</li>
+          <li>Rédaction de CV et lettres</li>
+          <li>Préparation aux entretiens</li>
+          <li>Orientation professionnelle</li>
+        </ul>
+        <a href="#emploi" class="btn btn-warning">En savoir plus</a>
+      </div>
+      
+      <!-- Service 4 -->
+      <div class="service-card">
+        <div class="service-icon">👨‍👩‍👧‍👦</div>
+        <h3 class="service-title">Soutien Psychosocial</h3>
+        <p>Accompagnement individuel et familial pour le bien-être et l'épanouissement</p>
+        <ul>
+          <li>Écoute active et soutien moral</li>
+          <li>Médiation familiale</li>
+          <li>Groupes de parole</li>
+          <li>Référencement vers des spécialistes</li>
+        </ul>
+        <a href="#psychosocial" class="btn btn-info">Découvrir</a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
+<!-- Services Juridiques et Fiscaux - Section Détaillée -->
+<section class="section" id="juridique">
+  <div class="container">
+    <h2 class="section-title">Services Juridiques et Fiscaux</h2>
+    <p class="section-subtitle">Un accompagnement professionnel accessible à tous</p>
+    
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">⚖️</div>
+        <h3 class="service-title">Clinique Juridique</h3>
+        <p>Consultations avec avocats bénévoles pour conseils juridiques de base</p>
+        <ul>
+          <li>Droit du logement et conflits locatifs</li>
+          <li>Droit familial et protection de la jeunesse</li>
+          <li>Droit de l'immigration et statut de réfugié</li>
+          <li>Droits des consommateurs</li>
+        </ul>
+        <a href="#prendre-rendezvous" class="btn btn-outline">Prendre Rendez-vous</a>
+      </div>
+      
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <h3 class="service-title">Aide aux Impôts</h3>
+        <p>Déclaration de revenus pour particuliers et travailleurs autonomes</p>
+        <ul>
+          <li>Préparation des déclarations T1</li>
+          <li>Optimisation des crédits d'impôt</li>
+          <li>Démarrage d'entreprise et taxes</li>
+          <li>Rectification de déclarations antérieures</li>
+        </ul>
+        <a href="#prendre-rendezvous" class="btn btn-outline">Prendre Rendez-vous</a>
+      </div>
+      
+      <div class="service-card">
+        <div class="service-icon">📑</div>
+        <h3 class="service-title">Services Administratifs</h3>
+        <p>Assermentation et soutien aux démarches administratives</p>
+        <ul>
+          <li>Assermentation de documents officiels</li>
+          <li>Aide au remplissage de formulaires</li>
+          <li>Traduction de documents essentiels</li>
+          <li>Certification de copies conformes</li>
+        </ul>
+        <a href="#prendre-rendezvous" class="btn btn-outline">Prendre Rendez-vous</a>
+      </div>
+    </div>
+  </div>
+</section>
 
   <!-- Tarifs Section -->
   <section class="section section-alt">
@@ -723,5 +900,6 @@
   </footer>
 </body>
 </html>
+
 
 
