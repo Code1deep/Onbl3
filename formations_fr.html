@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formations Essentielles - Carrefour des Initiatives</title>
+  <style>
+    :root {
+      --primary-blue: #0056a3;
+      --dark-blue: #003d73;
+      --orange: #ff6b35;
+      --green: #28a745;
+      --purple: #6f42c1;
+      --light-gray: #f8f9fa;
+      --very-light-green: #f0fff0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f9f9f9;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Styles */
+    .main-header {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      color: white;
+      padding: 20px 0;
+    }
+    
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .logo-container {
+      flex: 0 0 auto;
+    }
+    
+    .logo {
+      height: 60px;
+    }
+    
+    .header-content {
+      flex: 1;
+      text-align: center;
+      padding: 0 20px;
+    }
+    
+    .page-title {
+      font-size: 2.2em;
+      margin-bottom: 5px;
+    }
+    
+    .page-subtitle {
+      font-size: 1.1em;
+      opacity: 0.9;
+    }
+    
+    /* Navigation */
+    .main-nav {
+      background: var(--dark-blue);
+      padding: 0;
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      transition: background 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(rgba(0, 86, 163, 0.8), rgba(0, 86, 163, 0.8)), url('assets/formation-hero.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+    
+    .hero-text {
+      font-size: 1.2em;
+      max-width: 800px;
+      margin: 0 auto 30px;
+    }
+    
+    .section {
+      padding: 60px 0;
+    }
+    
+    .section-alt {
+      background: var(--very-light-green);
+    }
+    
+    .section-title {
+      font-size: 2em;
+      margin-bottom: 30px;
+      color: var(--dark-blue);
+      text-align: center;
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 1.1em;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Training Grid */
+    .training-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .training-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      border-top: 5px solid var(--orange);
+    }
+    
+    .training-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .training-icon {
+      font-size: 3em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .training-title {
+      font-size: 1.4em;
+      margin-bottom: 15px;
+      color: var(--dark-blue);
+      text-align: center;
+    }
+    
+    .training-details {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+    
+    .training-details li {
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+    }
+    
+    .training-details li:before {
+      content: "✓ ";
+      color: var(--green);
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    
+    /* Benefits Grid */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-top: 40px;
+    }
+    
+    .benefit-card {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .benefit-card:hover {
+      transform: translateY(-3px);
+    }
+    
+    .benefit-icon {
+      font-size: 3em;
+      margin-bottom: 20px;
+      color: var(--primary-blue);
+    }
+    
+    /* Process Timeline */
+    .process-timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 40px auto;
+    }
+    
+    .process-step {
+      background: white;
+      padding: 30px;
+      margin: 25px 0;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-left: 4px solid var(--green);
+      position: relative;
+    }
+    
+    .step-number {
+      background: var(--green);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      position: absolute;
+      left: -20px;
+      top: 30px;
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .testimonial-card {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    
+    .testimonial-card::before {
+      content: '"';
+      font-size: 4em;
+      color: var(--light-gray);
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      line-height: 1;
+    }
+    
+    /* Form Styles */
+    .registration-form {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .form-group {
+      margin-bottom: 25px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--dark-blue);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(0, 86, 163, 0.1);
+    }
+    
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      margin: 10px 5px;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary-blue);
+      border: 2px solid var(--primary-blue);
+    }
+    
+    .btn-large {
+      padding: 15px 30px;
+      font-size: 1.1em;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    /* Footer */
+    .main-footer {
+      background: #333;
+      color: white;
+      padding: 40px 0 20px;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    
+    .footer-section h4 {
+      margin-bottom: 20px;
+      color: white;
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    .footer-bottom {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid #444;
+    }
+    
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .header-content {
+        padding: 20px 0 0;
+      }
+      
+      .nav-container {
+        flex-direction: column;
+      }
+      
+      .nav-link {
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      
+      .training-grid, .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .step-number {
+        position: static;
+        margin-bottom: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-container">
+        <img src="assets/logo_fr.png" alt="Logo Carrefour" class="logo">
+      </div>
+      <div class="header-content">
+        <h1 class="page-title">Formations Essentielles</h1>
+        <p class="page-subtitle">Développez vos compétences pour la vie quotidienne</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-link">Accueil</a>
+      <a href="hebergement_fr.html" class="nav-link">Hébergement Social</a>
+      <a href="epicerie_fr.html" class="nav-link">Épicerie Sociale</a>
+      <a href="formation_fr.html" class="nav-link active">Formation & Éducation</a>
+      <a href="microcredit_fr.html" class="nav-link">Microcrédit Responsable</a>
+      <a href="services_fr.html" class="nav-link">Services Transverses</a>
+      <a href="recherche_fr.html" class="nav-link">Recherche & Partenariat</a>
+      <a href="formations_en.html" class="nav-link">English</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h2 class="hero-title">Formations Essentielles à la Vie Quotidienne</h2>
+      <p class="hero-text">Développez vos compétences pratiques pour améliorer votre autonomie et votre qualité de vie grâce à nos formations gratuites.</p>
+      <a href="#formations" class="btn btn-primary">Découvrir nos formations</a>
+      <a href="#inscription" class="btn btn-secondary">S'inscrire</a>
+    </div>
+  </section>
+
+  <!-- Featured Training -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Formation Hygiène et Salubrité</h2>
+      <p class="section-subtitle">Initiez-vous aux bonnes pratiques d'hygiène en cuisine !</p>
+      
+      <div class="training-card" style="max-width: 800px; margin: 0 auto;">
+        <div class="training-icon">🧼</div>
+        <h3 class="training-title">Hygiène et Salubrité en Cuisine</h3>
+        <p>La formation Hygiène et Salubrité est offerte gratuitement à nos membres, nos bénévoles ainsi que nos partenaires. Elle permet d'assurer la sécurité en termes d'hygiène et de salubrité en cuisine tant au Carrefour des Initiatives que chez soi.</p>
+        
+        <ul class="training-details">
+          <li>Conformité avec les réglementations du MAPAQ</li>
+          <li>Guide explicatif remis à chaque participant</li>
+          <li>Pratiques sécuritaires de manipulation des aliments</li>
+          <li>Techniques de nettoyage et désinfection</li>
+          <li>Prévention des contaminations croisées</li>
+        </ul>
+        
+        <div style="background: #e8f5e8; padding: 20px; border-radius: 8px; margin: 20px 0;">
+          <p><strong>📅 Durée:</strong> 3 heures</p>
+          <p><strong>🎯 Public:</strong> Membres, bénévoles et partenaires</p>
+          <p><strong>💵 Coût:</strong> Gratuit</p>
+          <p><strong>📝 Certification:</strong> Attestation de participation</p>
+        </div>
+        
+        <a href="#inscription" class="btn btn-primary" style="width: 100%;">S'inscrire à cette formation</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- All Trainings -->
+  <section class="section section-alt" id="formations">
+    <div class="container">
+      <h2 class="section-title">Nos Formations Essentielles</h2>
+      <p class="section-subtitle">Des compétences pratiques pour améliorer votre quotidien</p>
+      
+      <div class="training-grid">
+        <!-- Formation 1 -->
+        <div class="training-card">
+          <div class="training-icon">💰</div>
+          <h3 class="training-title">Gestion Budgétaire</h3>
+          <p>Apprenez à gérer votre budget familial, économiser et planifier vos dépenses.</p>
+          
+          <ul class="training-details">
+            <li>Établir un budget réaliste</li>
+            <li>Techniques d'économie</li>
+            <li>Gestion des dettes</li>
+            <li>Planification d'épargne</li>
+          </ul>
+          
+          <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>📅 Durée:</strong> 4 sessions de 2h</p>
+            <p><strong>🎯 Niveau:</strong> Débutant</p>
+          </div>
+          
+          <a href="#inscription" class="btn btn-primary" style="width: 100%;">S'inscrire</a>
+        </div>
+
+        <!-- Formation 2 -->
+        <div class="training-card">
+          <div class="training-icon">🍳</div>
+          <h3 class="training-title">Cuisine Économique</h3>
+          <p>Maîtrisez l'art de cuisiner sainement avec un budget limité.</p>
+          
+          <ul class="training-details">
+            <li>Planification des repas</li>
+            <li>Techniques de conservation</li>
+            <li>Recettes économiques</li>
+            <li>Nutrition équilibrée</li>
+          </ul>
+          
+          <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>📅 Durée:</strong> 5 sessions pratiques</p>
+            <p><strong>🎯 Niveau:</strong> Tous niveaux</p>
+          </div>
+          
+          <a href="#inscription" class="btn btn-primary" style="width: 100%;">S'inscrire</a>
+        </div>
+
+        <!-- Formation 3 -->
+        <div class="training-card">
+          <div class="training-icon">💻</div>
+          <h3 class="training-title">Numérique Essentiel</h3>
+          <p>Acquérez les compétences numériques de base pour la vie quotidienne.</p>
+          
+          <ul class="training-details">
+            <li>Navigation internet</li>
+            <li>Courriel et communication</li>
+            <li>Recherche d'emploi en ligne</li>
+            <li>Sécurité informatique</li>
+          </ul>
+          
+          <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>📅 Durée:</strong> 6 sessions de 2h</p>
+            <p><strong>🎯 Niveau:</strong> Débutant complet</p>
+          </div>
+          
+          <a href="#inscription" class="btn btn-primary" style="width: 100%;">S'inscrire</a>
+        </div>
+        
+        <!-- Formation 4 -->
+        <div class="training-card">
+          <div class="training-icon">👨‍👩‍👧‍👦</div>
+          <h3 class="training-title">Parentalité Positive</h3>
+          <p>Développez des compétences parentales pour un environnement familial épanouissant.</p>
+          
+          <ul class="training-details">
+            <li>Communication familiale</li>
+            <li>Gestion des conflits</li>
+            <li>Développement de l'enfant</li>
+            <li>Éducation bienveillante</li>
+          </ul>
+          
+          <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>📅 Durée:</strong> 8 sessions de 2h</p>
+            <p><strong>🎯 Public:</strong> Parents et tuteurs</p>
+          </div>
+          
+          <a href="#inscription" class="btn btn-primary" style="width: 100%;">S'inscrire</a>
+        </div>
+        
+        <!-- Formation 5 -->
+        <div class="training-card">
+          <div class="training-icon">🛠️</div>
+          <h3 class="training-title">Entretien Domestique</h3>
+          <p>Apprenez les bases de l'entretien et des petites réparations à la maison.</p>
+          
+          <ul class="training-details">
+            <li>Réparations basiques</li>
+            <li>Entretien préventif</li>
+            <li>Économies d'énergie</li>
+            <li>Sécurité domestique</li>
+          </ul>
+          
+          <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>📅 Durée:</strong> 4 sessions pratiques</p>
+            <p><strong>🎯 Niveau:</strong> Débutant</p>
+          </div>
+          
+          <a href="#inscription" class="btn btn-primary" style="width: 100%;">S'inscrire</a>
+        </div>
+        
+        <!-- Formation 6 -->
+        <div class="training-card">
+          <div class="training-icon">💼</div>
+          <h3 class="training-title">Recherche d'Emploi</h3>
+          <p>Optimisez votre recherche d'emploi avec des techniques efficaces.</p>
+          
+          <ul class="training-details">
+            <li>CV et lettre de motivation</li>
+            <li>Préparation aux entretiens</li>
+            <li>Réseautage professionnel</li>
+            <li>Développement de compétences</li>
+          </ul>
+          
+          <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>📅 Durée:</strong> 5 sessions de 2h</p>
+            <p><strong>🎯 Public:</strong> Chercheurs d'emploi</p>
+          </div>
+          
+          <a href="#inscription" class="btn btn-primary" style="width: 100%;">S'inscrire</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Pourquoi Participer à nos Formations ?</h2>
+      
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon">🎓</div>
+          <h4>Formation Gratuite</h4>
+          <p>Toutes nos formations sont offertes gratuitement à nos membres et bénéficiaires</p>
+        </div>
+        
+        <div class="benefit-card">
+          <div class="benefit-icon">🤝</div>
+          <h4>Approche Pratique</h4>
+          <p>Apprentissage basé sur des situations réelles et des mises en pratique</p>
+        </div>
+        
+        <div class="benefit-card">
+          <div class="benefit-icon">📜</div>
+          <h4>Attestation</h4>
+          <p>Reconnaissance officielle de votre participation et de vos acquis</p>
+        </div>
+        
+        <div class="benefit-card">
+          <div class="benefit-icon">🌐</div>
+          <h4>Réseau Social</h4>
+          <p>Opportunité de rencontrer d'autres participants et d'élargir votre réseau</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Registration Process -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Comment S'inscrire ?</h2>
+      <p class="section-subtitle">Un processus simple et accompagné</p>
+      
+      <div class="process-timeline">
+        <div class="process-step">
+          <div class="step-number">1</div>
+          <h4>📝 Devenir Membre</h4>
+          <p>Adhérez au Carrefour des Initiatives pour accéder à toutes nos formations gratuitement</p>
+        </div>
+        
+        <div class="process-step">
+          <div class="step-number">2</div>
+          <h4>📋 Choisir sa Formation</h4>
+          <p>Sélectionnez la ou les formations qui correspondent à vos besoins et disponibilités</p>
+        </div>
+        
+        <div class="process-step">
+          <div class="step-number">3</div>
+          <h4>📞 Entretien d'Orientation</h4>
+          <p>Rencontre avec notre coordinateur formations pour valider votre projet</p>
+        </div>
+        
+        <div class="process-step">
+          <div class="step-number">4</div>
+          <h4>🚀 Début de Formation</h4>
+          <p>Intégration au groupe et début de votre parcours d'apprentissage</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Témoignages des Participants</h2>
+      
+      <div class="testimonials">
+        <div class="testimonial-card">
+          <p>"La formation en gestion budgétaire m'a permis de sortir du cercle des dettes. Maintenant, je peux anticiper mes dépenses et même épargner !"</p>
+          <p><strong>- Sophie, participante depuis 6 mois</strong></p>
+        </div>
+        
+        <div class="testimonial-card">
+          <p>"Grâce à la formation numérique, j'ai pu postuler en ligne et décrocher mon premier emploi. Un vrai changement dans ma vie !"</p>
+          <p><strong>- Marc, ancien participant maintenant employé</strong></p>
+        </div>
+        
+        <div class="testimonial-card">
+          <p>"Les ateliers cuisine m'ont appris à mieux manger avec un petit budget. Mes enfants adorent les nouvelles recettes !"</p>
+          <p><strong>- Famille Lopez, participantes ensemble</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Registration Form -->
+  <section class="section section-alt" id="inscription">
+    <div class="container">
+      <h2 class="section-title">Inscription aux Formations</h2>
+      <p class="section-subtitle">Remplissez le formulaire pour vous inscrire à nos formations</p>
+      
+      <div class="registration-form">
+        <form id="trainingForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">Prénom *</label>
+              <input type="text" id="firstName" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="lastName">Nom *</label>
+              <input type="text" id="lastName" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="phone">Téléphone *</label>
+              <input type="tel" id="phone" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="training">Formation qui vous intéresse *</label>
+            <select id="training" class="form-control" required>
+              <option value="">Sélectionnez une formation...</option>
+              <option value="hygiene">Hygiène et Salubrité</option>
+              <option value="budget">Gestion Budgétaire</option>
+              <option value="cuisine">Cuisine Économique</option>
+              <option value="numerique">Numérique Essentiel</option>
+              <option value="parentalite">Parentalité Positive</option>
+              <option value="entretien">Entretien Domestique</option>
+              <option value="emploi">Recherche d'Emploi</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="availability">Disponibilités *</label>
+            <select id="availability" class="form-control" required>
+              <option value="">Sélectionnez...</option>
+              <option value="weekday">En semaine</option>
+              <option value="weekend">Weekend</option>
+              <option value="evening">Soirées</option>
+              <option value="flexible">Flexible</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="experience">Expérience préalable (optionnel)</label>
+            <textarea id="experience" class="form-control form-textarea" placeholder="Avez-vous déjà suivi des formations similaires ?"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="motivation">Motivation *</label>
+            <textarea id="motivation" class="form-control form-textarea" required placeholder="Pourquoi souhaitez-vous participer à cette formation ?"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">Envoyer ma Demande d'Inscription</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Notre Mission</h2>
+      <div style="background: white; padding: 40px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center;">
+        <p style="font-size: 1.2em; font-style: italic; line-height: 1.8;">
+          "Favoriser le mieux-être des citoyens à faible revenu en améliorant prioritairement leur sécurité alimentaire et ce, en favorisant l'autonomie, le regroupement, la solidarité, l'entraide et l'implication personnelle et sociale."
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Prêt à Développer vos Compétences ?</h2>
+      <p class="section-subtitle">Rejoignez notre communauté d'apprenants et donnez un nouvel élan à votre vie</p>
+      
+      <div style="text-align: center; margin-top: 30px;">
+        <a href="#inscription" class="btn btn-primary btn-large">S'inscrire à une Formation</a>
+        <a href="contact.html" class="btn btn-secondary btn-large">Nous Contacter</a>
+        <a href="devenir_membre.html" class="btn btn-secondary btn-large">Devenir Membre</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>NOUS CONTACTER</h4>
+          <ul class="footer-links">
+            <li>info@carrefour-initiatives.org</li>
+            <li>Page Facebook</li>
+            <li>Tél.: (514) 123-4567</li>
+            <li>1234 Rue de la Solidarité<br>Montréal, Québec H4E 4G8</li>
+            <li>À 2 min du Métro Jolicoeur</li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>LIENS RAPIDES</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="services_fr.html">Services</a></li>
+            <li><a href="nos_besoins_fr.html">Dons</a></li>
+            <li><a href="devenir_membre.html">Devenir membre</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="confidentialite.html">Politiques de confidentialité</a></li>
+            <li><a href="ressources.html">Ressources supplémentaires</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>HORAIRES</h4>
+          <ul class="footer-links">
+            <li><strong>Lundi - Vendredi:</strong> 9h - 18h</li>
+            <li><strong>Samedi:</strong> 10h - 16h</li>
+            <li><strong>Dimanche:</strong> Fermé</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 Carrefour des Initiatives Éducatives et Entrepreneuriales</p>
+        <p>Ce site est une réalisation de l'équipe Carrefour des Initiatives. Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Form Submission
+    document.getElementById('trainingForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const submitBtn = this.querySelector('button[type="submit"]');
+      submitBtn.innerHTML = 'Envoi en cours...';
+      submitBtn.disabled = true;
+      
+      setTimeout(() => {
+        alert('Merci ! Votre demande d\'inscription a été envoyée. Notre coordinateur formations vous contactera dans les 48h.');
+        this.reset();
+        submitBtn.innerHTML = 'Envoyer ma Demande d\'Inscription';
+        submitBtn.disabled = false;
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
