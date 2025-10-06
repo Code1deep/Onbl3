@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Politique de Confidentialité - Carrefour des Initiatives</title>
+  <style>
+    :root {
+      --primary-blue: #0056a3;
+      --dark-blue: #003d73;
+      --orange: #ff6b35;
+      --green: #28a745;
+      --light-gray: #f8f9fa;
+      --very-light-green: #f0fff0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f9f9f9;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Styles */
+    .main-header {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      color: white;
+      padding: 20px 0;
+    }
+    
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .logo-container {
+      flex: 0 0 auto;
+    }
+    
+    .logo {
+      height: 60px;
+    }
+    
+    .header-content {
+      flex: 1;
+      text-align: center;
+      padding: 0 20px;
+    }
+    
+    .page-title {
+      font-size: 2.2em;
+      margin-bottom: 5px;
+    }
+    
+    .page-subtitle {
+      font-size: 1.1em;
+      opacity: 0.9;
+    }
+    
+    /* Navigation */
+    .main-nav {
+      background: var(--dark-blue);
+      padding: 0;
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      transition: background 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(rgba(0, 86, 163, 0.8), rgba(0, 86, 163, 0.8));
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+    
+    .hero-text {
+      font-size: 1.2em;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    /* Content Section */
+    .section {
+      padding: 60px 0;
+    }
+    
+    .section-alt {
+      background: var(--very-light-green);
+    }
+    
+    .section-title {
+      font-size: 2em;
+      margin-bottom: 30px;
+      color: var(--dark-blue);
+      text-align: center;
+    }
+    
+    .privacy-content {
+      background: white;
+      padding: 50px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .privacy-section {
+      margin-bottom: 40px;
+    }
+    
+    .privacy-section h3 {
+      color: var(--dark-blue);
+      margin-bottom: 20px;
+      font-size: 1.5em;
+      border-bottom: 2px solid var(--orange);
+      padding-bottom: 10px;
+    }
+    
+    .privacy-section p {
+      margin-bottom: 15px;
+      text-align: justify;
+    }
+    
+    .privacy-section ul {
+      margin: 15px 0 15px 30px;
+    }
+    
+    .privacy-section li {
+      margin-bottom: 10px;
+    }
+    
+    .highlight-box {
+      background: #e8f5e8;
+      padding: 25px;
+      border-radius: 10px;
+      border-left: 5px solid var(--green);
+      margin: 25px 0;
+    }
+    
+    .warning-box {
+      background: #fff3cd;
+      padding: 25px;
+      border-radius: 10px;
+      border-left: 5px solid #ffc107;
+      margin: 25px 0;
+    }
+    
+    .contact-info {
+      background: var(--light-gray);
+      padding: 30px;
+      border-radius: 10px;
+      margin-top: 30px;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px 5px;
+    }
+    
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary-blue);
+      border: 2px solid var(--primary-blue);
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    /* Footer */
+    .main-footer {
+      background: #333;
+      color: white;
+      padding: 40px 0 20px;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    
+    .footer-section h4 {
+      margin-bottom: 20px;
+      color: white;
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    .footer-bottom {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid #444;
+    }
+    
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .header-content {
+        padding: 20px 0 0;
+      }
+      
+      .nav-container {
+        flex-direction: column;
+      }
+      
+      .nav-link {
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      
+      .privacy-content {
+        padding: 30px 20px;
+      }
+      
+      .hero-title {
+        font-size: 2em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-container">
+        <img src="assets/logo_fr.png" alt="Logo Carrefour" class="logo">
+      </div>
+      <div class="header-content">
+        <h1 class="page-title">Politique de Confidentialité</h1>
+        <p class="page-subtitle">Protection de vos données personnelles</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-link">Accueil</a>
+      <a href="epicerie_fr.html" class="nav-link">Épicerie Sociale</a>
+      <a href="hebergement_fr.html" class="nav-link">Hébergement Social</a>
+      <a href="formation_fr.html" class="nav-link">Formation & Éducation</a>
+      <a href="services_fr.html" class="nav-link">Services Transverses</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+      <a href="confidentialite_en.html" class="nav-link">English</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h2 class="hero-title">Votre Vie Privée Nous Importe</h2>
+      <p class="hero-text">Découvrez comment nous protégeons et utilisons vos données personnelles dans le cadre de nos services.</p>
+    </div>
+  </section>
+
+  <!-- Privacy Content -->
+  <section class="section">
+    <div class="container">
+      <div class="privacy-content">
+        <div class="privacy-section">
+          <h3>📋 Introduction</h3>
+          <p>Le Carrefour des Initiatives Éducatives et Entrepreneuriales s'engage à protéger la vie privée de ses membres, bénéficiaires, bénévoles et partenaires. Cette politique de confidentialité explique comment nous collectons, utilisons, partageons et protégeons vos informations personnelles.</p>
+          
+          <div class="highlight-box">
+            <p><strong>Dernière mise à jour :</strong> 1er janvier 2025</p>
+            <p><strong>Entrée en vigueur :</strong> 1er janvier 2025</p>
+          </div>
+        </div>
+
+        <div class="privacy-section">
+          <h3>🔍 Informations que nous collectons</h3>
+          <p>Nous collectons différentes catégories d'informations selon les services que vous utilisez :</p>
+          
+          <h4>Informations personnelles de base :</h4>
+          <ul>
+            <li>Nom, prénom, date de naissance</li>
+            <li>Coordonnées (adresse, téléphone, email)</li>
+            <li>Situation familiale et composition du foyer</li>
+            <li>Informations socio-économiques nécessaires à l'évaluation de l'admissibilité</li>
+          </ul>
+          
+          <h4>Informations liées aux services :</h4>
+          <ul>
+            <li>Historique d'utilisation de nos services (épicerie, hébergement, formation)</li>
+            <li>Préférences et besoins spécifiques</li>
+            <li>Informations de participation aux activités et formations</li>
+          </ul>
+          
+          <h4>Informations techniques :</h4>
+          <ul>
+            <li>Adresse IP, type de navigateur, pages visitées</li>
+            <li>Cookies et technologies similaires (voir section dédiée)</li>
+          </ul>
+        </div>
+
+        <div class="privacy-section">
+          <h3>🎯 Utilisation de vos informations</h3>
+          <p>Nous utilisons vos informations personnelles pour :</p>
+          <ul>
+            <li>Fournir et améliorer nos services sociaux</li>
+            <li>Évaluer votre admissibilité aux différents programmes</li>
+            <li>Personnaliser votre expérience et répondre à vos besoins spécifiques</li>
+            <li>Communiquer avec vous concernant nos services et activités</li>
+            <li>Respecter nos obligations légales et réglementaires</li>
+            <li>Améliorer la sécurité et prévenir les fraudes</li>
+          </ul>
+          
+          <div class="highlight-box">
+            <p><strong>Principe de minimisation :</strong> Nous ne collectons que les informations strictement nécessaires à la fourniture de nos services.</p>
+          </div>
+        </div>
+
+        <div class="privacy-section">
+          <h3>🤝 Partage des informations</h3>
+          <p>Nous ne vendons, ne louons ni ne commercialisons vos informations personnelles.</p>
+          
+          <p>Nous pouvons partager vos informations avec :</p>
+          <ul>
+            <li><strong>Partenaires de services :</strong> Organismes avec lesquels nous collaborons pour vous offrir des services complémentaires (avec votre consentement)</li>
+            <li><strong>Obligations légales :</strong> Lorsque requis par la loi ou pour répondre à des procédures légales</li>
+            <li><strong>Protection des droits :</strong> Pour protéger nos droits, votre sécurité ou celle d'autrui</li>
+          </ul>
+          
+          <div class="warning-box">
+            <p><strong>Important :</strong> Nous exigeons de tous nos partenaires qu'ils respectent des standards de confidentialité équivalents aux nôtres.</p>
+          </div>
+        </div>
+
+        <div class="privacy-section">
+          <h3>🍪 Cookies et technologies similaires</h3>
+          <p>Nous utilisons des cookies pour :</p>
+          <ul>
+            <li>Améliorer votre expérience de navigation</li>
+            <li>Comprendre l'utilisation de notre site web</li>
+            <li>Personnaliser le contenu</li>
+            <li>Assurer la sécurité du site</li>
+          </ul>
+          
+          <p>Vous pouvez contrôler les cookies via les paramètres de votre navigateur. Cependant, la désactivation de certains cookies peut affecter le fonctionnement de notre site.</p>
+        </div>
+
+        <div class="privacy-section">
+          <h3>🔒 Sécurité des données</h3>
+          <p>Nous mettons en œuvre des mesures de sécurité techniques et organisationnelles appropriées pour protéger vos informations personnelles contre :</p>
+          <ul>
+            <li>Accès non autorisé</li>
+            <li>Divulgation</li>
+            <li>Altération</li>
+            <li>Destruction</li>
+          </ul>
+          
+          <p>Ces mesures incluent :</p>
+          <ul>
+            <li>Chiffrement des données sensibles</li>
+            <li>Contrôles d'accès stricts</li>
+            <li>Formation du personnel à la protection des données</li>
+            <li>Audits réguliers de sécurité</li>
+          </ul>
+        </div>
+
+        <div class="privacy-section">
+          <h3>⏱️ Conservation des données</h3>
+          <p>Nous conservons vos informations personnelles seulement aussi longtemps que nécessaire pour :</p>
+          <ul>
+            <li>Fournir nos services</li>
+            <li>Respecter nos obligations légales</li>
+            <li>Résoudre les litiges</li>
+            <li>Appliquer nos accords</li>
+          </ul>
+          
+          <p>Les durées de conservation varient selon le type d'information et les exigences légales.</p>
+        </div>
+
+        <div class="privacy-section">
+          <h3>📝 Vos droits</h3>
+          <p>Conformément à la législation sur la protection des données, vous disposez des droits suivants :</p>
+          
+          <ul>
+            <li><strong>Droit d'accès :</strong> Obtenir une copie de vos informations personnelles</li>
+            <li><strong>Droit de rectification :</strong> Corriger des informations inexactes</li>
+            <li><strong>Droit à l'effacement :</strong> Demander la suppression de vos données</li>
+            <li><strong>Droit à la limitation :</strong> Restreindre le traitement de vos données</li>
+            <li><strong>Droit d'opposition :</strong> Vous opposer au traitement de vos données</li>
+            <li><strong>Droit à la portabilité :</strong> Recevoir vos données dans un format structuré</li>
+          </ul>
+          
+          <div class="contact-info">
+            <h4>Exercer vos droits</h4>
+            <p>Pour exercer vos droits ou poser des questions concernant cette politique de confidentialité, contactez notre délégué à la protection des données :</p>
+            <p><strong>Email :</strong> protection-donnees@carrefour-initiatives.org</p>
+            <p><strong>Téléphone :</strong> (514) 123-4567 poste 123</p>
+            <p><strong>Adresse postale :</strong> 1234 Rue de la Solidarité, Montréal, QC H4E 4G8</p>
+          </div>
+        </div>
+
+        <div class="privacy-section">
+          <h3>🌐 Sites tiers</h3>
+          <p>Notre site web peut contenir des liens vers des sites tiers. Cette politique de confidentialité ne s'applique qu'à notre site. Nous vous encourageons à lire les politiques de confidentialité de tout site tiers que vous visitez.</p>
+        </div>
+
+        <div class="privacy-section">
+          <h3>🔄 Modifications de la politique</h3>
+          <p>Nous pouvons mettre à jour cette politique de confidentialité occasionnellement. Nous vous informerons de tout changement important en publiant la nouvelle politique sur notre site web et, si les changements sont significatifs, en vous envoyant une notification.</p>
+          
+          <p>Nous vous encourageons à consulter régulièrement cette page pour rester informé de la façon dont nous protégeons vos informations.</p>
+        </div>
+
+        <div class="privacy-section">
+          <h3>📞 Contact et plaintes</h3>
+          <p>Si vous avez des questions, préoccupations ou plaintes concernant notre politique de confidentialité ou nos pratiques en matière de données, veuillez nous contacter :</p>
+          
+          <div class="contact-info">
+            <p><strong>Délégué à la protection des données</strong></p>
+            <p>Carrefour des Initiatives Éducatives et Entrepreneuriales</p>
+            <p>1234 Rue de la Solidarité</p>
+            <p>Montréal, Québec H4E 4G8</p>
+            <p>protection-donnees@carrefour-initiatives.org</p>
+            <p>(514) 123-4567 poste 123</p>
+          </div>
+          
+          <p>Vous avez également le droit de déposer une plainte auprès de l'autorité de protection des données compétente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Questions ou Préoccupations ?</h2>
+      <p class="section-subtitle">Notre équipe est à votre disposition pour répondre à toutes vos questions sur la protection de vos données.</p>
+      
+      <div style="text-align: center; margin-top: 30px;">
+        <a href="contact.html" class="btn btn-primary">Nous Contacter</a>
+        <a href="index.html" class="btn btn-secondary">Retour à l'Accueil</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>NOUS CONTACTER</h4>
+          <ul class="footer-links">
+            <li>info@carrefour-initiatives.org</li>
+            <li>Page Facebook</li>
+            <li>Tél.: (514) 123-4567</li>
+            <li>1234 Rue de la Solidarité<br>Montréal, Québec H4E 4G8</li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>LIENS RAPIDES</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="services_fr.html">Services</a></li>
+            <li><a href="nos_besoins_fr.html">Dons</a></li>
+            <li><a href="partenaire_fr.html">Devenir membre</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="confidentialite.html">Politique de confidentialité</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>ENGAGEMENTS</h4>
+          <ul class="footer-links">
+            <li>Protection des données</li>
+            <li>Éthique et transparence</li>
+            <li>Services confidentiels</li>
+            <li>Respect de la vie privée</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 Carrefour des Initiatives Éducatives et Entrepreneuriales</p>
+        <p>Engagés dans la protection de vos données personnelles</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Script pour la gestion des préférences de cookies
+    document.addEventListener('DOMContentLoaded', function() {
+      // Vérifier si l'utilisateur a déjà fait un choix concernant les cookies
+      const cookieConsent = localStorage.getItem('cookieConsent');
+      
+      if (!cookieConsent) {
+        // Afficher une bannière de consentement aux cookies (optionnel)
+        console.log('Afficher bannière cookies si nécessaire');
+      }
+      
+      // Gestion du scroll pour les ancres
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
